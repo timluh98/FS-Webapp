@@ -12,10 +12,10 @@ The Automotive Parts Availability Tracker is a straightforward web application t
 ### Johann Estrada Pox
 
 About
-: Some info about Johann
+: Johann likes AI, so he is used to working with Python. I have worked on web-based Python projects before and am excited about this new project.
 
 Matr.-Nr.
-: 1234567
+: 77211985331
 
 ### Tim Hendrik Luhmann
 
