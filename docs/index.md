@@ -3,32 +3,27 @@ title: Home
 nav_order: 0
 ---
 
-{: .attention }
-> Any text enclosed by `[ ]` are placeholders, including the opening and closing brackets.
->
-> You may delete this `attention` box.
+# PartWatch
 
-# [Project Name]
-
-[Project description]
+The Automotive Parts Availability Tracker is a straightforward web application that assists manufacturers and customers in monitoring the availability and pricing of automotive parts across a range of suppliers. 
 
 ## Team members
 
-### [Jane Dane]
+### Johann Estrada Pox
 
 About
-: Some info about Jane
+: Some info about Johann
 
 Matr.-Nr.
 : 1234567
 
-### [Joe Doe]
+### Tim Hendrik Luhmann
 
 About
-: Some info about Joe
+: Tim likes Front-end development and visualization in general. This is his first web-based python project.
 
 Matr.-Nr.
-: 1234567
+: 77211985140
 
 ## Eidesstattliche Erklärung
 
