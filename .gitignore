@@ -4,5 +4,3 @@ __pycache__/
 # Ignore venv folder (Python Virtual Environment)
 venv/
 
-# Ignore instance folder (used by Flask web app, e.g., for SQLite database)
-instance/
