@@ -37,7 +37,8 @@ with app.app_context():
 @app.route('/')
 @login_required
 def index():
-    return render_template('login.html')
+    form = LoginForm()
+    return render_template('login.html', form=form)
 
 @app.route('/insert/sample')
 def run_insert_sample():
