@@ -36,7 +36,7 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    return redirect(url_for('run_insert_sample'))
+    return render_template('login.html')
 
 @app.route('/insert/sample')
 def run_insert_sample():
