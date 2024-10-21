@@ -35,8 +35,9 @@ with app.app_context():
     db.create_all()
 
 @app.route('/')
+@login_required
 def index():
-    return redirect(url_for('run_insert_sample'))
+    return render_template('index.html')
 
 @app.route('/insert/sample')
 def run_insert_sample():
@@ -56,7 +57,7 @@ def register():
 
         # Create a new user with hashed password
         hashed_password = generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        new_user = User(email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash('Registration successful! Please log in.', 'success')
@@ -91,8 +92,8 @@ def logout():
 # Sample data insertion function
 def insert_sample():
     db.session.execute(db.delete(User))
-    user1 = User(username='testuser1', email='test1@example.com', password='password123')
-    user2 = User(username='testuser2', email='test2@example.com', password='password123')
+    user1 = User(email='test1@example.com', password='password123')
+    user2 = User(email='test2@example.com', password='password123')
     db.session.add_all([user1, user2])
     db.session.commit()
 
