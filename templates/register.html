@@ -1,4 +1,3 @@
-xml
 {% extends "base.html" %}
 
 {% block TITLE %}Register{% endblock %}
@@ -22,6 +21,10 @@ xml
     <div class="mb-3">
         {{ form.confirm_password.label(class="form-label") }}
         {{ form.confirm_password(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.role.label(class="form-label") }}  <!-- Label for the role field -->
+        {{ form.role(class="form-select") }}  <!-- Role selection field -->
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
