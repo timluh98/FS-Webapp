@@ -45,7 +45,6 @@ def run_insert_sample():
     insert_sample()
     return 'Database flushed and populated with some sample data.'
 
-# Registration route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -56,15 +55,22 @@ def register():
             flash('Email already registered. Please log in.', 'danger')
             return redirect(url_for('login'))
 
-        # Create a new user with hashed password
+        # Create a new user with hashed password and selected role
         hashed_password = generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        new_user = User(
+            username=form.username.data, 
+            email=form.email.data, 
+            password=hashed_password, 
+            role=form.role.data  # Ensure the role is saved
+        )
         db.session.add(new_user)
         db.session.commit()
         flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
+
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
