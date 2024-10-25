@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Brake Pad Set - Premium Quality",
+        "supplier": "AutoParts Pro",
+        "price": "$89.99",
+        "availability": "In Stock",
+        "quantity": "40 units",
+        "delivery": "2-3 business days",
+        "image": "https://via.placeholder.com/400x200"
+    },
+    {
+        "name": "Oil Filter - High Performance",
+        "supplier": "FilterMaster Inc",
+        "price": "$24.99",
+        "availability": "In Stock",
+        "quantity": "100 units",
+        "delivery": "1-2 business days",
+        "image": "https://via.placeholder.com/400x200"
+    }
+]

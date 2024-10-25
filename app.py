@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -34,9 +35,16 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
 
+def load_json_data(filename='parts.json'):
+    json_path = os.path.join(basedir, filename)
+    with open(json_path, 'r') as json_file:
+        return json.load(json_file)
+
+
 @app.route('/')
 def index():
-    return render_template('catalogue_index.html')
+    parts_data = load_json_data('static/data/parts.json')
+    return render_template('catalogue_index.html', parts=parts_data)
 
 @app.route('/insert/sample')
 def run_insert_sample():
@@ -86,11 +94,6 @@ def login():
         flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)
 
-@app.route('/offer-part')
-@login_required
-def offer_part():
-    return render_template('offer_part.html')
-
 # Logout route
 @app.route('/logout')
 @login_required
@@ -99,11 +102,16 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
+@app.route('/offer-part')
+@login_required
+def offer_part():
+    return render_template('offer_part.html')
+
 # Sample data insertion function
 def insert_sample():
     db.session.execute(db.delete(User))
-    user1 = User(username='testuser1', email='test1@example.com', password='password123')
-    user2 = User(username='testuser2', email='test2@example.com', password='password123')
+    user1 = User(username='testuser1', email='test1@example.com', password='password123', role='supplier')
+    user2 = User(username='testuser2', email='test2@example.com', password='password123', role='customer')
     db.session.add_all([user1, user2])
     db.session.commit()
 
