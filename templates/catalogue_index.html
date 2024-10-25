@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block TITLE %}Catalogue{% endblock %}
+
+{% block HEADER %}
+    <h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
+{% endblock %}
+
+{% block CONTENT %}
+    <div class="container">
+        <!-- First Part -->
+        <div class="card mb-4">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://via.placeholder.com/400x200" class="img-fluid rounded-start" alt="Part Name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Brake Pad Set - Premium Quality</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="fw-bold">Supplier:</p>
+                                <p class="fw-bold">Price:</p>
+                                <p class="fw-bold">Availability:</p>
+                                <p class="fw-bold">Quantity:</p>
+                                <p class="fw-bold">Estimated Delivery:</p>
+                            </div>
+                            <div class="col-md-8">
+                                {% if current_user.is_authenticated %}
+                                    <p>AutoParts Pro</p>
+                                    <p>$89.99</p>
+                                    <p>In Stock</p>
+                                    <p>50 units</p>
+                                    <p>2-3 business days</p>
+                                {% else %}
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-lock"></i> 
+                                        <a href="{{ url_for('login') }}" class="alert-link">Login to see information</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Part -->
+        <div class="card mb-4">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://via.placeholder.com/400x200" class="img-fluid rounded-start" alt="Part Name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Oil Filter - High Performance</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="fw-bold">Supplier:</p>
+                                <p class="fw-bold">Price:</p>
+                                <p class="fw-bold">Availability:</p>
+                                <p class="fw-bold">Quantity:</p>
+                                <p class="fw-bold">Estimated Delivery:</p>
+                            </div>
+                            <div class="col-md-8">
+                                {% if current_user.is_authenticated %}
+                                    <p>FilterMaster Inc</p>
+                                    <p>$24.99</p>
+                                    <p>In Stock</p>
+                                    <p>100 units</p>
+                                    <p>1-2 business days</p>
+                                {% else %}
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-lock"></i> 
+                                        <a href="{{ url_for('login') }}" class="alert-link">Login to see information</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

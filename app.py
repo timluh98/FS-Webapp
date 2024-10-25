@@ -35,10 +35,8 @@ with app.app_context():
     db.create_all()
 
 @app.route('/')
-@login_required
 def index():
-    form = LoginForm()
-    return render_template('login.html', form=form)
+    return render_template('catalogue_index.html')
 
 @app.route('/insert/sample')
 def run_insert_sample():
@@ -87,6 +85,11 @@ def login():
 
         flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)
+
+@app.route('/offer-part')
+@login_required
+def offer_part():
+    return render_template('offer_part.html')
 
 # Logout route
 @app.route('/logout')
