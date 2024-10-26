@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, FloatField, IntegerField, TextAreaField, FileField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 import email_validator
 
@@ -16,3 +16,22 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('Password', validators=[InputRequired()])
     submit = SubmitField('Login')
+
+# Offer Part Form
+class OfferPartForm(FlaskForm):
+    name = StringField('Part Name', validators=[DataRequired()])
+    price = FloatField('Price', validators=[DataRequired()])
+    availability = SelectField('Availability', 
+                             choices=[('In Stock', 'In Stock'),
+                                    ('Out of Stock', 'Out of Stock'),
+                                    ('Pre-order', 'Pre-order')],
+                             validators=[DataRequired()])
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    delivery = SelectField('Estimated Delivery',
+                         choices=[('1-2 business days', '1-2 business days'),
+                                ('3-5 business days', '3-5 business days'),
+                                ('1-2 weeks', '1-2 weeks'),
+                                ('2-4 weeks', '2-4 weeks')],
+                         validators=[DataRequired()])
+    image = FileField('Part Image', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])

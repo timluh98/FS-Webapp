@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db  # Import the db instance
 from models import User  # Import the User model
-from forms import RegistrationForm, LoginForm  # Import the forms
+from forms import RegistrationForm, LoginForm, OfferPartForm  # Import the forms
 
 app = Flask(__name__)
 
@@ -102,10 +102,11 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
-@app.route('/offer-part')
+@app.route('/offer-part', methods=['GET', 'POST'])
 @login_required
 def offer_part():
-    return render_template('offer_part.html')
+    form = OfferPartForm()
+    return render_template('offer_part.html', form=form)
 
 # Sample data insertion function
 def insert_sample():
