@@ -112,38 +112,52 @@ def allowed_file(filename):
 @app.route('/offer-part', methods=['GET', 'POST'])
 @login_required
 def offer_part():
-    # Ensure only suppliers can access this route
     if current_user.role != 'supplier':
         flash('Only suppliers can offer parts.', 'danger')
         return redirect(url_for('index'))
 
     form = OfferPartForm()
     if form.validate_on_submit():
-        # Save the uploaded image file
-        image_filename = None
-        if form.image.data and allowed_file(form.image.data.filename):
-            image_filename = secure_filename(form.image.data.filename)
-            image_path = os.path.join("static/images", image_filename)
-            form.image.data.save(image_path)
+        try:
+            # Handle image upload
+            image_filename = None
+            if form.image.data and allowed_file(form.image.data.filename):
+                try:
+                    image_filename = secure_filename(form.image.data.filename)
+                    image_path = os.path.join(app.root_path, "static/images", image_filename)
+                    form.image.data.save(image_path)
+                except Exception as e:
+                    flash(f'Error saving image: {str(e)}', 'danger')
+                    return render_template('offer_part.html', form=form)
 
-        # Create a new Part instance with form data
-        new_part = Part(
-            name=form.name.data,
-            supplier_id=current_user.id,
-            price=form.price.data,
-            availability=form.availability.data,
-            quantity=form.quantity.data,
-            delivery=form.delivery.data,
-            image=image_filename,  
-            description=form.description.data
-        )
+            # Create new Part instance
+            new_part = Part(
+                name=form.name.data,
+                supplier_id=current_user.id,
+                price=form.price.data,
+                availability=form.availability.data,
+                quantity=form.quantity.data,
+                delivery=form.delivery.data,
+                image=image_filename,
+                description=form.description.data
+            )
 
-        # Add the new part to the database
-        db.session.add(new_part)
-        db.session.commit()
+            # Add and commit to database
+            db.session.add(new_part)
+            db.session.commit()
 
-        flash('Part offer submitted successfully!', 'success')
-        return redirect(url_for('index'))
+            flash('Part offer submitted successfully!', 'success')
+            return redirect(url_for('index'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error saving part: {str(e)}', 'danger')
+            return render_template('offer_part.html', form=form)
+    
+    # If form validation failed, show errors
+    if form.errors:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f'{field}: {error}', 'danger')
 
     return render_template('offer_part.html', form=form)
 

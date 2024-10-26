@@ -1,23 +1,20 @@
 {% extends "base.html" %}
-
 {% block TITLE %}Offer Part{% endblock %}
-
 {% block HEADER %}
     <h1 class="text-center mb-4">Offer New Automotive Part</h1>
 {% endblock %}
-
 {% block CONTENT %}
 <div class="container">
     <div class="card">
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="{{ url_for('offer_part') }}">
+                {{ form.csrf_token }}  {# Add this line here! #}
                 
                 <!-- Part Name -->
                 <div class="mb-3">
                     <label for="name" class="form-label fw-bold">Part Name</label>
                     {{ form.name(class="form-control") }}
                 </div>
-
                 <!-- Price -->
                 <div class="mb-3">
                     <label for="price" class="form-label fw-bold">Price (USD)</label>
@@ -26,38 +23,32 @@
                         {{ form.price(class="form-control") }}
                     </div>
                 </div>
-
                 <!-- Availability -->
                 <div class="mb-3">
                     <label for="availability" class="form-label fw-bold">Availability</label>
                     {{ form.availability(class="form-select") }}
                 </div>
-
                 <!-- Quantity -->
                 <div class="mb-3">
                     <label for="quantity" class="form-label fw-bold">Quantity Available</label>
                     {{ form.quantity(class="form-control", min="0") }}
                 </div>
-
                 <!-- Estimated Delivery -->
                 <div class="mb-3">
                     <label for="delivery" class="form-label fw-bold">Estimated Delivery Time</label>
                     {{ form.delivery(class="form-select") }}
                 </div>
-
                 <!-- Image Upload -->
                 <div class="mb-3">
                     <label for="image" class="form-label fw-bold">Part Image</label>
                     {{ form.image(class="form-control", accept="image/*") }}
                     <div class="form-text">Please upload a clear image of the part (max 5MB)</div>
                 </div>
-
                 <!-- Part Description -->
                 <div class="mb-3">
                     <label for="description" class="form-label fw-bold">Part Description</label>
                     {{ form.description(class="form-control", rows="3") }}
                 </div>
-
                 <!-- Submit Button -->
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Submit Part Offer</button>
