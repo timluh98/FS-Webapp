@@ -4,8 +4,9 @@ from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from db import db  # Import the db instance
-from models import User  # Import the User model
+from models import User, Part  # Import the User and Part model
 from forms import RegistrationForm, LoginForm, OfferPartForm  # Import the forms
 
 app = Flask(__name__)
@@ -102,10 +103,48 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
+# Define allowed extensions for image uploads
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/offer-part', methods=['GET', 'POST'])
 @login_required
 def offer_part():
+    # Ensure only suppliers can access this route
+    if current_user.role != 'supplier':
+        flash('Only suppliers can offer parts.', 'danger')
+        return redirect(url_for('index'))
+
     form = OfferPartForm()
+    if form.validate_on_submit():
+        # Save the uploaded image file
+        image_filename = None
+        if form.image.data and allowed_file(form.image.data.filename):
+            image_filename = secure_filename(form.image.data.filename)
+            image_path = os.path.join("static/images", image_filename)
+            form.image.data.save(image_path)
+
+        # Create a new Part instance with form data
+        new_part = Part(
+            name=form.name.data,
+            supplier_id=current_user.id,
+            price=form.price.data,
+            availability=form.availability.data,
+            quantity=form.quantity.data,
+            delivery=form.delivery.data,
+            image=image_filename,  
+            description=form.description.data
+        )
+
+        # Add the new part to the database
+        db.session.add(new_part)
+        db.session.commit()
+
+        flash('Part offer submitted successfully!', 'success')
+        return redirect(url_for('index'))
+
     return render_template('offer_part.html', form=form)
 
 # Sample data insertion function
