@@ -49,8 +49,11 @@ def index():
 
 @app.route('/catalogue')
 def catalogue():
-    # Gets all parts from the database
-    parts = Part.query.all()
+    search_query = request.args.get('search', '')
+    if search_query:
+        parts = Part.query.filter(Part.name.ilike(f'%{search_query}%')).all()
+    else:
+        parts = Part.query.all()
     return render_template('catalogue.html', parts=parts)
 
 @app.route('/insert/sample')

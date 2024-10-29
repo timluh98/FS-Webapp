@@ -1,12 +1,17 @@
 {% extends "base.html" %}
-
 {% block TITLE %}Catalogue{% endblock %}
-
 {% block HEADER %}
     <h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
 {% endblock %}
-
 {% block CONTENT %}
+    <div class="container mb-4">
+        <form action="{{ url_for('catalogue') }}" method="get" class="d-flex justify-content-center">
+            <div class="input-group" style="max-width: 500px;">
+                <input type="text" name="search" class="form-control" placeholder="Search parts..." value="{{ request.args.get('search', '') }}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
     <div class="container">
         {% for part in parts %}
             <div class="card mb-4">
@@ -34,7 +39,7 @@
                                         <p>{{ part.delivery }}</p>
                                     {% else %}
                                         <div class="alert alert-info">
-                                            <i class="fas fa-lock"></i> 
+                                            <i class="fas fa-lock"></i>
                                             <a href="{{ url_for('login') }}" class="alert-link">Login to see information</a>
                                         </div>
                                     {% endif %}
