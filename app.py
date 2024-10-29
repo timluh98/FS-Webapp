@@ -47,6 +47,12 @@ def index():
     parts_data = load_json_data('static/data/parts.json')
     return render_template('catalogue_index.html', parts=parts_data)
 
+@app.route('/catalogue')
+def catalogue():
+    # Gets all parts from the database
+    parts = Part.query.all()
+    return render_template('catalogue.html', parts=parts)
+
 @app.route('/insert/sample')
 def run_insert_sample():
     insert_sample()
