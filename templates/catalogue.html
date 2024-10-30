@@ -1,9 +1,20 @@
+<!-- Updated catalogue.html with Bootstrap grid for 3 listings per row and added search form -->
 {% extends "base.html" %}
 {% block TITLE %}Catalogue{% endblock %}
 {% block HEADER %}
     <h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
 {% endblock %}
 {% block CONTENT %}
+    <!-- Search form -->
+    <div class="container mb-4">
+        <form action="{{ url_for('catalogue') }}" method="get" class="d-flex justify-content-center">
+            <div class="input-group" style="max-width: 500px;">
+                <input type="text" name="search" class="form-control" placeholder="Search parts..." value="{{ request.args.get('search', '') }}">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <!-- Parts listing -->
     <div class="container">
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for part in parts %}
@@ -12,24 +23,24 @@
                         <img src="{{ url_for('static', filename='images/' + part.image) }}" class="card-img-top" alt="{{ part.name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ part.name }}</h5>
-                            <p class="card-text"><strong>Supplier:</strong> {{ part.supplier }}</p>
-                            <p class="card-text"><strong>Manufacturer:</strong> {{ part.manufacturer }}</p>
-                            <p class="card-text"><strong>Model:</strong> {{ part.model }}</p>
-                            <p class="card-text"><strong>Price:</strong> ${{ part.price }}</p>
-                            <p class="card-text"><strong>Availability:</strong> {{ part.availability }}</p>
-                            <p class="card-text"><strong>Quantity:</strong> {{ part.quantity }}</p>
-                            <p class="card-text"><strong>Estimated Delivery:</strong> {{ part.delivery }}</p>
-                        </div>
-                        {% if current_user.is_authenticated %}
-                            <div class="card-footer text-center">
-                                <!-- Button removed -->
-                            </div>
-                        {% else %}
-                            <div class="card-footer text-center">
+                            {% if current_user.is_authenticated %}
+                                <p class="card-text"><strong>Supplier:</strong> {{ part.supplier }}</p>
+                                <p class="card-text"><strong>Manufacturer:</strong> {{ part.manufacturer }}</p>
+                                <p class="card-text"><strong>Model:</strong> {{ part.model }}</p>
+                                <p class="card-text"><strong>Price:</strong> ${{ part.price }}</p>
+                                <p class="card-text"><strong>Availability:</strong> {{ part.availability }}</p>
+                                <p class="card-text"><strong>Quantity:</strong> {{ part.quantity }}</p>
+                                <p class="card-text"><strong>Estimated Delivery:</strong> {{ part.delivery }}</p>
+                            {% else %}
                                 <div class="alert alert-info">
                                     <i class="fas fa-lock"></i> 
                                     <a href="{{ url_for('login') }}" class="alert-link">Login to see information</a>
                                 </div>
+                            {% endif %}
+                        </div>
+                        {% if current_user.is_authenticated %}
+                            <div class="card-footer text-center">
+                                <a href="{{ url_for('catalogue') }}" class="btn btn-primary">View in Catalogue</a>
                             </div>
                         {% endif %}
                     </div>
