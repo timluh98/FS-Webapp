@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block TITLE %}{% endblock %} - Automotive Parts Tracker</title>
+    <title>{% block TITLE %}{% endblock %} - PartWatch</title>
     {{ bootstrap.load_css() }}
 </head>
 
@@ -20,7 +20,7 @@
 
     <nav class="navbar navbar-expand-xl border-bottom mb-3">
         <div class="container-fluid px-0">
-            <a class="navbar-brand" href="{{ url_for('index') }}">Automotive Parts Tracker</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" 
                     aria-controls="navbarSupportedContent"
@@ -51,9 +51,6 @@
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
                         </li>
                     {% endif %}
                 </ul>

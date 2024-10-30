@@ -77,7 +77,7 @@ def register():
             username=form.username.data, 
             email=form.email.data, 
             password=hashed_password, 
-            role=form.role.data  # Ensure the role is saved
+            role=form.role.data  
         )
         db.session.add(new_user)
         db.session.commit()
@@ -112,11 +112,7 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
-# Define allowed extensions for image uploads
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/offer-part', methods=['GET', 'POST'])
 @login_required
@@ -126,52 +122,36 @@ def offer_part():
         return redirect(url_for('index'))
 
     form = OfferPartForm()
-    if form.validate_on_submit():
-        try:
-            # Handle image upload
-            image_filename = None
-            if form.image.data and allowed_file(form.image.data.filename):
-                try:
-                    image_filename = secure_filename(form.image.data.filename)
-                    image_path = os.path.join(app.root_path, "static/images", image_filename)
-                    form.image.data.save(image_path)
-                except Exception as e:
-                    flash(f'Error saving image: {str(e)}', 'danger')
-                    return render_template('offer_part.html', form=form)
+    if not form.validate_on_submit():
+        return render_template('offer_part.html', form=form)
 
-            # Create new Part instance
-            new_part = Part(
-                name=form.name.data,
-                manufacturer=form.manufacturer.data,  
-                model=form.model.data,
-                price=form.price.data,
-                availability=form.availability.data,
-                quantity=form.quantity.data,
-                delivery=form.delivery.data,
-                image=image_filename,
-                description=form.description.data,
-                supplier_id=current_user.id,
-            )
+    try:
+        image_filename = None
+        if form.image.data and '.' in form.image.data.filename:
+            if form.image.data.filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
+                image_filename = secure_filename(form.image.data.filename)
+                form.image.data.save(os.path.join(app.root_path, "static/images", image_filename))
 
-            # Add and commit to database
-            db.session.add(new_part)
-            db.session.commit()
-
-            flash('Part offer submitted successfully!', 'success')
-            return redirect(url_for('index'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error saving part: {str(e)}', 'danger')
-            return render_template('offer_part.html', form=form)
+        db.session.add(Part(
+            name=form.name.data,
+            manufacturer=form.manufacturer.data,
+            model=form.model.data,
+            price=form.price.data,
+            availability=form.availability.data,
+            quantity=form.quantity.data,
+            delivery=form.delivery.data,
+            image=image_filename,
+            description=form.description.data,
+            supplier_id=current_user.id
+        ))
+        db.session.commit()
+        flash('Part offer submitted successfully!', 'success')
+        return redirect(url_for('index'))
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error saving part: {str(e)}', 'danger')
+        return render_template('offer_part.html', form=form)
     
-    # If form validation failed, show errors
-    if form.errors:
-        for field, errors in form.errors.items():
-            for error in errors:
-                flash(f'{field}: {error}', 'danger')
-
-    return render_template('offer_part.html', form=form)
-
 # Sample data insertion function
 def insert_sample():
     db.session.execute(db.delete(User))
