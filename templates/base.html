@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block TITLE %}{% endblock %} - PartWatch</title>
     {{ bootstrap.load_css() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -16,7 +17,7 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
         </a>
     </header>
-<div class="container border shadow w-50 pb-3 my-3">
+<div class="container-fluid border shadow pb-3 my-3">
 
     <nav class="navbar navbar-expand-xl border-bottom mb-3">
         <div class="container-fluid px-0">
