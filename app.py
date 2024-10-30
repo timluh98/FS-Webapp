@@ -142,13 +142,15 @@ def offer_part():
             # Create new Part instance
             new_part = Part(
                 name=form.name.data,
-                supplier_id=current_user.id,
+                manufacturer=form.manufacturer.data,  
+                model=form.model.data,
                 price=form.price.data,
                 availability=form.availability.data,
                 quantity=form.quantity.data,
                 delivery=form.delivery.data,
                 image=image_filename,
-                description=form.description.data
+                description=form.description.data,
+                supplier_id=current_user.id,
             )
 
             # Add and commit to database

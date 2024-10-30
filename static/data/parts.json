@@ -2,6 +2,8 @@
     {
         "name": "Brake Pad Set - Premium Quality",
         "supplier": "AutoParts Pro",
+        "manufacturer": "Brembo",
+        "model": "BP-123",
         "price": "$89.99",
         "availability": "In Stock",
         "quantity": "40 units",
@@ -11,6 +13,8 @@
     {
         "name": "Oil Filter - High Performance",
         "supplier": "FilterMaster Inc",
+        "manufacturer": "Bosch",
+        "model": "OF-456",
         "price": "$24.99",
         "availability": "In Stock",
         "quantity": "100 units",

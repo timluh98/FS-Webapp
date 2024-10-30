@@ -20,4 +20,6 @@ class Part(db.Model):
     delivery = db.Column(db.String(100), nullable=False)
     image = db.Column(db.String(200), nullable=True)
     description = db.Column(db.Text, nullable=False)
+    manufacturer = db.Column(db.String(100), nullable=False)  
+    model = db.Column(db.String(100), nullable=False) 
 

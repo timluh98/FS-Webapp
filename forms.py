@@ -20,6 +20,8 @@ class LoginForm(FlaskForm):
 # Offer Part Form
 class OfferPartForm(FlaskForm):
     name = StringField('Part Name', validators=[DataRequired()])
+    manufacturer = StringField('Manufacturer', validators=[DataRequired()])  
+    model = StringField('Model', validators=[DataRequired()]) 
     price = FloatField('Price', validators=[DataRequired()])
     availability = SelectField('Availability', 
                              choices=[('In Stock', 'In Stock'),
