@@ -1,29 +1,28 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, FloatField, IntegerField, TextAreaField, FileField
+from wtforms import (StringField, PasswordField, SubmitField, SelectField, 
+                    FloatField, IntegerField, TextAreaField, FileField, EmailField)
 from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 import email_validator
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=150)])
-    email = StringField('Email', validators=[InputRequired(), Email()])
+    email = EmailField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6)])
     confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
     role = SelectField('Role', choices=[('customer', 'Customer'), ('supplier', 'Supplier')], validators=[InputRequired()])
     submit = SubmitField('Register')
 
-# Login form
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[InputRequired(), Email()])
+    email = EmailField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('Password', validators=[InputRequired()])
     submit = SubmitField('Login')
 
-# Offer Part Form
 class OfferPartForm(FlaskForm):
     name = StringField('Part Name', validators=[DataRequired()])
     manufacturer = StringField('Manufacturer', validators=[DataRequired()])  
-    model = StringField('Model', validators=[DataRequired()]) 
+    model = StringField('Model', validators=[DataRequired()])
     price = FloatField('Price', validators=[DataRequired()])
-    availability = SelectField('Availability', 
+    availability = SelectField('Availability',
                              choices=[('In Stock', 'In Stock'),
                                     ('Out of Stock', 'Out of Stock'),
                                     ('Pre-order', 'Pre-order')],
