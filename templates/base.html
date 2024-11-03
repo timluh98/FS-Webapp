@@ -17,57 +17,56 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
         </a>
     </header>
-<div class="container-fluid border shadow pb-3 my-3">
+    <div class="container-fluid border shadow pb-3 my-3">
 
-    <nav class="navbar navbar-expand-xl border-bottom mb-3">
-        <div class="container-fluid px-0">
-            <a class="navbar-brand" href="{{ url_for('index') }}"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" 
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% if current_user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('catalogue') }}">Catalogue</a>
-                        </li>
-                        {% if current_user.role == 'supplier' %}
+        <nav class="navbar navbar-expand-xl border-bottom mb-3" style="background: #2d5b5e; border-radius: 8px;">
+            <div class="container-fluid px-0">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if current_user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="btn btn-primary" href="{{ url_for('offer_part') }}">
-                                    + Offer Automotive Part
-                                </a>
+                                <a class="nav-link text-light" href="{{ url_for('catalogue') }}">Catalogue</a>
+                            </li>
+                            {% if current_user.role == 'supplier' %}
+                                <li class="nav-item">
+                                    <a class="btn btn-light text-dark" href="{{ url_for('offer_part') }}">
+                                        + Offer Automotive Part
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="{{ url_for('logout') }}">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link text-light">
+                                    Welcome, {{ current_user.username }} ({{ current_user.role | capitalize }})!
+                                </span>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link fs-4 fw-bold text-light" href="{{ url_for('login') }}">Login</a>
                             </li>
                         {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link">
-                                Welcome, {{ current_user.username }} ({{ current_user.role | capitalize }})!
-                            </span>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                        </li>
-                    {% endif %}
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <header>{% block HEADER %}{% endblock %}</header>
+        <header>{% block HEADER %}{% endblock %}</header>
 
-    <main>
-        {{ render_messages(dismissible=True, dismiss_animate=True) }}
-        {% block CONTENT %}{% endblock %}
-    </main>
+        <main>
+            {{ render_messages(dismissible=True, dismiss_animate=True) }}
+            {% block CONTENT %}{% endblock %}
+        </main>
 
-</div>
-{{ bootstrap.load_js() }}
+    </div>
+    {{ bootstrap.load_js() }}
 </body>
 
 </html>

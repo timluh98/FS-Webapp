@@ -6,7 +6,7 @@ body {
     box-sizing: border-box; 
 }
 a {
-    color: #35a;
+    color: #2d5b5e; 
     text-decoration: none;
 }
 ul {
@@ -40,8 +40,8 @@ form {
     display: inline;
 }
 nav {
-    background: #eee;
-    border-bottom: 2px solid #D50C2F;
+    background: #2d5b5e; 
+    border-bottom: 2px solid #597f82; 
     display: flex;
     align-items: center;
     padding: 0 5px;
@@ -50,9 +50,11 @@ nav h1 {
     font-size: x-large;
     flex: auto;
     margin: 2px 0;
+    color: #e6f1f2; 
 }
 nav a {
     text-decoration: none;
+    color: #e6f1f2; 
 }
 .content {
     padding: 10px 5px 5px 5px;
@@ -60,4 +62,11 @@ nav a {
 .content h2 {
     font-size: large;
     margin: 2px 0px;
+}
+.btn-primary {
+    background-color: #2d5b5e; 
+    border-color: #2d5b5e;
+}
+.navbar-brand {
+    color: #e6f1f2; 
 }
