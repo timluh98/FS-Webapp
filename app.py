@@ -86,7 +86,9 @@ def register():
 
     return render_template('register.html', form=form)
 
-
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])

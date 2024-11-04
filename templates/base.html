@@ -28,22 +28,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav w-100">
                         {% if current_user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link text-light" href="{{ url_for('catalogue') }}">Catalogue</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-light dropdown-toggle">Menu</a>
+                                <div class="dropdown-content">
+                                    <a href="{{ url_for('catalogue') }}">Catalogue</a>
+                                    {% if current_user.role == 'supplier' %}
+                                        <a href="{{ url_for('offer_part') }}">+ Offer Automotive Part</a>
+                                    {% endif %}
+                                    <a href="{{ url_for('logout') }}">Logout</a>
+                                </div>
                             </li>
-                            {% if current_user.role == 'supplier' %}
-                                <li class="nav-item">
-                                    <a class="btn btn-light text-dark" href="{{ url_for('offer_part') }}">
-                                        + Offer Automotive Part
-                                    </a>
-                                </li>
-                            {% endif %}
-                            <li class="nav-item">
-                                <a class="nav-link text-light" href="{{ url_for('logout') }}">Logout</a>
-                            </li>
-                            <li class="nav-item">
+                            <li class="nav-item ms-auto">
                                 <span class="nav-link text-light">
                                     Welcome, {{ current_user.username }} ({{ current_user.role | capitalize }})!
                                 </span>
