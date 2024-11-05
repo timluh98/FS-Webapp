@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, 
-                    FloatField, IntegerField, TextAreaField, FileField, EmailField)
+                    FloatField, IntegerField, TextAreaField, FileField, EmailField, DateField)
 from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 import email_validator
+from datetime import datetime
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=150)])
@@ -36,3 +37,12 @@ class OfferPartForm(FlaskForm):
                          validators=[DataRequired()])
     image = FileField('Part Image', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
+
+class PurchaseForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    card_number = StringField('Card Number', validators=[DataRequired()])
+    cvc = IntegerField('CVC', validators=[DataRequired()])
+    exp_month = SelectField('Expiration Month', choices=[(str(i), str(i)) for i in range(1, 13)], validators=[DataRequired()])
+    exp_year = SelectField('Expiration Year', choices=[(str(i), str(i)) for i in range(datetime.now().year, datetime.now().year + 21)], validators=[DataRequired()])
+    submit = SubmitField('Purchase')

@@ -6,8 +6,9 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from db import db  # Import the db instance
-from models import User, Part  # Import the User and Part model
-from forms import RegistrationForm, LoginForm, OfferPartForm  # Import the forms
+from models import User, Part, Purchase  # Import the User and Part model
+from forms import RegistrationForm, LoginForm, OfferPartForm, PurchaseForm  # Import the forms
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -85,6 +86,35 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
+@app.route('/part/<int:part_id>', methods=['GET', 'POST'])
+def view_part(part_id):
+    part = Part.query.get_or_404(part_id)
+    form = PurchaseForm()
+    if form.validate_on_submit():
+
+        name = form.name.data
+        address = form.address.data
+        card_number = form.card_number.data
+        cvc = form.cvc.data  
+        exp_month = form.exp_month.data
+        exp_year = form.exp_year.data
+
+        purchase = Purchase(
+            part_id=part.id,
+            user_id=current_user.id,
+            name=name,
+            address=address,
+            card_number=card_number,
+            cvc=cvc,  
+            exp_date=datetime(int(exp_year), int(exp_month), 1) 
+        )
+        db.session.add(purchase)
+        db.session.commit()
+
+        flash('Purchase successful!', 'success')
+        return redirect(url_for('index'))
+    return render_template('view_part.html', part=part, form=form)
 
 @app.route('/faq')
 def faq():

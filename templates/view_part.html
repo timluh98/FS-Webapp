@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block TITLE %}Part Details{% endblock %}
+{% block HEADER %}
+    <h1 class="text-center mb-4">{{ part.name }}</h1>
+{% endblock %}
+{% block CONTENT %}
+<div class="container">
+    <div class="card mb-4">
+        <img src="{{ url_for('static', filename='images/' + part.image) }}" class="card-img-top" alt="{{ part.name }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ part.name }}</h5>
+            <p class="card-text"><strong>Supplier:</strong> {{ part.supplier }}</p>
+            <p class="card-text"><strong>Manufacturer:</strong> {{ part.manufacturer }}</p>
+            <p class="card-text"><strong>Model:</strong> {{ part.model }}</p>
+            <p class="card-text"><strong>Price:</strong> ${{ part.price }}</p>
+            <p class="card-text"><strong>Availability:</strong> {{ part.availability }}</p>
+            <p class="card-text"><strong>Quantity:</strong> {{ part.quantity }}</p>
+            <p class="card-text"><strong>Estimated Delivery:</strong> {{ part.delivery }}</p>
+            <p class="card-text"><strong>Description:</strong> {{ part.description }}</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Purchase Part</h5>
+            <form method="POST" action="{{ url_for('view_part', part_id=part.id) }}">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    {{ form.name(class="form-control", placeholder="Name") }}
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    {{ form.address(class="form-control", placeholder="Address") }}
+                </div>
+                <div class="mb-3">
+                    <label for="card_number" class="form-label">Card Number</label>
+                    {{ form.card_number(class="form-control", placeholder="Card Number") }}
+                </div>
+                <div class="mb-3">
+                    <label for="cvc" class="form-label">CVC</label>
+                    {{ form.cvc(class="form-control", placeholder="CVC") }}
+                </div>
+                <div class="mb-3">
+                    <label for="exp_month" class="form-label">Expiration Month</label>
+                    {{ form.exp_month(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="exp_year" class="form-label">Expiration Year</label>
+                    {{ form.exp_year(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-primary">Purchase</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

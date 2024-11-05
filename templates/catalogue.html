@@ -39,7 +39,7 @@
                         </div>
                         {% if current_user.is_authenticated %}
                             <div class="card-footer text-center">
-                                <a href="{{ url_for('catalogue') }}" class="btn btn-primary">View in Catalogue</a>
+                                <a href="{{ url_for('view_part', part_id=part.id) }}" class="btn btn-primary">View in Catalogue</a>
                             </div>
                         {% endif %}
                     </div>
