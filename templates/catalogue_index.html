@@ -3,13 +3,67 @@
 {% block TITLE %}Catalogue{% endblock %}
 
 {% block HEADER %}
+    <style>
+        .how-to-use-btn {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .speech-bubble {
+            display: none;
+            position: absolute;
+            background-color: #f8f9fa;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-right-color: #007bff;
+            border-left: 0;
+            margin-top: -15px;
+            margin-left: -15px;
+        }
+
+        .speech-bubble-close {
+            display: block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+
     <h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
 {% endblock %}
 
 {% block CONTENT %}
+    <button class="how-to-use-btn" onclick="showTutorial()">How to use</button>
+
     <div class="container">
         {% for part in parts %}
-            <div class="card mb-4">
+            <div class="card mb-4" {% if loop.first %}id="first-part"{% endif %}>
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="{{ part.image }}" class="img-fluid rounded-start" alt="{{ part.name }}">
@@ -36,7 +90,15 @@
                                         <p>{{ part.availability }}</p>
                                         <p>{{ part.quantity }}</p>
                                         <p>{{ part.delivery }}</p>
-                                        <a href="{{ url_for('catalogue') }}" class="alert-link">Click to see in catalogue</a>
+                                        <div style="position: relative;">
+                                            <a href="{{ url_for('catalogue') }}" class="alert-link" id="catalogue-link">Click to see in catalogue</a>
+                                            {% if loop.first %}
+                                                <div id="tutorial-bubble" class="speech-bubble">
+                                                    Here you can see all relevant information about the part and you can also view it in the catalogue!
+                                                    <button class="speech-bubble-close" onclick="hideTutorial()">Okay</button>
+                                                </div>
+                                            {% endif %}
+                                        </div>
                                     {% else %}
                                         <div class="alert alert-info">
                                             <i class="fas fa-lock"></i> 
@@ -51,4 +113,21 @@
             </div>
         {% endfor %}
     </div>
+
+    <script>
+        function showTutorial() {
+            const bubble = document.getElementById('tutorial-bubble');
+            const link = document.getElementById('catalogue-link');
+            const linkRect = link.getBoundingClientRect();
+            
+            bubble.style.position = 'absolute';
+            bubble.style.top = '-120px';
+            bubble.style.left = '200px'; 
+            bubble.style.display = 'block';
+        }
+
+        function hideTutorial() {
+            document.getElementById('tutorial-bubble').style.display = 'none';
+        }
+    </script>
 {% endblock %}
