@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, 
                     FloatField, IntegerField, TextAreaField, FileField, EmailField, DateField)
-from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
+from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired, NumberRange
 import email_validator
 from datetime import datetime
 
@@ -42,7 +42,12 @@ class PurchaseForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
     card_number = StringField('Card Number', validators=[DataRequired()])
-    cvc = IntegerField('CVC', validators=[DataRequired()])
-    exp_month = SelectField('Expiration Month', choices=[(str(i), str(i)) for i in range(1, 13)], validators=[DataRequired()])
-    exp_year = SelectField('Expiration Year', choices=[(str(i), str(i)) for i in range(datetime.now().year, datetime.now().year + 21)], validators=[DataRequired()])
+    cvc = StringField('CVC', validators=[DataRequired(), Length(max=4)])
+    exp_month = SelectField('Expiration Month', 
+    choices=[('', 'Month')] + [(str(i).zfill(2), str(i).zfill(2)) for i in range(1, 13)], validators=[DataRequired()])
+    current_year = datetime.now().year
+    exp_year = SelectField('Expiration Year',
+    choices=[('', 'Year')] + [(str(y), str(y)) for y in range(current_year, current_year + 21)], validators=[DataRequired()])
+    quantity = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1)])
     submit = SubmitField('Purchase')
+

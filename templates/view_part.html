@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 {% block TITLE %}Part Details{% endblock %}
-{% block HEADER %}
-    <h1 class="text-center mb-4">{{ part.name }}</h1>
-{% endblock %}
 {% block CONTENT %}
 <div class="container">
     <div class="card mb-4">
@@ -25,32 +22,65 @@
             <form method="POST" action="{{ url_for('view_part', part_id=part.id) }}">
                 {{ form.hidden_tag() }}
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                    {{ form.name.label(class="form-label") }}
                     {{ form.name(class="form-control", placeholder="Name") }}
                 </div>
                 <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
+                    {{ form.address.label(class="form-label") }}
                     {{ form.address(class="form-control", placeholder="Address") }}
                 </div>
                 <div class="mb-3">
-                    <label for="card_number" class="form-label">Card Number</label>
+                    {{ form.card_number.label(class="form-label") }}
                     {{ form.card_number(class="form-control", placeholder="Card Number") }}
                 </div>
                 <div class="mb-3">
-                    <label for="cvc" class="form-label">CVC</label>
+                    {{ form.cvc.label(class="form-label") }}
                     {{ form.cvc(class="form-control", placeholder="CVC") }}
                 </div>
-                <div class="mb-3">
-                    <label for="exp_month" class="form-label">Expiration Month</label>
-                    {{ form.exp_month(class="form-control") }}
+                <div class="row mb-3">
+                    <div class="col-6">
+                        {{ form.exp_month.label(class="form-label") }}
+                        {{ form.exp_month(class="form-select") }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.exp_year.label(class="form-label") }}
+                        {{ form.exp_year(class="form-select") }}
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="exp_year" class="form-label">Expiration Year</label>
-                    {{ form.exp_year(class="form-control") }}
+                    {{ form.quantity.label(class="form-label") }}
+                    {{ form.quantity(class="form-control", placeholder="Quantity", min="1", id="quantity") }}
+                </div>
+                <div class="mb-3">
+                    <label for="total" class="form-label">Total Price</label>
+                    <input type="text" class="form-control" id="total" value="${{ total_price if total_price else '0.00' }}" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary">Purchase</button>
             </form>
         </div>
     </div>
 </div>
+
+<input type="hidden" id="part-price" value="{{ part.price }}">
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const priceElement = document.getElementById('part-price');
+        const partPrice = parseFloat(priceElement.value) || 0;
+        const quantityInput = document.getElementById('quantity');
+        const totalInput = document.getElementById('total');
+        
+        function updateTotal() {
+            const quantity = parseInt(quantityInput.value) || 1;
+            const total = (partPrice * quantity).toFixed(2);
+            totalInput.value = `$${total}`;
+        }
+        
+        if (quantityInput) {
+            quantityInput.addEventListener('input', updateTotal);
+        }
+        
+        updateTotal();
+    });
+</script>
 {% endblock %}

@@ -89,16 +89,20 @@ def register():
 
 @app.route('/part/<int:part_id>', methods=['GET', 'POST'])
 def view_part(part_id):
+    current_date = datetime.now()
     part = Part.query.get_or_404(part_id)
     form = PurchaseForm()
+    total_price = None
     if form.validate_on_submit():
-
         name = form.name.data
         address = form.address.data
         card_number = form.card_number.data
-        cvc = form.cvc.data  
+        cvc = form.cvc.data
         exp_month = form.exp_month.data
         exp_year = form.exp_year.data
+        quantity = form.quantity.data
+
+        total_price = part.price * quantity
 
         purchase = Purchase(
             part_id=part.id,
@@ -106,8 +110,10 @@ def view_part(part_id):
             name=name,
             address=address,
             card_number=card_number,
-            cvc=cvc,  
-            exp_date=datetime(int(exp_year), int(exp_month), 1) 
+            cvc=cvc,
+            exp_date=datetime(int(exp_year), int(exp_month), 1),
+            quantity=quantity,
+            total_price=total_price
         )
         db.session.add(purchase)
         db.session.commit()

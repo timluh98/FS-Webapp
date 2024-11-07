@@ -32,7 +32,9 @@ class Purchase(db.Model):
     name = db.Column(db.String(150), nullable=False)
     address = db.Column(db.String(300), nullable=False)
     card_number = db.Column(db.String(20), nullable=False)
-    cvc = db.Column(db.Integer, nullable=False)
-    exp_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    cvc = db.Column(db.String(4), nullable=False)
+    exp_date = db.Column(db.DateTime, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Float, nullable=False)
     purchase_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
