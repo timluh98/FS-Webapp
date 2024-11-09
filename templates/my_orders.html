@@ -1,33 +1,43 @@
 {% extends "base.html" %}
 
-{% block TITLE %}My orders{% endblock %}
+{% block TITLE %}My Orders{% endblock %}
 
 {% block CONTENT %}
-<h2>My Orders</h2>
-{% if purchases %}
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Part Name</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Purchase Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for purchase in purchases %}
-                    <tr>
-                        <td>{{ purchase.part.name }}</td>
-                        <td>{{ purchase.quantity }}</td>
-                        <td>${{ purchase.total_price }}</td>
-                        <td>{{ purchase.purchase_date.strftime('%Y-%m-%d') }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container mt-5">
+    <div class="card border-0" style="background-color: #2d5b5e; color: #f0f8f7;">
+        <div class="card-header" style="background-color: #2f7a81; color: #f0f8f7;">
+            <h3 class="mb-0"><i class="fas fa-boxes"></i> My Orders</h3>
+        </div>
+        <div class="card-body">
+            {% if purchases %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-light">
+                        <thead style="background-color: #3a6f73;">
+                            <tr>
+                                <th>Part Name</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Purchase Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for purchase in purchases %}
+                                <tr>
+                                    <td class="fw-semibold">{{ purchase.part.name }}</td>
+                                    <td>{{ purchase.quantity }}</td>
+                                    <td class="text-success">${{ purchase.total_price }}</td>
+                                    <td>{{ purchase.purchase_date.strftime('%Y-%m-%d') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted"><i class="fas fa-info-circle"></i> You have no orders.</p>
+                </div>
+            {% endif %}
+        </div>
     </div>
-{% else %}
-    <p>You have no orders.</p>
-{% endif %}
+</div>
 {% endblock %}
