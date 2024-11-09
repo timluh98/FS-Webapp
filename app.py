@@ -66,11 +66,17 @@ def run_insert_sample():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        # Check if the user already exists
-        existing_user = User.query.filter_by(email=form.email.data).first()
-        if existing_user:
+        # Check if the email already exists
+        existing_user_email = User.query.filter_by(email=form.email.data).first()
+        if existing_user_email:
             flash('Email already registered. Please log in.', 'danger')
             return redirect(url_for('login'))
+
+        # Check if the username already exists
+        existing_user_username = User.query.filter_by(username=form.username.data).first()
+        if existing_user_username:
+            flash('Username already taken. Please choose a different username.', 'danger')
+            return redirect(url_for('register'))
 
         # Create a new user with hashed password and selected role
         hashed_password = generate_password_hash(form.password.data)
@@ -116,6 +122,11 @@ def view_part(part_id):
             total_price=total_price
         )
         db.session.add(purchase)
+
+        # Decrease the quantity of the part
+        part.quantity -= quantity
+
+        # Commit the changes to the database
         db.session.commit()
 
         flash('Purchase successful!', 'success')
