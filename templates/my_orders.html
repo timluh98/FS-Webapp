@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block TITLE %}My orders{% endblock %}
+
+{% block CONTENT %}
+<h2>My Orders</h2>
+{% if purchases %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Part Name</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Purchase Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td>{{ purchase.part.name }}</td>
+                        <td>{{ purchase.quantity }}</td>
+                        <td>${{ purchase.total_price }}</td>
+                        <td>{{ purchase.purchase_date.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>You have no orders.</p>
+{% endif %}
+{% endblock %}

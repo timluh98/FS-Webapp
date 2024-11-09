@@ -34,6 +34,7 @@
                                 <a class="nav-link text-light dropdown-toggle">Menu</a>
                                 <div class="dropdown-content">
                                     <a href="{{ url_for('catalogue') }}">Catalogue</a>
+                                    <a href="{{ url_for('my_orders') }}">My Orders</a>
                                     {% if current_user.role == 'supplier' %}
                                         <a href="{{ url_for('offer_part') }}">+ Offer Automotive Part</a>
                                     {% endif %}

@@ -142,6 +142,12 @@ def login():
         flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)
 
+@app.route('/my_orders')
+@login_required
+def my_orders():
+    user_purchases = Purchase.query.filter_by(user_id=current_user.id).all()
+    return render_template('my_orders.html', purchases=user_purchases)
+
 # Logout route
 @app.route('/logout')
 @login_required
