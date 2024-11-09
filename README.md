@@ -11,36 +11,36 @@ In addition to code, this repository includes a basic setup for GitHub Pages doc
 
 ### Step 1: Set up a Python Virtual Environment
 
-\`\`\`bash
+```bash
 python3 -m venv venv
 source venv/bin/activate  # For Windows use 'venv\Scripts\activate'
-\`\`\`
+```
 
 ### Step 2: Install Requirements
 
 Install the necessary Python packages with:
 
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ### Step 3: Start the Development Server
 
 Run the server using:
 
-\`\`\`bash
+```bash
 python app.py
-\`\`\`
+```
 
 **Expected output:**
 
-\`\`\`plaintext
+```plaintext
  * Debug mode: off
 WARNING: This is a development server. Do not use it in a production deployment.
 Use a production WSGI server instead.
  * Running on http://127.0.0.1:5000
 Press CTRL+C to quit
-\`\`\`
+```
 
 ### Step 4: Access the Application
 
