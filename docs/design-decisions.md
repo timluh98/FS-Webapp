@@ -4,7 +4,7 @@ nav_order: 3
 ---
 
 {: .label }
-[Jane Dane]
+[Johann Estrada Pox & Tim Luhmann]
 
 {: .no_toc }
 # Design decisions
@@ -16,77 +16,162 @@ nav_order: 3
 {: toc }
 </details>
 
-## 01: [Title]
+## 01: Using Flask with SQLAlchemy for Database Management
 
 ### Meta
 
 Status
-: **Work in progress** - Decided - Obsolete
+: **Decided**
 
 Updated
-: DD-MMM-YYYY
+: 11-Nov-2024
 
 ### Problem statement
 
-[Describe the problem to be solved or the goal to be achieved. Include relevant context information.]
+We need a way to handle database operations for our automotive parts application, **PartWatch**. The application includes user registration, roles, parts listings and purchases. We need to decide on an efficient way to interact with our SQLite database that will also support future scalability when we move to a more robust database.
 
 ### Decision
 
-[Describe **which** design decision was taken for **what reason** and by **whom**.]
+We decided to use **SQLAlchemy** as our Object Relational Mapper (ORM) to manage database interactions. This decision was made because of SQLAlchemy's compatibility with Flask, its support for an ORM layer, and its flexibility to work with multiple database engines in the future. The decision was made by the development team.
 
 ### Regarded options
 
-[Describe any possible design decision that will solve the problem. Assess these options, e.g., via a simple pro/con list.]
+1. **Plain SQL** - Direct SQL queries embedded in the code.
+2. **SQLAlchemy ORM** - Use SQLAlchemy ORM for a more Pythonic database interaction.
+
+| Criterion              | Plain SQL                       | SQLAlchemy ORM                      |
+|------------------------|---------------------------------|-------------------------------------|
+| **Ease of Use**        | Requires raw SQL for each query | Provides a high-level API for CRUD  |
+| **Future Scalability** | Limited                         | Easily switchable to other DBs      |
+| **Readability**        | Complex with inline SQL         | More readable with Python classes   |
+| **Learning Curve**     | None if SQL is known           | Moderate, but well-documented       |
 
 ---
 
-## [Example, delete this section] 01: How to access the database - SQL or SQLAlchemy 
+## 02: User Roles and Permissions (Customer vs. Supplier)
 
 ### Meta
 
 Status
-: Work in progress - **Decided** - Obsolete
+: **Decided**
 
 Updated
-: 30-Jun-2024
+: 11-Nov-2024
 
 ### Problem statement
 
-Should we perform database CRUD (create, read, update, delete) operations by writing plain SQL or by using SQLAlchemy as object-relational mapper?
-
-Our web application is written in Python with Flask and connects to an SQLite database. To complete the current project, this setup is sufficient.
-
-We intend to scale up the application later on, since we see substantial business value in it.
-
-
-
-Therefore, we will likely:
-Therefore, we will likely:
-Therefore, we will likely:
-
-+ Change the database schema multiple times along the way, and
-+ Switch to a more capable database system at some point.
+The application requires different user roles: **Suppliers**, who can list parts, and **Customers**, who can browse and order parts. We need a system to enforce these permissions based on the user’s role.
 
 ### Decision
 
-We stick with plain SQL.
+We implemented a **role-based access control** system by adding a `role` column to the `User` model in the database. This allows us to differentiate permissions in the app, such as allowing only suppliers to add new parts. 
 
-Our team still has to come to grips with various technologies new to us, like Python and CSS. Adding another element to our stack will slow us down at the moment.
-
-Also, it is likely we will completely re-write the app after MVP validation. This will create the opportunity to revise tech choices in roughly 4-6 months from now.
-*Decision was taken by:* github.com/joe, github.com/jane, github.com/maxi
+The decision was made to simplify role management without creating overly complex permissions and is in line with our initial project requirements.
 
 ### Regarded options
 
-We regarded two alternative options:
+1. **Role-based access control (simpler)** - Add a `role` attribute to users to control permissions.
+2. **Advanced Permissions System (complex)** - Implement a detailed permissions matrix for each action.
 
-+ Plain SQL
-+ SQLAlchemy
-
-| Criterion | Plain SQL | SQLAlchemy |
-| --- | --- | --- |
-| **Know-how** | ✔️ We know how to write SQL | ❌ We must learn ORM concept & SQLAlchemy |
-| **Change DB schema** | ❌ SQL scattered across code | ❔ Good: classes, bad: need Alembic on top |
-| **Switch DB engine** | ❌ Different SQL dialect | ✔️ Abstracts away DB engine |
+| Criterion             | Simple Role System         | Advanced Permissions System         |
+|-----------------------|----------------------------|-------------------------------------|
+| **Implementation**    | Easy to set up             | Requires detailed permission checks |
+| **Flexibility**       | Sufficient for two roles   | Better for complex permissions      |
+| **Performance**       | Lightweight                | Higher processing for permissions   |
 
 ---
+
+## 03: Image Upload and Storage for Part Listings
+
+### Meta
+
+Status
+: **Decided**
+
+Updated
+: 11-Nov-2024
+
+### Problem statement
+
+Suppliers need to upload images of automotive parts for their listings. We need a reliable way to handle image uploads and storage within the app.
+
+### Decision
+
+We chose to store images locally in the `static/images` directory. When a user uploads an image, it is saved directly to this folder, and the file path is stored in the database. This approach keeps the app lightweight and avoids the need for third-party storage services during development.
+
+### Regarded options
+
+1. **Local Storage** - Store images in a local directory within the project.
+2. **Cloud Storage (e.g., AWS S3)** - Use a cloud service to store and retrieve images.
+
+| Criterion              | Local Storage               | Cloud Storage                   |
+|------------------------|-----------------------------|---------------------------------|
+| **Setup Complexity**   | Simple                      | More complex                    |
+| **Cost**               | Free                        | Potential costs                 |
+| **Scalability**        | Limited by server capacity  | Scalable with storage service   |
+
+---
+
+## 04: Using WTForms and Bootstrap for User Interface
+
+### Meta
+
+Status
+: **Decided**
+
+Updated
+: 11-Nov-2024
+
+### Problem statement
+
+To create a consistent and user-friendly interface for form submissions, we need a framework for form handling and styling.
+
+### Decision
+
+We chose **WTForms** for form handling and **Bootstrap** for styling to make the forms more accessible and responsive. WTForms integrates well with Flask, and Bootstrap provides a modern, responsive design that enhances user experience. This combination was chosen to save development time while maintaining a professional look and feel.
+
+### Regarded options
+
+1. **WTForms + Bootstrap** - Use WTForms for form processing and Bootstrap for styling.
+2. **Custom HTML/CSS** - Create custom forms without a framework.
+
+| Criterion              | WTForms + Bootstrap         | Custom HTML/CSS                |
+|------------------------|-----------------------------|---------------------------------|
+| **Ease of Integration**| Seamless with Flask         | Requires more custom code       |
+| **Design Consistency** | Uniform with Bootstrap      | Requires detailed CSS work      |
+| **Development Speed**  | Faster setup                | More time-intensive             |
+
+---
+
+## 05: Order Tracking and My Orders Feature
+
+### Meta
+
+Status
+: **Decided**
+
+Updated
+: 26-Oct-2024
+
+### Problem statement
+
+The application needs to allow customers to place orders for parts and view their orders under a "My Orders" tab. This requires order data to be stored persistently in the SQLite database, linking each order to a user and a specific part.
+
+### Decision
+
+We added a `Purchase` model to the database to store each order. When a customer places an order, the details are saved in the `Purchase` table, which links the order to the user and the specific part they ordered. Customers can view their past orders in the "My Orders" tab.
+
+### Regarded options
+
+1. **Database Table for Purchases** - Store each order as a record in a `Purchase` table within SQLite.
+2. **Session-based Order Tracking** - Track orders only within the user session without permanent storage.
+
+| Criterion              | Database Table              | Session-based Tracking          |
+|------------------------|-----------------------------|---------------------------------|
+| **Persistence**        | Permanent in SQLite         | Temporary in session            |
+| **Scalability**        | Suitable for multiple users | Limited to active session       |
+| **User Experience**    | View past orders anytime    | Only viewable in-session        |
+
+---
+
+This document outlines the principal design decisions made for **PartWatch**, together with an overview of the options considered. The decisions reflect the project's current requirements and priorities, and they strike a balance between simplicity and scalability for future growth.
