@@ -57,11 +57,6 @@ def catalogue():
         parts = Part.query.all()
     return render_template('catalogue.html', parts=parts)
 
-@app.route('/insert/sample')
-def run_insert_sample():
-    insert_sample()
-    return 'Database flushed and populated with some sample data.'
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -206,14 +201,6 @@ def offer_part():
         db.session.rollback()
         flash(f'Error saving part: {str(e)}', 'danger')
         return render_template('offer_part.html', form=form)
-    
-# Sample data insertion function
-def insert_sample():
-    db.session.execute(db.delete(User))
-    user1 = User(username='testuser1', email='test1@example.com', password='password123', role='supplier')
-    user2 = User(username='testuser2', email='test2@example.com', password='password123', role='customer')
-    db.session.add_all([user1, user2])
-    db.session.commit()
 
 # Run the app
 if __name__ == '__main__':
