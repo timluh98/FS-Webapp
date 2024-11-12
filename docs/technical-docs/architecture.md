@@ -5,7 +5,7 @@ nav_order: 1
 ---
 
 {: .label }
-[Jane Dane]
+[Johann Estrada Pox & Tim Luhmann]
 
 {: .no_toc }
 # Architecture
