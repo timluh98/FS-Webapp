@@ -1,5 +1,5 @@
 ---
-title: Team member Responsibilites 
+title: Team Member Responsibilites 
 nav_order: 6
 ---
 
@@ -11,8 +11,6 @@ nav_order: 6
 - ....
 ### Tim Hendrik Luhmann
 
-- Managing and adjusting of the base.html
-- Creating the style.css
-- Creation and design of most html pages in the webapp
-- Implementation of Buttons that lead to specific URL's
-- Writing of few routes to access database contents
+- Managed and adjusted `base.html`, `style.css`, and `catalogue_index.css`; responsible for all navigation in `base.html`
+- Worked on templates: `login.html`, `register.html`, `catalogue_index.html`, `offer_part.html`, `catalogue.html`, `view_part.html`, and `my_orders.html`
+- Created `OfferPartForm` and `PurchaseForm` in `forms.py`; implemented routes for `catalogue_index`, `view_part`, and `my_orders.html`
