@@ -1,19 +1,7 @@
 ---
 title: UI Components
-nav_order: 99
+nav_exlude: true
 ---
-
-{: .label .label-red }
-[to be deleted]
-
-{: .attention}
-> Once you are familiar with the available UI components of this template, exclude this page by changing `nav_order: 99` to `nav_exclude: true` on top of this page (line 3). Its *front matter* will then look like this:
-> ```
-> ---
-> title: UI Components
-> nav_exclude: true
-> ---
-> ```
 
 # UI components
 
@@ -36,46 +24,46 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ![register](assets/images/fswd_register.png)
 
 ```markdown
-![login](assets/images/fswd_login.png)
+![index](assets/images/fswd_index.png)
 ```
 
-![login](assets/images/fswd_login.png)
+![index](assets/images/fswd_index.png)
 
 ```markdown
-![register](assets/images/fswd-intro_02.png)
+![index_logged_in](assets/images/fswd_index_logged_in.png)
 ```
 
-![register](assets/images/fswd-intro_02.png)
+![index_logged_in](assets/images/fswd_index_logged_in.png)
 
 ```markdown
-![login](assets/images/fswd_login.png)
+![index_how_to_use](assets/images/fswd_index_how_to_use.png)
 ```
 
-![login](assets/images/fswd_login.png)
+![index_how_to_use](assets/images/fswd_index_how_to_use.png)
 
 ```markdown
-![register](assets/images/fswd-intro_02.png)
+![catalogue](assets/images/fswd_catalogue.png)
 ```
 
-![register](assets/images/fswd-intro_02.png)
+![catalogue](assets/images/fswd_catalogue.png)
 
 ```markdown
-![login](assets/images/fswd_login.png)
+![purchase_part](assets/images/fswd_purchase_part.png)
 ```
 
-![login](assets/images/fswd_login.png)
+![purchase_part](assets/images/fswd_purchase_part.png)
 
 ```markdown
-![register](assets/images/fswd-intro_02.png)
+![my_orders](assets/images/fswd_my_orders.png)
 ```
 
-![register](assets/images/fswd-intro_02.png)
+![my_orders](assets/images/fswd_my_orders.png)
 
 ```markdown
-![login](assets/images/fswd_login.png)
+![offer_part](assets/images/fswd_offer_part.png)
 ```
 
-![login](assets/images/fswd_login.png)
+![offer_part](assets/images/fswd_offer_part.png)
 
 ## Callouts
 
