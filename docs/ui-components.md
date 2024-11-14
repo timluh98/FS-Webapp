@@ -24,10 +24,58 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ## Images
 
 ```markdown
-![get_list_todos_sample](assets/images/fswd-intro_02.png)
+![login](assets/images/fswd_login.png)
 ```
 
-![get_list_todos_sample](assets/images/fswd-intro_02.png)
+![login](assets/images/fswd_login.png)
+
+```markdown
+![register](assets/images/fswd_register.png)
+```
+
+![register](assets/images/fswd_register.png)
+
+```markdown
+![login](assets/images/fswd_login.png)
+```
+
+![login](assets/images/fswd_login.png)
+
+```markdown
+![register](assets/images/fswd-intro_02.png)
+```
+
+![register](assets/images/fswd-intro_02.png)
+
+```markdown
+![login](assets/images/fswd_login.png)
+```
+
+![login](assets/images/fswd_login.png)
+
+```markdown
+![register](assets/images/fswd-intro_02.png)
+```
+
+![register](assets/images/fswd-intro_02.png)
+
+```markdown
+![login](assets/images/fswd_login.png)
+```
+
+![login](assets/images/fswd_login.png)
+
+```markdown
+![register](assets/images/fswd-intro_02.png)
+```
+
+![register](assets/images/fswd-intro_02.png)
+
+```markdown
+![login](assets/images/fswd_login.png)
+```
+
+![login](assets/images/fswd_login.png)
 
 ## Callouts
 
