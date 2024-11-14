@@ -86,3 +86,7 @@ a {
     height: 200px; 
     object-fit: cover; 
 }
+
+.custom-link {
+    text-decoration: underline;
+}
