@@ -5,7 +5,7 @@
 {% block CONTENT %}
 <div class="container mt-5">
     <div class="card border-0" style="background-color: #2d5b5e; color: #f0f8f7;">
-        <div class="card-header" style="background-color: #2f7a81; color: #f0f8f7;">
+        <div class="card-header" style="background-color: #1e4043; color: #f0f8f7;">
             <h3 class="mb-0"><i class="fas fa-boxes"></i> My Orders</h3>
         </div>
         <div class="card-body">
@@ -25,7 +25,7 @@
                                 <tr>
                                     <td class="fw-semibold">{{ purchase.part.name }}</td>
                                     <td>{{ purchase.quantity }}</td>
-                                    <td class="text-success">${{ purchase.total_price }}</td>
+                                    <td class="text-success">${{ "%.2f"|format(purchase.total_price) }}</td>
                                     <td>{{ purchase.purchase_date.strftime('%Y-%m-%d') }}</td>
                                 </tr>
                             {% endfor %}
