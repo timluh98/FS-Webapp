@@ -41,11 +41,15 @@ These personas address the needs of both ends of the automotive parts market, pr
 1. **Landing on PartWatch**: Users visit the main page where they can view sample part listings and register or log in. New users must create an account to access the catalogue and its listings.
    
 2. **Exploring the Catalogue**: Logged-in users can browse the available parts. Customers see details like supplier information, availability, and pricing.
+
+   - **Filter Options**: Customers can filter parts by price (ascending or descending) or manufacturer name for quicker searches.
    
 3. **Supplier-Specific Features**: If logged in as a supplier, users have access to additional features:
    - **Offering Parts**: Suppliers can list new parts by providing details such as the part name, price, quantity, and upload an image. 
    - **Catalogue Update**: The newly listed parts appear in the catalogue, visible to potential buyers.
    
 4. **Customer Actions**: Customers can view and select parts based on their needs. They also have access to purchasing features and can complete and track transactions in the My Order sub-menu.
+
+5. **Profile Management**: All users can navigate to their profile page to update their account information, including resetting their passwords.
 
 This journey outlines how both suppliers and customers interact with the application, from logging in to completing tasks specific to their roles.

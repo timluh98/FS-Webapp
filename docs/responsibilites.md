@@ -15,6 +15,8 @@ nav_order: 6
 - **Image Handling and File Management**: Enabled image upload functionality for part offerings, handled file saving in the `static/images` folder, and ensured image security with filename sanitization.
 - **Error Handling and Debugging**: Identified and resolved key issues throughout the project, including debugging form validation issues and ensuring data persistence in the database.
 - **Order Functionality**: Implemented the `my_orders` feature to track customer orders and save purchase details in the SQLite database under the "My Orders" tab.
+- **Filter and Search Features**: Developed functionality for customers to filter automotive parts by price (ascending/descending) and manufacturer names in the catalogue.
+- **Profile Management**: Implemented the `profile.html` feature to allow users to manage their profiles, including securely updating their passwords.
 - **Documentation and Setup Instructions**: Provided instructions for setting up and initializing the project, including steps for environment setup, database creation, and sample data insertion.
 
 ### Tim Hendrik Luhmann
