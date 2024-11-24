@@ -5,11 +5,9 @@
 <form method="POST" action="{{ url_for('login') }}">
     {{ form.hidden_tag() }}
     <div class="mb-3">
-        <!-- Remove the separate label rendering -->
         {{ form.email(class="form-control", placeholder="Email") }}
     </div>
     <div class="mb-3">
-        <!-- Remove the separate label rendering -->
         {{ form.password(class="form-control", placeholder="Password") }}
     </div>
     {{ form.submit(class="btn btn-primary") }}

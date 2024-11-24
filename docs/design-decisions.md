@@ -174,4 +174,36 @@ We added a `Purchase` model to the database to store each order. When a customer
 
 ---
 
+## 06: Filtering Parts in the Catalogue
+
+### Meta
+
+Status
+: **Decided**
+
+Updated
+: 24-Nov-2024
+
+### Problem statement
+
+Customers need the ability to filter the catalogue to quickly find parts by price (ascending or descending) and manufacturer.
+
+### Decision
+
+We implemented a filtering system in the catalogue view, allowing customers to filter by price or manufacturer name. This was chosen for its simplicity and to enhance the user experience when browsing parts.
+
+### Regarded options
+
+1. **Basic Filters** - Add basic filtering for price and manufacturer.
+2. **Advanced Filtering** - Add multiple, complex filters for detailed searches.
+
+| Criterion              | Basic Filters               | Advanced Filters                |
+|------------------------|-----------------------------|---------------------------------|
+| **Ease of Use**        | Simple interface for users  | Could overwhelm users           |
+| **Implementation Time**| Short                       | Long                            |
+| **Performance**        | Lightweight                | Could slow down for large data  |
+
+---
+
+
 This document outlines the principal design decisions made for **PartWatch**, together with an overview of the options considered. The decisions reflect the project's current requirements and priorities, and they strike a balance between simplicity and scalability for future growth.
