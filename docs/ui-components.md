@@ -65,6 +65,11 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 
 ![offer_part](assets/images/fswd_offer_part.png)
 
+```markdown
+![update_profile](assets/images/fswd_update_profile.png)
+```
+
+![update_profile](assets/images/fswd_update_profile.png)
 ## Callouts
 
 {: .info }
