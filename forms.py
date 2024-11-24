@@ -51,3 +51,10 @@ class PurchaseForm(FlaskForm):
     quantity = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1)])
     submit = SubmitField('Purchase')
 
+class ProfileForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[Length(min=6)])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[EqualTo('new_password')])
+    submit = SubmitField('Update Profile')
+

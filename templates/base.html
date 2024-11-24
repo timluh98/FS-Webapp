@@ -9,6 +9,7 @@
     <title>{% block TITLE %}{% endblock %} - PartWatch</title>
     {{ bootstrap.load_css() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -42,9 +43,11 @@
                                 </div>
                             </li>
                             <li class="nav-item ms-auto">
-                                <span class="nav-link text-light">
-                                    Welcome, {{ current_user.username }} ({{ current_user.role | capitalize }})!
-                                </span>
+                                <a class="nav-link profile-link" href="{{ url_for('profile') }}">
+                                    <i class="fas fa-user user-icon"></i>
+                                    <span>Welcome, {{ current_user.username }} ({{ current_user.role | capitalize }})</span>
+                                    <span class="tooltip-text">Click to manage your profile</span>
+                                </a>
                             </li>
                         {% else %}
                             <li class="nav-item">

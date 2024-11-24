@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block TITLE %}Profile{% endblock %}
+{% block CONTENT %}
+<h2>Profile</h2>
+<form method="POST" action="{{ url_for('profile') }}">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Email") }}
+    </div>
+    <div class="mb-3">
+        {{ form.current_password.label(class="form-label") }}
+        {{ form.current_password(class="form-control", placeholder="Current Password") }}
+    </div>
+    <div class="mb-3">
+        {{ form.new_password.label(class="form-label") }}
+        {{ form.new_password(class="form-control", placeholder="New Password") }}
+    </div>
+    <div class="mb-3">
+        {{ form.confirm_new_password.label(class="form-label") }}
+        {{ form.confirm_new_password(class="form-control", placeholder="Confirm New Password") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

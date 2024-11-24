@@ -6,8 +6,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from db import db  # Import the db instance
-from models import User, Part, Purchase  # Import the User and Part model
-from forms import RegistrationForm, LoginForm, OfferPartForm, PurchaseForm  # Import the forms
+from models import User, Part, Purchase  # Import the User, Part and Purchase model
+from forms import RegistrationForm, LoginForm, OfferPartForm, PurchaseForm, ProfileForm  # Import the forms
 from datetime import datetime
 
 app = Flask(__name__)
@@ -216,6 +216,33 @@ def offer_part():
         db.session.rollback()
         flash(f'Error saving part: {str(e)}', 'danger')
         return render_template('offer_part.html', form=form)
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        user = current_user
+
+        # Check if the current password is correct
+        if not check_password_hash(user.password, form.current_password.data):
+            flash('Current password is incorrect.', 'danger')
+            return redirect(url_for('profile'))
+
+        # Update email
+        user.email = form.email.data
+
+        # Update password if provided
+        if form.new_password.data:
+            user.password = generate_password_hash(form.new_password.data)
+
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('index'))
+
+    # Pre-fill the form with the current user's email
+    form.email.data = current_user.email
+    return render_template('profile.html', form=form)
 
 # Run the app
 if __name__ == '__main__':

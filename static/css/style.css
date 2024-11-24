@@ -90,3 +90,72 @@ a {
 .custom-link {
     text-decoration: underline;
 }
+
+/* Updated styles for the profile link */
+.profile-link {
+    color: #e6f1f2 !important;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.profile-link:hover {
+    background-color: #597f82;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-link::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 30px;
+    right: 12px;
+    height: 1px;
+    background-color: #e6f1f2;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.profile-link:hover::after {
+    transform: scaleX(1);
+}
+
+.profile-link .user-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+.profile-link:hover .user-icon {
+    transform: scale(1.1);
+}
+
+/* Add a subtle tooltip */
+.profile-link .tooltip-text {
+    visibility: hidden;
+    background-color: #2d5b5e;
+    color: #e6f1f2;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8em;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.profile-link:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
