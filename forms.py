@@ -52,9 +52,17 @@ class PurchaseForm(FlaskForm):
     submit = SubmitField('Purchase')
 
 class ProfileForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    current_password = PasswordField('Current Password', validators=[DataRequired()])
-    new_password = PasswordField('New Password', validators=[Length(min=6)])
-    confirm_new_password = PasswordField('Confirm New Password', validators=[EqualTo('new_password')])
+    email = StringField('Email', validators=[
+        DataRequired(), 
+        Email()
+    ])
+    current_password = PasswordField('Current Password', validators=[
+        DataRequired()
+    ])
+    new_password = PasswordField('New Password', validators=[
+        Length(min=6, message="Password must be at least 6 characters long"),
+    ])
+    confirm_password = PasswordField('Confirm New Password', validators=[
+        EqualTo('new_password', message='Passwords must match')
+    ])
     submit = SubmitField('Update Profile')
-

@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from db import db  # Import the db instance
+from sqlalchemy.exc import SQLAlchemyError
 from models import User, Part, Purchase  # Import the User, Part and Purchase model
 from forms import RegistrationForm, LoginForm, OfferPartForm, PurchaseForm, ProfileForm  # Import the forms
 from datetime import datetime
@@ -223,23 +224,43 @@ def profile():
     form = ProfileForm()
     if form.validate_on_submit():
         user = current_user
-
+        
         # Check if the current password is correct
         if not check_password_hash(user.password, form.current_password.data):
             flash('Current password is incorrect.', 'danger')
             return redirect(url_for('profile'))
-
-        # Update email
-        user.email = form.email.data
-
-        # Update password if provided
+        
+        # Check if the new password is same as current password
         if form.new_password.data:
-            user.password = generate_password_hash(form.new_password.data)
+            if check_password_hash(user.password, form.new_password.data):
+                flash('New password must be different from your current password.', 'danger')
+                return redirect(url_for('profile'))
 
-        db.session.commit()
-        flash('Profile updated successfully!', 'success')
-        return redirect(url_for('index'))
-
+        # Check if the new email already exists for a different user
+        if form.email.data != user.email:
+            existing_user = User.query.filter_by(email=form.email.data).first()
+            if existing_user and existing_user.id != user.id:
+                flash('This email address is already in use.', 'danger')
+                return redirect(url_for('profile'))
+        
+        try:
+            # Update email if changed
+            if form.email.data != user.email:
+                user.email = form.email.data
+            
+            # Update password if provided and validated
+            if form.new_password.data:
+                user.password = generate_password_hash(form.new_password.data)
+            
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+            return redirect(url_for('index'))
+            
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            flash('An error occurred while updating your profile. Please try again.', 'danger')
+            return redirect(url_for('profile'))
+    
     # Pre-fill the form with the current user's email
     form.email.data = current_user.email
     return render_template('profile.html', form=form)
