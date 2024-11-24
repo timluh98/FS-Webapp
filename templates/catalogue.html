@@ -13,6 +13,25 @@
             </div>
         </form>
     </div>
+    <!-- Filter form -->
+    <div class="container mb-4">
+        <form action="{{ url_for('catalogue') }}" method="get" class="d-flex justify-content-center">
+            <div class="input-group" style="max-width: 500px;">
+                <select name="manufacturer" class="form-select">
+                    <option value="">All Manufacturers</option>
+                    {% for manufacturer in manufacturers %}
+                        <option value="{{ manufacturer.manufacturer }}" {% if request.args.get('manufacturer') == manufacturer.manufacturer %}selected{% endif %}>{{ manufacturer.manufacturer }}</option>
+                    {% endfor %}
+                </select>
+                <select name="price_order" class="form-select">
+                    <option value="">Sort by Price</option>
+                    <option value="asc" {% if request.args.get('price_order') == 'asc' %}selected{% endif %}>Price: Low to High</option>
+                    <option value="desc" {% if request.args.get('price_order') == 'desc' %}selected{% endif %}>Price: High to Low</option>
+                </select>
+                <button class="btn btn-outline-primary" type="submit">Filter</button>
+            </div>
+        </form>
+    </div>
     <!-- Parts listing -->
     <div class="container">
         <div class="row row-cols-1 row-cols-md-3 g-4">

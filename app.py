@@ -51,11 +51,26 @@ def index():
 @app.route('/catalogue')
 def catalogue():
     search_query = request.args.get('search', '')
+    manufacturer = request.args.get('manufacturer', '')
+    price_order = request.args.get('price_order', '')
+
+    query = Part.query
+
     if search_query:
-        parts = Part.query.filter(Part.name.ilike(f'%{search_query}%')).all()
-    else:
-        parts = Part.query.all()
-    return render_template('catalogue.html', parts=parts)
+        query = query.filter(Part.name.ilike(f'%{search_query}%'))
+
+    if manufacturer:
+        query = query.filter_by(manufacturer=manufacturer)
+
+    if price_order == 'asc':
+        query = query.order_by(Part.price.asc())
+    elif price_order == 'desc':
+        query = query.order_by(Part.price.desc())
+
+    parts = query.all()
+    manufacturers = Part.query.with_entities(Part.manufacturer).distinct().all()
+
+    return render_template('catalogue.html', parts=parts, manufacturers=manufacturers)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
