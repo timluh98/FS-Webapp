@@ -13,7 +13,7 @@ class Part(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  
-    supplier = db.relationship('User', backref=db.backref('parts', lazy=True))
+    supplier = db.relationship('User', backref=db.backref('parts', lazy=True, cascade="all, delete-orphan"))
     price = db.Column(db.Float, nullable=False)
     availability = db.Column(db.String(100), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
@@ -21,12 +21,15 @@ class Part(db.Model):
     image = db.Column(db.String(200), nullable=True)
     description = db.Column(db.Text, nullable=False)
     manufacturer = db.Column(db.String(100), nullable=False)  
-    model = db.Column(db.String(100), nullable=False) 
+    model = db.Column(db.String(100), nullable=False)
+
+    def update_availability(self):
+        self.availability = 'Out of Stock' if self.quantity <= 0 else 'In Stock'
 
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     part_id = db.Column(db.Integer, db.ForeignKey('part.id'), nullable=False)
-    part = db.relationship('Part', backref=db.backref('purchases', lazy=True))
+    part = db.relationship('Part', backref=db.backref('purchases', lazy=True, cascade="all, delete-orphan"))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('purchases', lazy=True))
     name = db.Column(db.String(150), nullable=False)
@@ -37,4 +40,3 @@ class Purchase(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
     purchase_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-

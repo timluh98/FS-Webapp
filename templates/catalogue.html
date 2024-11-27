@@ -49,6 +49,11 @@
                                 <p class="card-text"><strong>Availability:</strong> {{ part.availability }}</p>
                                 <p class="card-text"><strong>Quantity:</strong> {{ part.quantity }}</p>
                                 <p class="card-text"><strong>Estimated Delivery:</strong> {{ part.delivery }}</p>
+                                {% if current_user.id == part.supplier_id %}
+                                    <form action="{{ url_for('delete_part', part_id=part.id) }}" method="POST" class="mt-3">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                {% endif %}
                             {% else %}
                                 <div class="alert alert-info">
                                     <i class="fas fa-lock"></i> 

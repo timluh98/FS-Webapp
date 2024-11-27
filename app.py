@@ -106,47 +106,53 @@ def register():
 
 @app.route('/part/<int:part_id>', methods=['GET', 'POST'])
 def view_part(part_id):
-    current_date = datetime.now()
-    part = Part.query.get_or_404(part_id)
-    form = PurchaseForm()
-    total_price = None
-    
-    if form.validate_on_submit():
-        quantity = form.quantity.data
-        
-        # Check if requested quantity is available
-        if quantity > part.quantity:
-            flash('Not enough items in stock!', 'error')
-            return redirect(url_for('view_part', part_id=part.id))
-            
-        name = form.name.data
-        address = form.address.data
-        card_number = form.card_number.data
-        cvc = form.cvc.data
-        exp_month = form.exp_month.data
-        exp_year = form.exp_year.data
-        total_price = part.price * quantity
-        
-        purchase = Purchase(
-            part_id=part.id,
-            user_id=current_user.id,
-            name=name,
-            address=address,
-            card_number=card_number,
-            cvc=cvc,
-            exp_date=datetime(int(exp_year), int(exp_month), 1),
-            quantity=quantity,
-            total_price=total_price
-        )
-        
-        db.session.add(purchase)
-        part.quantity -= quantity
-        db.session.commit()
-        
-        flash('Purchase successful!', 'success')
-        return redirect(url_for('index'))
-        
-    return render_template('view_part.html', part=part, form=form)
+   current_date = datetime.now()
+   part = Part.query.get_or_404(part_id)
+   form = PurchaseForm()
+   total_price = None
+  
+   if form.validate_on_submit():
+       quantity = form.quantity.data
+       
+       # Check if out of stock
+       if part.quantity <= 0:
+           flash('This item is out of stock!', 'error') 
+           return redirect(url_for('view_part', part_id=part.id))
+       
+       # Check if enough quantity available
+       if quantity > part.quantity:
+           flash('Not enough items in stock!', 'error')
+           return redirect(url_for('view_part', part_id=part.id))
+          
+       name = form.name.data
+       address = form.address.data
+       card_number = form.card_number.data
+       cvc = form.cvc.data
+       exp_month = form.exp_month.data
+       exp_year = form.exp_year.data
+       total_price = part.price * quantity
+      
+       purchase = Purchase(
+           part_id=part.id,
+           user_id=current_user.id,
+           name=name,
+           address=address,
+           card_number=card_number,
+           cvc=cvc,
+           exp_date=datetime(int(exp_year), int(exp_month), 1),
+           quantity=quantity,
+           total_price=total_price
+       )
+      
+       db.session.add(purchase)
+       part.quantity -= quantity
+       part.update_availability()  # Update availability status
+       db.session.commit()
+      
+       flash('Purchase successful!', 'success')
+       return redirect(url_for('index'))
+      
+   return render_template('view_part.html', part=part, form=form)
 
 @app.route('/faq')
 def faq():
@@ -268,6 +274,24 @@ def profile():
     # Pre-fill the form with the current user's email
     form.email.data = current_user.email
     return render_template('profile.html', form=form)
+
+@app.route('/delete-part/<int:part_id>', methods=['POST'])
+@login_required
+def delete_part(part_id):
+    part = Part.query.get_or_404(part_id)
+    if part.supplier_id != current_user.id:
+        flash('You do not have permission to delete this part.', 'danger')
+        return redirect(url_for('catalogue'))
+
+    try:
+        db.session.delete(part)
+        db.session.commit()
+        flash('Part deleted successfully!', 'success')
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash(f'An error occurred while deleting the part: {str(e)}', 'danger')
+
+    return redirect(url_for('catalogue'))
 
 # Run the app
 if __name__ == '__main__':
