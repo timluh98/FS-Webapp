@@ -150,7 +150,7 @@ def view_part(part_id):
        db.session.commit()
       
        flash('Purchase successful!', 'success')
-       return redirect(url_for('index'))
+       return redirect(url_for('catalogue'))
       
    return render_template('view_part.html', part=part, form=form)
 
