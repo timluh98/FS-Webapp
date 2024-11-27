@@ -205,5 +205,35 @@ We implemented a filtering system in the catalogue view, allowing customers to f
 
 ---
 
+## 07: Part Deletion and Stock Management
+
+### Meta
+
+Status
+: **Decided**
+
+Updated
+: 27-Nov-2024
+
+### Problem statement
+
+Suppliers need the ability to delete their part listings. Additionally, the system should prevent the quantity of parts from going below zero and automatically update the availability status to "Out of Stock" when the quantity reaches zero.
+
+### Decision
+
+We implemented a delete button for suppliers to remove their part listings. We also added logic to ensure that the quantity of parts cannot go below zero and that the availability status is automatically updated to "Out of Stock" when the quantity reaches zero.
+
+### Regarded options
+
+1. **Manual Deletion and Stock Management** - Allow suppliers to manually delete parts and manage stock.
+2. **Automated Deletion and Stock Management** - Implement automated deletion and stock management logic.
+
+| Criterion              | Manual Deletion and Stock Management | Automated Deletion and Stock Management |
+|------------------------|--------------------------------------|----------------------------------------|
+| **Ease of Use**        | Requires manual intervention         | Automated and user-friendly            |
+| **Implementation Time**| Short                                | Moderate                               |
+| **Error Prevention**   | Prone to human error                 | Reduces human error                    |
+
+---
 
 This document outlines the principal design decisions made for **PartWatch**, together with an overview of the options considered. The decisions reflect the project's current requirements and priorities, and they strike a balance between simplicity and scalability for future growth.
