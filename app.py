@@ -110,17 +110,23 @@ def view_part(part_id):
     part = Part.query.get_or_404(part_id)
     form = PurchaseForm()
     total_price = None
+    
     if form.validate_on_submit():
+        quantity = form.quantity.data
+        
+        # Check if requested quantity is available
+        if quantity > part.quantity:
+            flash('Not enough items in stock!', 'error')
+            return redirect(url_for('view_part', part_id=part.id))
+            
         name = form.name.data
         address = form.address.data
         card_number = form.card_number.data
         cvc = form.cvc.data
         exp_month = form.exp_month.data
         exp_year = form.exp_year.data
-        quantity = form.quantity.data
-
         total_price = part.price * quantity
-
+        
         purchase = Purchase(
             part_id=part.id,
             user_id=current_user.id,
@@ -132,16 +138,14 @@ def view_part(part_id):
             quantity=quantity,
             total_price=total_price
         )
+        
         db.session.add(purchase)
-
-        # Decrease the quantity of the part
         part.quantity -= quantity
-
-        # Commit the changes to the database
         db.session.commit()
-
+        
         flash('Purchase successful!', 'success')
         return redirect(url_for('index'))
+        
     return render_template('view_part.html', part=part, form=form)
 
 @app.route('/faq')
