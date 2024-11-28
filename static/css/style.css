@@ -1,22 +1,52 @@
+:root {
+    /* Color palette */
+    --primary-color: #2d5b5e;
+    --primary-light: #597f82;
+    --text-light: #e6f1f2;
+    --border-color: #808080;
+    
+    /* Common values */
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --border-radius: 4px;
+    --transition-default: all 0.3s ease;
+}
+
+/* Base styles */
 body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    border: 2px solid #808080;
+    border: 2px solid var(--border-color);
     box-sizing: border-box; 
 }
 
+/* Links */
 a {
-    color: #2d5b5e; 
+    color: var(--primary-color);
     text-decoration: none;
 }
 
-.btn-primary {
-    background-color: #2d5b5e; 
-    border-color: #2d5b5e;
+.custom-link {
+    text-decoration: underline;
 }
 
-/* Dropdown menu container */
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Images */
+.card-img-top,
+.view-part-img {
+    width: 100%;
+    height: 200px;
+    object-fit: fill;
+}
+
+/* Dropdown styles */
 .nav-item.dropdown {
     position: relative;
     display: inline-block;
@@ -24,21 +54,19 @@ a {
     margin-left: 15px;
 }
 
-/* Dropdown content */
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #2d5b5e;
+    background-color: var(--primary-color);
     min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     top: 100%;
     padding-top: 5px;
     left: 0;
 }
 
-/* Create invisible padding to prevent gap */
 .nav-item.dropdown > a:after {
     content: '';
     position: absolute;
@@ -48,64 +76,42 @@ a {
     height: 10px;
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
-    color: #e6f1f2;
-    padding: 12px 16px;
-    text-decoration: none;
+    color: var(--text-light);
+    padding: var(--spacing-md) var(--spacing-lg);
     display: block;
-    border-bottom: 1px solid #597f82;
+    border-bottom: 1px solid var(--primary-light);
 }
 
-/* Hover effect */
 .dropdown-content a:hover {
-    background-color: #597f82;
+    background-color: var(--primary-light);
 }
 
-/* Arrow indicator */
 .dropdown-toggle::after {
     content: " ▼";
     font-size: 12px;
     vertical-align: middle;
 }
 
-/* Show dropdown on hover */
 .nav-item.dropdown:hover .dropdown-content,
 .dropdown-content:hover {
     display: block;
 }
 
-.card-img-top {
-    width: 100%;
-    height: 200px; 
-    object-fit: fill; 
-}
-
-.view-part-img {
-    width: 100%;
-    height: 100%; 
-    object-fit:fill; 
-}
-
-.custom-link {
-    text-decoration: underline;
-}
-
-/* Updated styles for the profile link */
+/* Profile link styles */
 .profile-link {
-    color: #e6f1f2 !important;
-    text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    color: var(--text-light) !important;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    transition: var(--transition-default);
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
     position: relative;
 }
 
 .profile-link:hover {
-    background-color: #597f82;
+    background-color: var(--primary-light);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -115,9 +121,9 @@ a {
     position: absolute;
     bottom: 2px;
     left: 30px;
-    right: 12px;
+    right: var(--spacing-md);
     height: 1px;
-    background-color: #e6f1f2;
+    background-color: var(--text-light);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -135,14 +141,13 @@ a {
     transform: scale(1.1);
 }
 
-/* Add a subtle tooltip */
 .profile-link .tooltip-text {
     visibility: hidden;
-    background-color: #2d5b5e;
-    color: #e6f1f2;
+    background-color: var(--primary-color);
+    color: var(--text-light);
     text-align: center;
     padding: 5px 10px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     position: absolute;
     z-index: 1;
     bottom: -30px;
