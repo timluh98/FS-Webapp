@@ -42,7 +42,7 @@
                                         <p>{{ part.quantity }}</p>
                                         <p>{{ part.delivery }}</p>
                                         <div style="position: relative;">
-                                            <a href="{{ url_for('catalogue') }}" class="mt-3 custom-link" id="catalogue-link">Click to see in catalogue</a>
+                                            <a href="{{ url_for('catalogue') }}" class="btn btn-primary mt-3 custom-button" id="catalogue-link">Click to see in catalogue</a>
                                             {% if loop.first %}
                                                 <div id="tutorial-bubble" class="speech-bubble">
                                                     Here you can see all relevant information about the part and you can also view it in the catalogue!

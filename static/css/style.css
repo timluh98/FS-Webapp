@@ -38,6 +38,24 @@ a {
     border-color: var(--primary-color);
 }
 
+.custom-button {
+    color: var(--text-light) !important;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    transition: var(--transition-default);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    position: relative;
+    text-decoration: none;
+}
+
+.custom-button:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Images */
 .card-img-top {
     width: 100%;
