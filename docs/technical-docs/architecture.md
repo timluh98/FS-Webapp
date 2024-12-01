@@ -23,28 +23,49 @@ PartWatch is a Flask-based web application that facilitates the buying and selli
 
 ```mermaid
 graph TD
-    A[User] --> B[Flask App]
-    B --> C[SQLite Database]
-    B --> D[Static Files]
-    C --> E[User Table]
-    C --> F[Part Table]
-    C --> G[Purchase Table]
+    A[Client Browser] --> B[Flask Application]
+    B --> |Authenticate| C[User Management]
+    B --> |CRUD Operations| D[Database]
+    B --> |Serve| E[Static Files]
+    
+    C --> |Login/Register| F[Flask-Login]
+    D --> |ORM| G[SQLAlchemy]
+    
+    subgraph Database Tables
+        G --> H[Users]
+        G --> I[Parts]
+        G --> J[Purchases]
+    end
+    
+    subgraph Templates
+        E --> K[base.html]
+        E --> L[catalogue/*.html]
+        E --> M[my_listings.html]
+        E --> N[auth/*.html]
+    end
 
 Codemap
 The application follows a typical Flask project structure:
 
 PartWatch/
-├── app.py              # Main application entry point
-├── templates/          # Jinja2 HTML templates
-│   ├── base.html      # Base template with common layout
-│   ├── catalogue/     # Part browsing templates
-│   └── auth/         # Authentication templates
-├── static/            # Static assets
-│   ├── css/          # Stylesheets
-│   └── images/       # Uploaded part images
-├── models/           # SQLAlchemy database models
-└── forms/            # WTForms form definitions
-
+├── app.py                  # Application entry point
+├── templates/             
+│   ├── base.html          # Base template
+│   ├── catalogue/         
+│   │   ├── index.html     # Main catalogue view
+│   │   └── view_part.html # Individual part view
+│   ├── my_listings.html   # Supplier's parts management
+│   └── auth/             
+│       ├── login.html     
+│       └── register.html  
+├── static/               
+│   ├── css/              
+│   └── images/           
+├── models/              
+│   └── __init__.py       # Database models
+└── forms/               
+    └── __init__.py       # Form definitions
+    
 Key components:
 
 Authentication: Uses Flask-Login for session management with supplier/customer roles
@@ -73,4 +94,31 @@ Input validation
 Secure file uploads
 For detailed implementation decisions, see our design decisions.
 
-This architecture document provides a clear overview of the application structure while focusing on the most important technical aspects that a new developer would need to understand to contribute effectively.
+This architecture document provides a clear overview of the application structure while focusing on the most important technical aspects that a new developer would need to understand to contribute effectively.// ...existing code until Overview section...
+
+## Overview
+
+PartWatch is a Flask-based web application that facilitates the buying and selling of automotive parts. It implements a B2C marketplace model where suppliers can list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
+
+```mermaid
+graph TD
+    A[Client Browser] --> B[Flask Application]
+    B --> |Authenticate| C[User Management]
+    B --> |CRUD Operations| D[Database]
+    B --> |Serve| E[Static Files]
+    
+    C --> |Login/Register| F[Flask-Login]
+    D --> |ORM| G[SQLAlchemy]
+    
+    subgraph Database Tables
+        G --> H[Users]
+        G --> I[Parts]
+        G --> J[Purchases]
+    end
+    
+    subgraph Templates
+        E --> K[base.html]
+        E --> L[catalogue/*.html]
+        E --> M[my_listings.html]
+        E --> N[auth/*.html]
+    end
