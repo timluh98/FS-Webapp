@@ -28,7 +28,10 @@ class OfferPartForm(FlaskForm):
                                     ('Out of Stock', 'Out of Stock'),
                                     ('Pre-order', 'Pre-order')],
                              validators=[DataRequired()])
-    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    # Modified quantity field to explicitly allow zero
+    quantity = IntegerField('Quantity', 
+                          validators=[InputRequired(), 
+                                    NumberRange(min=0, message="Quantity must be 0 or greater")])
     delivery = SelectField('Estimated Delivery',
                          choices=[('1-2 business days', '1-2 business days'),
                                 ('3-5 business days', '3-5 business days'),

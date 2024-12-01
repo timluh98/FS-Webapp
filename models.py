@@ -22,6 +22,7 @@ class Part(db.Model):
     description = db.Column(db.Text, nullable=False)
     manufacturer = db.Column(db.String(100), nullable=False)  
     model = db.Column(db.String(100), nullable=False)
+    purchases = db.relationship('Purchase', back_populates='part', lazy=True)
 
     def update_availability(self):
         self.availability = 'Out of Stock' if self.quantity <= 0 else 'In Stock'
@@ -29,7 +30,7 @@ class Part(db.Model):
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     part_id = db.Column(db.Integer, db.ForeignKey('part.id'), nullable=False)
-    part = db.relationship('Part', backref=db.backref('purchases', lazy=True, cascade="all, delete-orphan"))
+    part = db.relationship('Part', back_populates='purchases', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('purchases', lazy=True))
     name = db.Column(db.String(150), nullable=False)

@@ -347,35 +347,45 @@ def edit_part(part_id):
         flash('You do not have permission to edit this part.', 'danger')
         logger.warning(f"User {current_user.username} attempted to edit part ID: {part_id} they do not own.")
         return redirect(url_for('catalogue'))
-
+    
     form = OfferPartForm(obj=part)
+    
     if form.validate_on_submit():
-        part.name = form.name.data
-        part.manufacturer = form.manufacturer.data
-        part.model = form.model.data
-        part.price = form.price.data
-        part.availability = form.availability.data
-        part.quantity = form.quantity.data
-        part.delivery = form.delivery.data
-        part.description = form.description.data
-
-        if form.image.data and allowed_file(form.image.data.filename):
-            image_filename = secure_filename(form.image.data.filename)
-            image_path = os.path.join(app.root_path, "static/images", image_filename)
-            form.image.data.save(image_path)
-            part.image = image_filename
-            logger.info(f"Image updated: {image_filename}")
-
         try:
-            db.session.commit()
-            flash('Part updated successfully!', 'success')
-            logger.info(f"User {current_user.username} updated part ID: {part_id}")
-            return redirect(url_for('my_listings'))
+            # Explicitly handle quantity assignment
+            quantity = form.quantity.data
+            if quantity is not None:  # Make sure we have a value
+                part.quantity = quantity
+                part.name = form.name.data
+                part.manufacturer = form.manufacturer.data
+                part.model = form.model.data
+                part.price = form.price.data
+                part.delivery = form.delivery.data
+                part.description = form.description.data
+                
+                # Handle image if provided
+                if form.image.data and allowed_file(form.image.data.filename):
+                    image_filename = secure_filename(form.image.data.filename)
+                    image_path = os.path.join(app.root_path, "static/images", image_filename)
+                    form.image.data.save(image_path)
+                    part.image = image_filename
+                    logger.info(f"Image updated: {image_filename}")
+                
+                # Update availability after quantity change
+                part.update_availability()
+                
+                db.session.commit()
+                flash('Part updated successfully!', 'success')
+                logger.info(f"User {current_user.username} updated part ID: {part_id} - Quantity set to {quantity}")
+                return redirect(url_for('my_listings'))
+            else:
+                flash('Invalid quantity value', 'danger')
+                
         except SQLAlchemyError as e:
             db.session.rollback()
             flash('An error occurred while updating the part. Please try again.', 'danger')
             logger.error(f"Error updating part ID: {part_id} by user {current_user.username}: {e}")
-
+            
     return render_template('edit_part.html', form=form, part=part)
 
 
