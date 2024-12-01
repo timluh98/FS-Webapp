@@ -327,6 +327,57 @@ def offer_part():
 
     return render_template('offer_part.html', form=form)
 
+@app.route('/my_listings')
+@login_required
+def my_listings():
+    """Display the supplier's listings."""
+    if current_user.role != 'supplier':
+        flash('Only suppliers can view their listings.', 'danger')
+        return redirect(url_for('index'))
+
+    parts = Part.query.filter_by(supplier_id=current_user.id).all()
+    return render_template('my_listings.html', parts=parts)
+
+@app.route('/edit-part/<int:part_id>', methods=['GET', 'POST'])
+@login_required
+def edit_part(part_id):
+    """Edit details of a specific part."""
+    part = Part.query.get_or_404(part_id)
+    if part.supplier_id != current_user.id:
+        flash('You do not have permission to edit this part.', 'danger')
+        logger.warning(f"User {current_user.username} attempted to edit part ID: {part_id} they do not own.")
+        return redirect(url_for('catalogue'))
+
+    form = OfferPartForm(obj=part)
+    if form.validate_on_submit():
+        part.name = form.name.data
+        part.manufacturer = form.manufacturer.data
+        part.model = form.model.data
+        part.price = form.price.data
+        part.availability = form.availability.data
+        part.quantity = form.quantity.data
+        part.delivery = form.delivery.data
+        part.description = form.description.data
+
+        if form.image.data and allowed_file(form.image.data.filename):
+            image_filename = secure_filename(form.image.data.filename)
+            image_path = os.path.join(app.root_path, "static/images", image_filename)
+            form.image.data.save(image_path)
+            part.image = image_filename
+            logger.info(f"Image updated: {image_filename}")
+
+        try:
+            db.session.commit()
+            flash('Part updated successfully!', 'success')
+            logger.info(f"User {current_user.username} updated part ID: {part_id}")
+            return redirect(url_for('my_listings'))
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            flash('An error occurred while updating the part. Please try again.', 'danger')
+            logger.error(f"Error updating part ID: {part_id} by user {current_user.username}: {e}")
+
+    return render_template('edit_part.html', form=form, part=part)
+
 
 @app.route('/delete-part/<int:part_id>', methods=['POST'])
 @login_required

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, 
                     FloatField, IntegerField, TextAreaField, FileField, EmailField, DateField)
-from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired, NumberRange
+from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired, NumberRange, Optional
 import email_validator
 from datetime import datetime
 
@@ -35,7 +35,7 @@ class OfferPartForm(FlaskForm):
                                 ('1-2 weeks', '1-2 weeks'),
                                 ('2-4 weeks', '2-4 weeks')],
                          validators=[DataRequired()])
-    image = FileField('Part Image', validators=[DataRequired()])
+    image = FileField('Part Image', validators=[Optional()])
     description = TextAreaField('Description', validators=[DataRequired()])
 
 class PurchaseForm(FlaskForm):

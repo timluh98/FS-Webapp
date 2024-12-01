@@ -22,7 +22,6 @@
             </div>
         </div>
     </div>
-    {% if part.quantity > 0 %}
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Purchase Part</h5>
@@ -66,11 +65,6 @@
             </form>
         </div>
     </div>
-    {% else %}
-    <div class="alert alert-danger" role="alert">
-        This item is currently out of stock.
-    </div>
-    {% endif %}
 </div>
 
 <input type="hidden" id="part-price" value="{{ part.price }}">
