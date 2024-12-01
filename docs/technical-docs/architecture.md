@@ -10,20 +10,6 @@ nav_order: 1
 {: .no_toc }
 # Architecture
 
-{: .attention }
-> This page describes how the application is structured and how important parts of the app work. It should give a new-joiner sufficient technical knowledge for contributing to the codebase.
-> 
-> See [this blog post](https://matklad.github.io/2021/02/06/ARCHITECTURE.md.html) for an explanation of the concept and these examples:
->
-> + <https://github.com/rust-lang/rust-analyzer/blob/master/docs/dev/architecture.md>
-> + <https://github.com/Uriopass/Egregoria/blob/master/ARCHITECTURE.md>
-> + <https://github.com/davish/obsidian-full-calendar/blob/main/src/README.md>
-> 
-> For structural and behavioral illustration, you might want to leverage [Mermaid](../ui-components.md), e.g., by charting common [C4](https://c4model.com/) or [UML](https://www.omg.org/spec/UML) diagrams.
-> 
->
-> You may delete this `attention` box.
-
 <details open markdown="block">
 {: .text-delta }
 <summary>Table of contents</summary>
@@ -33,12 +19,58 @@ nav_order: 1
 
 ## Overview
 
-[Give a high-level overview of what your app does and how it achieves it: similar to the value proposition, but targeted at a fellow developer who wishes to contribute.]
+PartWatch is a Flask-based web application that facilitates the buying and selling of automotive parts. It implements a B2C marketplace model where suppliers can list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
 
-## Codemap
+```mermaid
+graph TD
+    A[User] --> B[Flask App]
+    B --> C[SQLite Database]
+    B --> D[Static Files]
+    C --> E[User Table]
+    C --> F[Part Table]
+    C --> G[Purchase Table]
 
-[Describe how your app is structured. Don't aim for completeness, rather describe *just* the most important parts.]
+Codemap
+The application follows a typical Flask project structure:
 
-## Cross-cutting concerns
+PartWatch/
+├── app.py              # Main application entry point
+├── templates/          # Jinja2 HTML templates
+│   ├── base.html      # Base template with common layout
+│   ├── catalogue/     # Part browsing templates
+│   └── auth/         # Authentication templates
+├── static/            # Static assets
+│   ├── css/          # Stylesheets
+│   └── images/       # Uploaded part images
+├── models/           # SQLAlchemy database models
+└── forms/            # WTForms form definitions
 
-[Describe anything that is important for a solid understanding of your codebase. Most likely, you want to explain the behavior of (parts of) your application. In this section, you may also link to important [design decisions](../design-decisions.md).]
+Key components:
+
+Authentication: Uses Flask-Login for session management with supplier/customer roles
+Database: SQLite with SQLAlchemy ORM for data persistence
+Forms: WTForms for input validation and CSRF protection
+Templates: Jinja2 templates with Bootstrap styling
+Cross-cutting concerns
+Authentication & Authorization
+
+Users must be logged in to access most features
+Role-based access control (supplier vs customer)
+Session management via Flask-Login
+Data Flow
+
+Parts listing: Suppliers create listings → stored in database → displayed in catalogue
+Purchases: Customer orders → update stock → create purchase record
+File Handling
+
+Part images are stored in static/images
+Filenames are sanitized for security
+Security
+
+CSRF protection on all forms
+Password hashing
+Input validation
+Secure file uploads
+For detailed implementation decisions, see our design decisions.
+
+This architecture document provides a clear overview of the application structure while focusing on the most important technical aspects that a new developer would need to understand to contribute effectively.
