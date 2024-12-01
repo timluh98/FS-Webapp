@@ -1,5 +1,3 @@
-To fix the issues with your architecture.md file, I've made some adjustments to ensure the mermaid diagram and tree structure display correctly on GitHub Pages. Here's the corrected version:
-
 ---
 title: Architecture
 parent: Technical Docs
