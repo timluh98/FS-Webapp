@@ -44,7 +44,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.config.update(
     SECRET_KEY='secret_key_just_for_dev_environment',
-    BOOTSTRAP_BOOTSWATCH_THEME='pulse',
+    BOOTSTRAP_BOOTSWATCH_THEME='flatly',
     SQLALCHEMY_DATABASE_URI=f'sqlite:///{os.path.join(basedir, "instance", "automotive_parts.sqlite")}',
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
 )
@@ -354,7 +354,7 @@ def edit_part(part_id):
         try:
             # Explicitly handle quantity assignment
             quantity = form.quantity.data
-            if quantity is not None:  # Make sure we have a value
+            if quantity is not None:  
                 part.quantity = quantity
                 part.name = form.name.data
                 part.manufacturer = form.manufacturer.data
