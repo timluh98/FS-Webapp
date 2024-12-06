@@ -10,35 +10,94 @@ nav_order: 1
 {: .no_toc }
 # Architecture
 
-{: .attention }
-> This page describes how the application is structured and how important parts of the app work. It should give a new-joiner sufficient technical knowledge for contributing to the codebase.
-> 
-> See [this blog post](https://matklad.github.io/2021/02/06/ARCHITECTURE.md.html) for an explanation of the concept and these examples:
->
-> + <https://github.com/rust-lang/rust-analyzer/blob/master/docs/dev/architecture.md>
-> + <https://github.com/Uriopass/Egregoria/blob/master/ARCHITECTURE.md>
-> + <https://github.com/davish/obsidian-full-calendar/blob/main/src/README.md>
-> 
-> For structural and behavioral illustration, you might want to leverage [Mermaid](../ui-components.md), e.g., by charting common [C4](https://c4model.com/) or [UML](https://www.omg.org/spec/UML) diagrams.
-> 
->
-> You may delete this `attention` box.
-
 <details open markdown="block">
-{: .text-delta }
-<summary>Table of contents</summary>
-+ ToC
-{: toc }
+  <summary>Table of contents</summary>
+  {: .text-delta }
+1. TOC
+{:toc}
 </details>
 
 ## Overview
 
-[Give a high-level overview of what your app does and how it achieves it: similar to the value proposition, but targeted at a fellow developer who wishes to contribute.]
+PartWatch is a Flask-based web application that facilitates the buying and selling of automotive parts. It implements a B2C marketplace model where suppliers can list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
+
+```mermaid
+graph TD
+    A[Client Browser] --> B[Flask Application]
+    B --> |Authenticate| C[User Management]
+    B --> |CRUD Operations| D[Database]
+    B --> |Serve| E[Static Files]
+    
+    C --> |Login/Register| F[Flask-Login]
+    D --> |ORM| G[SQLAlchemy]
+    
+    subgraph Database Tables
+        G --> H[Users]
+        G --> I[Parts]
+        G --> J[Purchases]
+    end
+    
+    subgraph Templates
+        E --> K[base.html]
+        E --> L[catalogue/*.html]
+        E --> M[my_listings.html]
+        E --> N[auth/*.html]
+    end
+```
 
 ## Codemap
 
-[Describe how your app is structured. Don't aim for completeness, rather describe *just* the most important parts.]
+The application follows a typical Flask project structure:
+
+```
+PartWatch/
+├── app.py                  # Application entry point
+├── templates/             
+│   ├── base.html          # Base template
+│   ├── catalogue/         
+│   │   ├── index.html     # Main catalogue view
+│   │   └── view_part.html # Individual part view
+│   ├── my_listings.html   # Supplier's parts management
+│   └── auth/             
+│       ├── login.html     
+│       └── register.html  
+├── static/               
+│   ├── css/              
+│   └── images/           
+├── models/              
+│   └── __init__.py       # Database models
+└── forms/               
+    └── __init__.py       # Form definitions
+```
+
+Key components:
+
+- **Authentication**: Uses Flask-Login for session management with supplier/customer roles
+- **Database**: SQLite with SQLAlchemy ORM for data persistence
+- **Forms**: WTForms for input validation and CSRF protection
+- **Templates**: Jinja2 templates with Bootstrap styling
 
 ## Cross-cutting concerns
 
-[Describe anything that is important for a solid understanding of your codebase. Most likely, you want to explain the behavior of (parts of) your application. In this section, you may also link to important [design decisions](../design-decisions.md).]
+### Authentication & Authorization
+
+- Users must be logged in to access most features
+- Role-based access control (supplier vs customer)
+- Session management via Flask-Login
+
+### Data Flow
+
+- Parts listing: Suppliers create listings → stored in database → displayed in catalogue
+- Purchases: Customer orders → update stock → create purchase record
+
+### File Handling
+
+- Part images are stored in static/images
+- Filenames are sanitized for security
+
+### Security
+
+- CSRF protection on all forms
+- Password hashing
+- Input validation
+- Secure file uploads
