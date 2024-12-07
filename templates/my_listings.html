@@ -29,11 +29,11 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="alert alert-info text-center" role="alert">
-            You currently have no listings.
+        <div class="text-center py-4">
+            <p class="text-muted"><i class="fas fa-info-circle"></i> You currently have no listings.</p>
         </div>
         <div class="text-center">
-            <a href="{{ url_for('offer_part') }}" class="btn btn-primary">Create New Listing</a>
+            <a href="{{ url_for('offer_part') }}" class="btn btn-primary custom-button">Create New Listing</a>
         </div>
     {% endif %}
 </div>
