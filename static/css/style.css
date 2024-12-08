@@ -1,14 +1,14 @@
+/* Variables */
 :root {
     /* Color palette */
     --primary-color: #2d5b5e;
     --primary-light: #597f82;
     --text-light: #e6f1f2;
     --border-color: #808080;
-    --blue-color: #1e90ff; /* Lighter shade of blue */
-    --blue-light: #63b8ff; /* Lighter shade of blue for hover */
+    --blue-color: #1e90ff;
+    --blue-light: #63b8ff;
     
-    
-    /* Common values */
+    /* Spacing & Layout */
     --spacing-sm: 8px;
     --spacing-md: 12px;
     --spacing-lg: 16px;
@@ -16,16 +16,40 @@
     --transition-default: all 0.3s ease;
 }
 
-/* Base styles */
+/* Reset & Base styles */
 body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    border: 2px solid var(--border-color);
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
-/* Links */
+/* Layout Components */
+.container-fluid {
+    padding: 20px;
+}
+
+.main-container {
+    border: 2px solid var(--border-color);
+    padding: 0;
+}
+
+.navbar {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.footer {
+    margin-top: 40px;
+    padding: 20px;
+}
+
+/* Links & Buttons */
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -35,14 +59,10 @@ a {
     text-decoration: underline;
 }
 
-/* Buttons */
+/* Common button styles */
+.custom-button,
+.btn-blue,
 .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.custom-button {
-    color: var(--text-light) !important;
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius);
     transition: var(--transition-default);
@@ -50,47 +70,54 @@ a {
     align-items: center;
     gap: var(--spacing-sm);
     position: relative;
-    text-decoration: none;
 }
 
-.custom-button:hover {
-    background-color: var(--primary-light);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+.custom-button,
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light) !important;
 }
 
-.custom-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-/* Blue button */
 .btn-blue {
     background-color: var(--blue-color);
     border-color: var(--blue-color);
 }
 
+/* Button hover & active states */
+.custom-button:hover,
 .btn-blue:hover {
-    background-color: var(--blue-light);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.custom-button:hover {
+    background-color: var(--primary-light);
+}
+
+.btn-blue:hover {
+    background-color: var(--blue-light);
+}
+
+.custom-button:active,
 .btn-blue:active {
     transform: translateY(1px);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Images */
-.card-img-top {
-    width: 100%;
-    height: 200px; 
-    object-fit: fill; 
-}
+.card-img-top,
 .view-part-img {
     width: 100%;
-    height: 100%; 
-    object-fit:fill; 
+    object-fit: fill;
+}
+
+.card-img-top {
+    height: 200px;
+}
+
+.view-part-img {
+    height: 100%;
 }
 
 /* Dropdown styles */

@@ -28,7 +28,6 @@ class OfferPartForm(FlaskForm):
                                     ('Out of Stock', 'Out of Stock'),
                                     ('Pre-order', 'Pre-order')],
                              validators=[DataRequired()])
-    # Modified quantity field to explicitly allow zero
     quantity = IntegerField('Quantity', 
                           validators=[InputRequired(), 
                                     NumberRange(min=0, message="Quantity must be 0 or greater")])
