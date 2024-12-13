@@ -4,7 +4,7 @@
 
 {% block HEADER %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/catalogue_index.css') }}">
-<h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
+<h1 class="text-center mb-4">Two Essentials for Your Drive</h1>
 {% endblock %}
 
 {% block CONTENT %}
@@ -29,7 +29,7 @@
                                     <p class="fw-bold">Model:</p>
                                     <p class="fw-bold">Price:</p>
                                     <p class="fw-bold">Availability:</p>
-                                    <p class="fw-bold">Quantity:</p> <!-- vielleicht Ampelsystem implementieren und quantity rauslassen -->
+                                    <p class="fw-bold">Quantity:</p>
                                     <p class="fw-bold">Estimated Delivery:</p>
                                 </div>
                                 <div class="col-md-8">
@@ -42,12 +42,14 @@
                                         <p>{{ part.quantity }}</p>
                                         <p>{{ part.delivery }}</p>
                                         <div style="position: relative;">
-                                            <a href="{{ url_for('catalogue') }}" class="btn btn-primary mt-3 custom-button" id="catalogue-link">Click to see in catalogue</a>
                                             {% if loop.first %}
+                                                <a href="{{ url_for('view_part', part_id=3) }}" class="btn btn-primary mt-3 custom-button" id="catalogue-link-2">Click to see in catalogue</a>
                                                 <div id="tutorial-bubble" class="speech-bubble">
                                                     Here you can see all relevant information about the part and you can also view it in the catalogue!
                                                     <button class="speech-bubble-close" onclick="hideTutorial()">Okay</button>
                                                 </div>
+                                            {% else %}
+                                                <a href="{{ url_for('view_part', part_id=2) }}" class="btn btn-primary mt-3 custom-button" id="catalogue-link-3">Click to see in catalogue</a>
                                             {% endif %}
                                         </div>
                                     {% else %}
@@ -68,8 +70,7 @@
     <script>
         function showTutorial() {
             const bubble = document.getElementById('tutorial-bubble');
-            const link = document.getElementById('catalogue-link');
-            const linkRect = link.getBoundingClientRect();
+            const firstLink = document.getElementById('catalogue-link-2');
             
             bubble.style.position = 'absolute';
             bubble.style.top = '-120px';

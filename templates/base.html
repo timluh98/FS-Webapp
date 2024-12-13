@@ -16,70 +16,74 @@
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
         </a>
     </header>
-    <div class="container-fluid border shadow pb-3 my-3">
 
-        <nav class="navbar navbar-expand-xl border-bottom mb-3" style="background: #2d5b5e; border-radius: 8px;">
-            <div class="container-fluid px-0">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav w-100">
-                        {% if current_user.is_authenticated %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link text-light dropdown-toggle">
-                                    <i class="fas fa-bars"></i> Menu
-                                </a>
-                                <div class="dropdown-content">
-                                    <a href="{{ url_for('catalogue') }}">
-                                        <i class="fas fa-th-list"></i> Catalogue
+    <div class="main-container">
+        <div class="container-fluid border shadow pb-3 my-3">
+
+            <nav class="navbar navbar-expand-xl border-bottom mb-3" style="background: #2d5b5e; border-radius: 8px;">
+                <div class="container-fluid px-0">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav w-100">
+                            {% if current_user.is_authenticated %}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link text-light dropdown-toggle">
+                                        <i class="fas fa-bars"></i> Menu
                                     </a>
-                                    <a href="{{ url_for('my_orders') }}">
-                                        <i class="fas fa-shopping-cart"></i> My Orders
-                                    </a>
-                                    {% if current_user.role == 'supplier' %}
-                                        <a href="{{ url_for('offer_part') }}">
-                                            <i class="fas fa-plus-circle"></i> Offer Part
+                                    <div class="dropdown-content">
+                                        <a href="{{ url_for('catalogue') }}">
+                                            <i class="fas fa-th-list"></i> Catalogue
                                         </a>
-                                        <a href="{{ url_for('my_listings') }}">
-                                            <i class="fas fa-list-ul"></i> My Listings
+                                        <a href="{{ url_for('my_orders') }}">
+                                            <i class="fas fa-shopping-cart"></i> My Orders
                                         </a>
-                                    {% endif %}
-                                    <a href="{{ url_for('logout') }}">
-                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                        {% if current_user.role == 'supplier' %}
+                                            <a href="{{ url_for('offer_part') }}">
+                                                <i class="fas fa-plus-circle"></i> Offer Part
+                                            </a>
+                                            <a href="{{ url_for('my_listings') }}">
+                                                <i class="fas fa-list-ul"></i> My Listings
+                                            </a>
+                                        {% endif %}
+                                        <a href="{{ url_for('logout') }}">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item ms-auto">
+                                    <a class="nav-link profile-link" href="{{ url_for('profile') }}">
+                                        <i class="fas fa-user-circle user-icon"></i>
+                                        <span>{{ current_user.username }} ({{ current_user.role | capitalize }})</span>
                                     </a>
-                                </div>
-                            </li>
-                            <li class="nav-item ms-auto">
-                                <a class="nav-link profile-link" href="{{ url_for('profile') }}">
-                                    <i class="fas fa-user-circle user-icon"></i>
-                                    <span>{{ current_user.username }} ({{ current_user.role | capitalize }})</span>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link fs-4 fw-bold text-light py-2 px-3" href="{{ url_for('login') }}">
-                                    <i class="fas fa-sign-in-alt"></i> Login
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link fs-4 fw-bold text-light py-2 px-3" href="{{ url_for('login') }}">
+                                        <i class="fas fa-sign-in-alt"></i> Login
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
 
-        <header>{% block HEADER %}{% endblock %}</header>
+            <header>{% block HEADER %}{% endblock %}</header>
 
-        <main>
-            <div class="container">
-            {% block CONTENT %}{% endblock %}
-            </div>
-        </main>
+            <main>
+                <div class="container">
+                {% block CONTENT %}{% endblock %}
+                </div>
+            </main>
 
+        </div>
     </div>
+
     {{ bootstrap.load_js() }}
 </body>
 
