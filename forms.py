@@ -45,12 +45,13 @@ class PurchaseForm(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     card_number = StringField('Card Number', validators=[DataRequired()])
     cvc = StringField('CVC', validators=[DataRequired(), Length(max=4)])
-    exp_month = SelectField('Expiration Month', 
-    choices=[('', 'Month')] + [(str(i).zfill(2), str(i).zfill(2)) for i in range(1, 13)], validators=[DataRequired()])
+    exp_month = SelectField('Expiration Month',
+        choices=[('', 'Month')] + [(str(i).zfill(2), str(i).zfill(2)) for i in range(1, 13)], 
+        validators=[DataRequired()])
     current_year = datetime.now().year
     exp_year = SelectField('Expiration Year',
-    choices=[('', 'Year')] + [(str(y), str(y)) for y in range(current_year, current_year + 21)], validators=[DataRequired()])
-    quantity = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1)])
+        choices=[('', 'Year')] + [(str(y), str(y)) for y in range(current_year, current_year + 21)], 
+        validators=[DataRequired()])
     submit = SubmitField('Purchase')
 
 class ProfileForm(FlaskForm):

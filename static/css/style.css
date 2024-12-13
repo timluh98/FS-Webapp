@@ -238,3 +238,7 @@ a {
     visibility: visible;
     opacity: 1;
 }
+
+.cart-icon, .cart-text {
+    color: white;
+}

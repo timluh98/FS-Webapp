@@ -11,6 +11,7 @@ from flask import (
     flash,
     request,
     abort,
+    session,
 )
 from flask_bootstrap import Bootstrap5
 from flask_login import (
@@ -233,52 +234,11 @@ def profile():
     return render_template('profile.html', form=form)
 
 
-@app.route('/part/<int:part_id>', methods=['GET', 'POST'])
+@app.route('/part/<int:part_id>', methods=['GET'])
 @login_required
 def view_part(part_id):
-    """View details of a specific part and handle purchases."""
     part = Part.query.get_or_404(part_id)
-    form = PurchaseForm()
-
-    if form.validate_on_submit():
-        if part.quantity <= 0:
-            flash('This item is out of stock!', 'danger')
-            logger.info(f"Out of stock purchase attempt for part ID: {part_id} by user: {current_user.username}")
-            return redirect(url_for('view_part', part_id=part.id))
-
-        if form.quantity.data > part.quantity:
-            flash('Not enough items in stock!', 'danger')
-            logger.info(f"Insufficient stock purchase attempt for part ID: {part_id} by user: {current_user.username}")
-            return redirect(url_for('view_part', part_id=part.id))
-
-        # Create Purchase
-        purchase = Purchase(
-            part_id=part.id,
-            user_id=current_user.id,
-            name=form.name.data,
-            address=form.address.data,
-            card_number=form.card_number.data,  # TODO: Storing raw card details is insecure
-            cvc=form.cvc.data,                  
-            exp_date=datetime(int(form.exp_year.data), int(form.exp_month.data), 1),
-            quantity=form.quantity.data,
-            total_price=part.price * form.quantity.data
-        )
-
-        try:
-            db.session.add(purchase)
-            part.quantity -= form.quantity.data
-            part.update_availability()  
-            db.session.commit()
-            flash('Purchase successful!', 'success')
-            logger.info(f"User {current_user.username} purchased part ID: {part_id}, Quantity: {form.quantity.data}")
-            return redirect(url_for('catalogue'))
-        except SQLAlchemyError as e:
-            db.session.rollback()
-            flash('An error occurred during the purchase. Please try again.', 'danger')
-            logger.error(f"Error during purchase by user {current_user.username}: {e}")
-            return redirect(url_for('view_part', part_id=part.id))
-
-    return render_template('view_part.html', part=part, form=form)
+    return render_template('view_part.html', part=part)
 
 
 @app.route('/offer-part', methods=['GET', 'POST'])
@@ -411,6 +371,182 @@ def delete_part(part_id):
 
     return redirect(url_for('catalogue'))
 
+@app.route('/add_to_cart/<int:part_id>', methods=['POST'])
+@login_required
+def add_to_cart(part_id):
+    part = Part.query.get_or_404(part_id)
+    cart = session.get('cart', {})
+    cart[str(part_id)] = cart.get(str(part_id), 0) + 1
+    session['cart'] = cart
+    flash('Part added to cart!', 'success')
+    return redirect(url_for('catalogue'))
+
+@app.route('/cart', methods=['GET', 'POST'])
+@login_required
+def cart():
+    cart = session.get('cart', {})
+    parts_in_cart = []
+    total_price = 0
+    for part_id, quantity in cart.items():
+        part = Part.query.get(int(part_id))
+        if part:
+            parts_in_cart.append({'part': part, 'quantity': quantity})
+            total_price += part.price * quantity
+    form = PurchaseForm()
+    return render_template('cart.html', parts=parts_in_cart, total_price=total_price, form=form)
+
+@app.route('/purchase_cart', methods=['POST'])
+@login_required
+def purchase_cart():
+    print("Starting purchase_cart function")
+    form = PurchaseForm()
+    cart = session.get('cart', {})
+    print(f"Current cart contents: {cart}")
+    
+    # Prepare cart data for template
+    parts_in_cart = []
+    total_price = 0
+    for part_id, quantity in cart.items():
+        part = Part.query.get(int(part_id))
+        if part:
+            parts_in_cart.append({'part': part, 'quantity': quantity})
+            total_price += part.price * quantity
+    
+    print(f"Form validation status: {form.validate_on_submit()}")
+    if form.validate_on_submit():
+        print("Form validated successfully")
+        print(f"Form data: Name={form.name.data}, Address={form.address.data}")
+        
+        if not cart:
+            print("Cart is empty")
+            flash('Your cart is empty.', 'info')
+            return redirect(url_for('cart'))
+
+        # Validate all quantities and check stock
+        purchases_to_make = []
+        try:
+            print("Starting quantity validation")
+            for part_id_str in cart.keys():
+                part_id = int(part_id_str)
+                quantity_key = f'quantities[{part_id}]'
+                quantity_str = request.form.get(quantity_key)
+                print(f"Processing part_id: {part_id}, quantity string: {quantity_str}")
+                
+                if not quantity_str:
+                    flash('Quantity is required for all items', 'danger')
+                    return render_template('cart.html', 
+                                        form=form, 
+                                        parts=parts_in_cart, 
+                                        total_price=total_price)
+                
+                try:
+                    quantity = int(quantity_str)
+                except ValueError:
+                    flash('Invalid quantity value', 'danger')
+                    return render_template('cart.html', 
+                                        form=form, 
+                                        parts=parts_in_cart, 
+                                        total_price=total_price)
+                
+                if quantity < 1:
+                    flash('Quantity must be at least 1', 'danger')
+                    return render_template('cart.html', 
+                                        form=form, 
+                                        parts=parts_in_cart, 
+                                        total_price=total_price)
+                
+                part = Part.query.get(part_id)
+                print(f"Found part: {part.name if part else 'None'}")
+                
+                if not part:
+                    flash(f'Part not found.', 'danger')
+                    return render_template('cart.html', 
+                                        form=form, 
+                                        parts=parts_in_cart, 
+                                        total_price=total_price)
+                
+                if part.quantity < quantity:
+                    flash(f'Not enough stock for {part.name}.', 'danger')
+                    return render_template('cart.html', 
+                                        form=form, 
+                                        parts=parts_in_cart, 
+                                        total_price=total_price)
+                
+                purchases_to_make.append({
+                    'part': part,
+                    'quantity': quantity,
+                    'total_price': part.price * quantity
+                })
+                print(f"Added purchase to queue: Part={part.name}, Quantity={quantity}")
+
+        except Exception as e:
+            print(f"Error during quantity validation: {str(e)}")
+            flash('Error processing quantities', 'danger')
+            return render_template('cart.html', 
+                                form=form, 
+                                parts=parts_in_cart, 
+                                total_price=total_price)
+
+        # Process all purchases in a single transaction
+        try:
+            print("Starting database transaction")
+            for purchase_info in purchases_to_make:
+                part = purchase_info['part']
+                quantity = purchase_info['quantity']
+                
+                purchase = Purchase(
+                    part_id=part.id,
+                    user_id=current_user.id,
+                    name=form.name.data,
+                    address=form.address.data,
+                    card_number=form.card_number.data,
+                    cvc=form.cvc.data,
+                    exp_date=datetime(int(form.exp_year.data), int(form.exp_month.data), 1),
+                    quantity=quantity,
+                    total_price=purchase_info['total_price']
+                )
+                print(f"Created purchase object for part {part.name}")
+                
+                # Update part quantity
+                original_quantity = part.quantity
+                part.quantity -= quantity
+                part.update_availability()
+                print(f"Updated part quantity from {original_quantity} to {part.quantity}")
+                
+                db.session.add(purchase)
+                print(f"Added purchase to session for part {part.name}")
+            
+            print("Committing transaction")
+            db.session.commit()
+            print("Transaction committed successfully")
+            
+            # Clear cart after successful purchase
+            session.pop('cart', None)
+            flash('Purchase successful!', 'success')
+            return redirect(url_for('my_orders'))
+
+        except Exception as e:
+            print(f"Error during database transaction: {str(e)}")
+            print(f"Error type: {type(e)}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
+            db.session.rollback()
+            flash('An error occurred during the purchase.', 'danger')
+            return render_template('cart.html', 
+                                form=form, 
+                                parts=parts_in_cart, 
+                                total_price=total_price)
+    else:
+        print("Form validation failed")
+        print(f"Form errors: {form.errors}")
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f"{getattr(form, field).label.text}: {error}", 'danger')
+    
+    return render_template('cart.html', 
+                         form=form, 
+                         parts=parts_in_cart, 
+                         total_price=total_price)
 
 @app.route('/my_orders')
 @login_required

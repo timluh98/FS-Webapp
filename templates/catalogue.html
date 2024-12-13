@@ -58,7 +58,10 @@
                         </div>
                         {% if current_user.is_authenticated %}
                             <div class="card-footer text-center">
-                                <a href="{{ url_for('view_part', part_id=part.id) }}" class="btn btn-primary">Purchase Part</a>
+                                <form method="POST" action="{{ url_for('add_to_cart', part_id=part.id) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                                <a href="{{ url_for('view_part', part_id=part.id) }}" class="btn btn-secondary">View Part</a>
                             </div>
                         {% endif %}
                     </div>
