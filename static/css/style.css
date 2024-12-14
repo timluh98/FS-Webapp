@@ -106,18 +106,18 @@ a {
 }
 
 /* Images */
-.card-img-top,
+.card-img-top{
+    width: 100%;
+    height: 200px;          /* Make sure both containers have the same height if you want a similar look */
+    object-fit: contain;    /* Show the whole image, no distortion */
+    object-position: center; /* Center the image within the container */
+    background-color: #fff;  /* Optional: a background color for empty space */
+}
+
 .view-part-img {
     width: 100%;
-    object-fit: fill;
-}
-
-.card-img-top {
-    height: 200px;
-}
-
-.view-part-img {
     height: 100%;
+    object-fit: fill;
 }
 
 /* Dropdown styles */
