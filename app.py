@@ -24,15 +24,16 @@ from flask_login import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from sqlalchemy.exc import SQLAlchemyError
+from flask_migrate import Migrate
 
 from db import db
-from models import User, Part, Purchase
+from models import User, Part, Purchase, Order
 from forms import (
     RegistrationForm,
     LoginForm,
     OfferPartForm,
-    PurchaseForm,
-    ProfileForm,
+    CartForm,
+    ProfileForm 
 )
 
 # Configure Logging
@@ -52,6 +53,7 @@ app.config.update(
 
 # Initialize Extensions
 db.init_app(app)
+migrate = Migrate(app, db)
 Bootstrap5(app)
 
 login_manager = LoginManager(app)
@@ -381,9 +383,10 @@ def add_to_cart(part_id):
     flash('Part added to cart!', 'success')
     return redirect(url_for('catalogue'))
 
-@app.route('/cart', methods=['GET', 'POST'])
+@app.route('/cart', methods=['GET'])
 @login_required
 def cart():
+    form = CartForm()  
     cart = session.get('cart', {})
     parts_in_cart = []
     total_price = 0
@@ -393,178 +396,107 @@ def cart():
             parts_in_cart.append({'part': part, 'quantity': quantity})
             total_price += part.price * quantity
     
-    # Get the latest order ID and add 1
-    latest_purchase = Purchase.query.order_by(Purchase.id.desc()).first()
-    next_order_id = (latest_purchase.id + 1) if latest_purchase else 1
+    # Get next order ID by looking at all orders in the system
+    latest_order = Order.query.order_by(Order.id.desc()).first()
+    next_order_id = (latest_order.id + 1) if latest_order else 1
     
-    form = PurchaseForm()
     return render_template('cart.html', 
+                         form=form, 
                          parts=parts_in_cart, 
-                         total_price=total_price, 
-                         form=form,
+                         total_price=total_price,
                          next_order_id=next_order_id)
 
 @app.route('/purchase_cart', methods=['POST'])
 @login_required
 def purchase_cart():
-    print("Starting purchase_cart function")
-    form = PurchaseForm()
     cart = session.get('cart', {})
-    print(f"Current cart contents: {cart}")
     
-    # Prepare cart data for template
-    parts_in_cart = []
-    total_price = 0
-    for part_id, quantity in cart.items():
-        part = Part.query.get(int(part_id))
-        if part:
-            parts_in_cart.append({'part': part, 'quantity': quantity})
-            total_price += part.price * quantity
+    if not cart:
+        flash('Your cart is empty.', 'info')
+        return redirect(url_for('cart'))
+
+    # Get next order ID for the payment reference
+    latest_order = Order.query.order_by(Order.id.desc()).first()
+    next_order_id = (latest_order.id + 1) if latest_order else 1
     
-    print(f"Form validation status: {form.validate_on_submit()}")
-    if form.validate_on_submit():
-        print("Form validated successfully")
-        print(f"Form data: Name={form.name.data}, Address={form.address.data}")
+    purchases_to_make = []
+    total_amount = 0
+    
+    try:
+        # Validate items and calculate total
+        for part_id_str in cart.keys():
+            part_id = int(part_id_str)
+            quantity_key = f'quantities[{part_id}]'
+            quantity = int(request.form.get(quantity_key, 1))
+            
+            if quantity < 1:
+                flash('Quantity must be at least 1', 'danger')
+                return redirect(url_for('cart'))
+            
+            part = Part.query.get(part_id)
+            if not part:
+                flash(f'Part not found.', 'danger')
+                return redirect(url_for('cart'))
+            
+            if part.quantity < quantity:
+                flash(f'Not enough stock for {part.name}.', 'danger')
+                return redirect(url_for('cart'))
+            
+            subtotal = part.price * quantity
+            total_amount += subtotal
+            purchases_to_make.append({
+                'part': part,
+                'quantity': quantity,
+                'total_price': subtotal
+            })
+
+        # Create new order with payment reference
+        new_order = Order(
+            id=next_order_id,  # Explicitly set the ID
+            user_id=current_user.id,
+            total_amount=total_amount,
+            payment_status='pending',
+            payment_reference=f'Order-{next_order_id}'
+        )
+        db.session.add(new_order)
+        db.session.flush()  # This gets us the order.id
         
-        if not cart:
-            print("Cart is empty")
-            flash('Your cart is empty.', 'info')
-            return redirect(url_for('cart'))
-
-        # Validate all quantities and check stock
-        purchases_to_make = []
-        try:
-            print("Starting quantity validation")
-            for part_id_str in cart.keys():
-                part_id = int(part_id_str)
-                quantity_key = f'quantities[{part_id}]'
-                quantity_str = request.form.get(quantity_key)
-                print(f"Processing part_id: {part_id}, quantity string: {quantity_str}")
-                
-                if not quantity_str:
-                    flash('Quantity is required for all items', 'danger')
-                    return render_template('cart.html', 
-                                        form=form, 
-                                        parts=parts_in_cart, 
-                                        total_price=total_price)
-                
-                try:
-                    quantity = int(quantity_str)
-                except ValueError:
-                    flash('Invalid quantity value', 'danger')
-                    return render_template('cart.html', 
-                                        form=form, 
-                                        parts=parts_in_cart, 
-                                        total_price=total_price)
-                
-                if quantity < 1:
-                    flash('Quantity must be at least 1', 'danger')
-                    return render_template('cart.html', 
-                                        form=form, 
-                                        parts=parts_in_cart, 
-                                        total_price=total_price)
-                
-                part = Part.query.get(part_id)
-                print(f"Found part: {part.name if part else 'None'}")
-                
-                if not part:
-                    flash(f'Part not found.', 'danger')
-                    return render_template('cart.html', 
-                                        form=form, 
-                                        parts=parts_in_cart, 
-                                        total_price=total_price)
-                
-                if part.quantity < quantity:
-                    flash(f'Not enough stock for {part.name}.', 'danger')
-                    return render_template('cart.html', 
-                                        form=form, 
-                                        parts=parts_in_cart, 
-                                        total_price=total_price)
-                
-                purchases_to_make.append({
-                    'part': part,
-                    'quantity': quantity,
-                    'total_price': part.price * quantity
-                })
-                print(f"Added purchase to queue: Part={part.name}, Quantity={quantity}")
-
-        except Exception as e:
-            print(f"Error during quantity validation: {str(e)}")
-            flash('Error processing quantities', 'danger')
-            return render_template('cart.html', 
-                                form=form, 
-                                parts=parts_in_cart, 
-                                total_price=total_price)
-
-        # Process all purchases in a single transaction
-        try:
-            print("Starting database transaction")
-            for purchase_info in purchases_to_make:
-                part = purchase_info['part']
-                quantity = purchase_info['quantity']
-                
-                purchase = Purchase(
-                    part_id=part.id,
-                    user_id=current_user.id,
-                    name=form.name.data,
-                    address=form.address.data,
-                    card_number=form.card_number.data,
-                    cvc=form.cvc.data,
-                    exp_date=datetime(int(form.exp_year.data), int(form.exp_month.data), 1),
-                    quantity=quantity,
-                    total_price=purchase_info['total_price']
-                )
-                print(f"Created purchase object for part {part.name}")
-                
-                # Update part quantity
-                original_quantity = part.quantity
-                part.quantity -= quantity
-                part.update_availability()
-                print(f"Updated part quantity from {original_quantity} to {part.quantity}")
-                
-                db.session.add(purchase)
-                print(f"Added purchase to session for part {part.name}")
+        # Create purchases under this order
+        for purchase_info in purchases_to_make:
+            part = purchase_info['part']
+            quantity = purchase_info['quantity']
             
-            print("Committing transaction")
-            db.session.commit()
-            print("Transaction committed successfully")
+            purchase = Purchase(
+                order_id=new_order.id,
+                part_id=part.id,
+                user_id=current_user.id,
+                quantity=quantity,
+                total_price=purchase_info['total_price']
+            )
             
-            # Clear cart after successful purchase
-            session.pop('cart', None)
-            flash('Purchase successful!', 'success')
-            return redirect(url_for('my_orders'))
+            # Update part quantity
+            part.quantity -= quantity
+            part.update_availability()
+            
+            db.session.add(purchase)
+        
+        db.session.commit()
+        session.pop('cart', None)
+        flash(f'Order #{new_order.id} placed successfully! Please complete the bank transfer to process your order.', 'success')
+        return redirect(url_for('my_orders'))
 
-        except Exception as e:
-            print(f"Error during database transaction: {str(e)}")
-            print(f"Error type: {type(e)}")
-            import traceback
-            print(f"Traceback: {traceback.format_exc()}")
-            db.session.rollback()
-            flash('An error occurred during the purchase.', 'danger')
-            return render_template('cart.html', 
-                                form=form, 
-                                parts=parts_in_cart, 
-                                total_price=total_price)
-    else:
-        print("Form validation failed")
-        print(f"Form errors: {form.errors}")
-        for field, errors in form.errors.items():
-            for error in errors:
-                flash(f"{getattr(form, field).label.text}: {error}", 'danger')
-    
-    return render_template('cart.html', 
-                         form=form, 
-                         parts=parts_in_cart, 
-                         total_price=total_price)
+    except Exception as e:
+        db.session.rollback()
+        flash('An error occurred during the purchase.', 'danger')
+        logger.error(f"Error during purchase: {str(e)}")
+        return redirect(url_for('cart'))
 
 @app.route('/my_orders')
 @login_required
 def my_orders():
-    """Display the user's purchase history."""
-    purchases = Purchase.query.filter_by(user_id=current_user.id).all()
-    logger.info(f"User {current_user.username} viewed their orders.")
-    return render_template('my_orders.html', purchases=purchases)
-
+    """Display the user's order history."""
+    orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.order_date.desc()).all()
+    return render_template('my_orders.html', orders=orders)
 
 @app.route('/faq')
 def faq():

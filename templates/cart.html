@@ -40,32 +40,23 @@
             </table>
             <h4>Total Price: $<span id="total-price">{{ "%.2f"|format(total_price) }}</span></h4>
 
-            <!-- Add margin for spacing -->
-            <div class="mt-5"></div>
-
             <!-- Payment Information -->
-            <h3>Payment Information</h3>
-            <p>We only accept payment in advance and your order will be saved for now. If we receive the money from your order, we will process your order. Here are our bank details:</p>
-            <p><strong>PartWatch GmbH</strong></p>
-            <p><strong>IBAN:</strong> DE89 3704 0044 0532 0130 00</p>
-            <p><strong>BIC:</strong> COBADEFFXXX</p>
-            <p><strong>Reference: </strong> Order-ID {{ next_order_id }}</p>
+            <div class="mt-5">
+                <h3>Payment Information</h3>
+                <div class="alert border-0 shadow-none" style="background-color: rgba(0,0,0,0.03); color: inherit;">
+                    <p>Please transfer the total amount to our bank account:</p>
+                    <hr>
+                    <p><strong>Bank:</strong> Commerzbank</p>
+                    <p><strong>Account Name:</strong> PartWatch GmbH</p>
+                    <p><strong>IBAN:</strong> DE89 3704 0044 0532 0130 00</p>
+                    <p><strong>BIC:</strong> COBADEFFXXX</p>
+                    <p class="mb-0"><strong>Reference:</strong> Order-ID {{ next_order_id }}</p>
+                </div>
+                <p class="text-muted">Your order will be processed after we receive your payment.</p>
+            </div>
 
-            <button type="submit" class="btn btn-primary">Purchase</button>
+            <button type="submit" class="btn btn-primary mt-3">Place Order</button>
         </form>
-
-        <!-- Display form errors if any -->
-        {% if form.errors %}
-        <div class="alert alert-danger">
-            <ul>
-            {% for field, errors in form.errors.items() %}
-                {% for error in errors %}
-                    <li>{{ getattr(form, field).label.text }}: {{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}

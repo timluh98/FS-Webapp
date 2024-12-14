@@ -27,17 +27,30 @@ class Part(db.Model):
     def update_availability(self):
         self.availability = 'Out of Stock' if self.quantity <= 0 else 'In Stock'
 
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('orders', lazy=True))
+    order_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    total_amount = db.Column(db.Float, nullable=False)
+    payment_status = db.Column(db.String(20), nullable=False, default='pending')
+    payment_reference = db.Column(db.String(100), nullable=True)
+    payment_date = db.Column(db.DateTime, nullable=True)
+    purchases = db.relationship('Purchase', back_populates='order', lazy=True)
+
+    def update_payment_status(self, status):
+        self.payment_status = status
+        if status == 'paid':
+            self.payment_date = datetime.utcnow()
+
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+    order = db.relationship('Order', back_populates='purchases', lazy=True)
     part_id = db.Column(db.Integer, db.ForeignKey('part.id'), nullable=False)
     part = db.relationship('Part', back_populates='purchases', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('purchases', lazy=True))
-    name = db.Column(db.String(150), nullable=False)
-    address = db.Column(db.String(300), nullable=False)
-    card_number = db.Column(db.String(20), nullable=False)
-    cvc = db.Column(db.String(4), nullable=False)
-    exp_date = db.Column(db.DateTime, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
     purchase_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

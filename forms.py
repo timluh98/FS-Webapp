@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, 
-                    FloatField, IntegerField, TextAreaField, FileField, EmailField, DateField)
+                    FloatField, IntegerField, TextAreaField, FileField, EmailField)
 from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired, NumberRange, Optional
 import email_validator
 from datetime import datetime
@@ -40,20 +40,6 @@ class OfferPartForm(FlaskForm):
     image = FileField('Part Image', validators=[Optional()])
     description = TextAreaField('Description', validators=[DataRequired()])
 
-class PurchaseForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    address = StringField('Address', validators=[DataRequired()])
-    card_number = StringField('Card Number', validators=[DataRequired()])
-    cvc = StringField('CVC', validators=[DataRequired(), Length(max=4)])
-    exp_month = SelectField('Expiration Month',
-        choices=[('', 'Month')] + [(str(i).zfill(2), str(i).zfill(2)) for i in range(1, 13)], 
-        validators=[DataRequired()])
-    current_year = datetime.now().year
-    exp_year = SelectField('Expiration Year',
-        choices=[('', 'Year')] + [(str(y), str(y)) for y in range(current_year, current_year + 21)], 
-        validators=[DataRequired()])
-    submit = SubmitField('Purchase')
-
 class ProfileForm(FlaskForm):
     email = StringField('Email', validators=[
         DataRequired(), 
@@ -69,3 +55,6 @@ class ProfileForm(FlaskForm):
         EqualTo('new_password', message='Passwords must match')
     ])
     submit = SubmitField('Update Profile')
+
+class CartForm(FlaskForm):
+    submit = SubmitField('Place Order')

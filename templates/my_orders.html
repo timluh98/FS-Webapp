@@ -9,29 +9,46 @@
             <h3 class="mb-0"><i class="fas fa-boxes"></i> My Orders</h3>
         </div>
         <div class="card-body">
-            {% if purchases %}
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle text-light">
-                        <thead style="background-color: #3a6f73;">
-                            <tr>
-                                <th>Part Name</th>
-                                <th>Quantity</th>
-                                <th>Total Price</th>
-                                <th>Purchase Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for purchase in purchases %}
-                                <tr>
-                                    <td class="fw-semibold">{{ purchase.part.name }}</td>
-                                    <td>{{ purchase.quantity }}</td>
-                                    <td class="text-success">${{ "%.2f"|format(purchase.total_price) }}</td>
-                                    <td>{{ purchase.purchase_date.strftime('%Y-%m-%d') }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="card mb-4" style="background-color: #3a6f73;">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Order #{{ order.id }}</h5>
+                            <span class="badge {% if order.payment_status == 'pending' %}bg-warning{% else %}bg-success{% endif %}">
+                                {{ order.payment_status }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-light">
+                                    <thead>
+                                        <tr>
+                                            <th>Part Name</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for purchase in order.purchases %}
+                                            <tr>
+                                                <td>{{ purchase.part.name }}</td>
+                                                <td>{{ purchase.quantity }}</td>
+                                                <td>${{ "%.2f"|format(purchase.total_price) }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <tr class="table-info">
+                                            <td colspan="2" class="text-end"><strong>Total:</strong></td>
+                                            <td><strong>${{ "%.2f"|format(order.total_amount) }}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-2">
+                                <small>Order Date: {{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             {% else %}
                 <div class="alert alert-info text-center" role="alert" style="background-color: transparent; border: none;">
                     You currently have no orders.
