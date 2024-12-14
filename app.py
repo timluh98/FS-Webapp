@@ -383,6 +383,20 @@ def add_to_cart(part_id):
     flash('Part added to cart!', 'success')
     return redirect(url_for('catalogue'))
 
+@app.route('/remove_from_cart/<int:part_id>', methods=['POST'])
+@login_required
+def remove_from_cart(part_id):
+    cart = session.get('cart', {})
+    part_id_str = str(part_id)
+    if part_id_str in cart:
+        del cart[part_id_str]
+        session['cart'] = cart
+        flash('Item removed from your cart!', 'success')
+    else:
+        flash('Item not found in your cart.', 'warning')
+    return redirect(url_for('cart'))
+
+
 @app.route('/cart', methods=['GET'])
 @login_required
 def cart():

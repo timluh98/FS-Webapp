@@ -4,59 +4,74 @@
 <div class="container mt-5">
     <h2>Shopping Cart</h2>
     {% if parts %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Part Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in parts %}
+                <tr>
+                    <td>{{ item.part.name }}</td>
+                    <td>${{ "%.2f"|format(item.part.price) }}</td>
+                    <td>
+                        <input type="number"
+                               name="quantities[{{ item.part.id }}]"
+                               value="{{ item.quantity }}"
+                               min="1"
+                               class="form-control quantity-input"
+                               data-part-id="{{ item.part.id }}"
+                               data-price="{{ item.part.price }}"
+                               style="width: 80px;">
+                    </td>
+                    <td class="item-subtotal" id="subtotal-{{ item.part.id }}">
+                        ${{ "%.2f"|format(item.part.price * item.quantity) }}
+                    </td>
+                    <td>
+                        <!-- Separate remove form (NOT inside the purchase form) -->
+                        <form method="POST" action="{{ url_for('remove_from_cart', part_id=item.part.id) }}">
+                            {{ form.csrf_token }}
+                            <button class="btn btn-sm btn-danger" type="submit" title="Remove from Cart">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h4>Total Price: $<span id="total-price">{{ "%.2f"|format(total_price) }}</span></h4>
+
+        <!-- Payment Information -->
+        <div class="mt-5">
+            <h3>Payment Information</h3>
+            <div class="alert border-0 shadow-none" style="background-color: rgba(0,0,0,0.03); color: inherit;">
+                <p>Please transfer the total amount to our bank account:</p>
+                <hr>
+                <p><strong>Bank:</strong> Commerzbank</p>
+                <p><strong>Account Name:</strong> PartWatch GmbH</p>
+                <p><strong>IBAN:</strong> DE89 3704 0044 0532 0130 00</p>
+                <p><strong>BIC:</strong> COBADEFFXXX</p>
+                <p class="mb-0"><strong>Reference:</strong> Order-ID {{ next_order_id }}</p>
+            </div>
+            <p class="text-muted">Your order will be processed after we receive your payment.</p>
+        </div>
+
+        <!-- Place Order form separate from the cart display -->
         <form method="POST" action="{{ url_for('purchase_cart') }}">
             {{ form.hidden_tag() }}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Part Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in parts %}
-                    <tr>
-                        <td>{{ item.part.name }}</td>
-                        <td>${{ "%.2f"|format(item.part.price) }}</td>
-                        <td>
-                            <!-- Quantity input field with dynamic attributes -->
-                            <input type="number" 
-                                   name="quantities[{{ item.part.id }}]" 
-                                   value="{{ item.quantity }}" 
-                                   min="1" 
-                                   class="form-control quantity-input" 
-                                   data-part-id="{{ item.part.id }}" 
-                                   data-price="{{ item.part.price }}" 
-                                   style="width: 80px;">
-                        </td>
-                        <td class="item-subtotal" id="subtotal-{{ item.part.id }}">
-                            ${{ "%.2f"|format(item.part.price * item.quantity) }}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <h4>Total Price: $<span id="total-price">{{ "%.2f"|format(total_price) }}</span></h4>
-
-            <!-- Payment Information -->
-            <div class="mt-5">
-                <h3>Payment Information</h3>
-                <div class="alert border-0 shadow-none" style="background-color: rgba(0,0,0,0.03); color: inherit;">
-                    <p>Please transfer the total amount to our bank account:</p>
-                    <hr>
-                    <p><strong>Bank:</strong> Commerzbank</p>
-                    <p><strong>Account Name:</strong> PartWatch GmbH</p>
-                    <p><strong>IBAN:</strong> DE89 3704 0044 0532 0130 00</p>
-                    <p><strong>BIC:</strong> COBADEFFXXX</p>
-                    <p class="mb-0"><strong>Reference:</strong> Order-ID {{ next_order_id }}</p>
-                </div>
-                <p class="text-muted">Your order will be processed after we receive your payment.</p>
-            </div>
-
+            {% for item in parts %}
+            <input type="hidden" name="quantities[{{ item.part.id }}]" value="{{ item.quantity }}">
+            {% endfor %}
             <button type="submit" class="btn btn-primary mt-3">Place Order</button>
         </form>
+
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}
