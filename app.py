@@ -392,8 +392,17 @@ def cart():
         if part:
             parts_in_cart.append({'part': part, 'quantity': quantity})
             total_price += part.price * quantity
+    
+    # Get the latest order ID and add 1
+    latest_purchase = Purchase.query.order_by(Purchase.id.desc()).first()
+    next_order_id = (latest_purchase.id + 1) if latest_purchase else 1
+    
     form = PurchaseForm()
-    return render_template('cart.html', parts=parts_in_cart, total_price=total_price, form=form)
+    return render_template('cart.html', 
+                         parts=parts_in_cart, 
+                         total_price=total_price, 
+                         form=form,
+                         next_order_id=next_order_id)
 
 @app.route('/purchase_cart', methods=['POST'])
 @login_required

@@ -40,34 +40,17 @@
             </table>
             <h4>Total Price: $<span id="total-price">{{ "%.2f"|format(total_price) }}</span></h4>
 
+            <!-- Add margin for spacing -->
+            <div class="mt-5"></div>
+
             <!-- Payment Information -->
             <h3>Payment Information</h3>
-            <div class="mb-3">
-                {{ form.name.label(class="form-label") }}
-                {{ form.name(class="form-control") }}
-            </div>
-            <div class="mb-3">
-                {{ form.address.label(class="form-label") }}
-                {{ form.address(class="form-control") }}
-            </div>
-            <div class="mb-3">
-                {{ form.card_number.label(class="form-label") }}
-                {{ form.card_number(class="form-control") }}
-            </div>
-            <div class="row mb-3">
-                <div class="col">
-                    {{ form.exp_month.label(class="form-label") }}
-                    {{ form.exp_month(class="form-control") }}
-                </div>
-                <div class="col">
-                    {{ form.exp_year.label(class="form-label") }}
-                    {{ form.exp_year(class="form-control") }}
-                </div>
-                <div class="col">
-                    {{ form.cvc.label(class="form-label") }}
-                    {{ form.cvc(class="form-control") }}
-                </div>
-            </div>
+            <p>We only accept payment in advance and your order will be saved for now. If we receive the money from your order, we will process your order. Here are our bank details:</p>
+            <p><strong>PartWatch GmbH</strong></p>
+            <p><strong>IBAN:</strong> DE89 3704 0044 0532 0130 00</p>
+            <p><strong>BIC:</strong> COBADEFFXXX</p>
+            <p><strong>Reference: </strong> Order-ID {{ next_order_id }}</p>
+
             <button type="submit" class="btn btn-primary">Purchase</button>
         </form>
 
@@ -91,7 +74,6 @@
 <!-- JavaScript for dynamic price updates -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get all quantity inputs
         const quantityInputs = document.querySelectorAll('.quantity-input');
         const totalPriceElement = document.getElementById('total-price');
 
