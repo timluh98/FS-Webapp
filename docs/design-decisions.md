@@ -236,4 +236,36 @@ We implemented a delete button for suppliers to remove their part listings. We a
 
 ---
 
+## 08: Shopping Cart Implementation
+
+### Meta
+
+Status
+: **Decided**
+
+Updated
+: 13-Dec-2024
+
+### Problem statement
+
+Users need the ability to add, view, and remove parts from a shopping cart before proceeding to checkout. The cart should persist across user interactions within a session and dynamically update prices based on quantities.
+
+### Decision
+
+We implemented a session-based shopping cart that allows users to add, view, and remove parts. The cart dynamically updates the total price as quantities are adjusted. The cart persists within the same session, ensuring a seamless user experience.
+
+### Regarded options
+
+1. **Session-Based Cart Management** - Store cart data in the session to maintain state across user interactions.
+2. **Database-Based Cart Management** - Store cart data in the database to persist across sessions and devices.
+
+| Criterion              | Session-Based Cart Management | Database-Based Cart Management |
+|------------------------|-------------------------------|--------------------------------|
+| **Ease of Use**        | Simple and quick to implement | Requires more complex logic    |
+| **Persistence**        | Limited to session            | Persistent across sessions     |
+| **Scalability**        | Suitable for small to medium  | Suitable for large-scale       |
+| **Implementation Time**| Short                         | Longer                         |
+
+---
+
 This document outlines the principal design decisions made for **PartWatch**, together with an overview of the options considered. The decisions reflect the project's current requirements and priorities, and they strike a balance between simplicity and scalability for future growth.
