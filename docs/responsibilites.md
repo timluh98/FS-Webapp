@@ -31,13 +31,11 @@ Order tracking system (my_orders.html)
 
 
 - **Form Development**: Designed and implemented critical form components:
-
 Created the OfferPartForm for supplier part submissions
 Developed the PurchaseForm for customer order processing
 
 
 - **Route Implementation**: Built and managed essential application routes:
-
 Catalogue index display and navigation
 Detailed part view functionality
 Order tracking and management system

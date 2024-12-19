@@ -24,93 +24,93 @@ Contributions
 
 ## Oktober 2024
 
-### 13.10. - GitHub Pages und Startseite
-- Erstellung von GitHub Pages
-- Anpassung der `index.md` mit allgemeinen Informationen
+### October 13 - GitHub Pages and Homepage
+- Creation of GitHub Pages
+- Modification of `index.md` with general information
 
-### 21.10. - Login und Registrierung
-- Löschen von unnötigen Template-HTMLs
-- Erstellen von `login.html` und `register.html`
-- Referenz: [GeeksforGeeks Tutorial](https://www.geeksforgeeks.org/login-and-registration-project-using-flask-and-mysql/)
-- Anpassung der `base.html` für Login-Status
-  - Dynamische Anzeige von Login/Logout/Register
-  - Grundgerüst für weitere Seiten
+### October 21 - Login and Registration
+- Removal of unnecessary template HTMLs
+- Creation of `login.html` and `register.html`
+- Reference: [DigitalOcean Tutorial](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login), [Perplexity](Prompt: What could an example register.html page look like for a Flask app?)
+- Adaptation of `base.html` for login status
+ - Dynamic display of Login/Logout/Register
+ - Basic framework for additional pages
 
-### 24.10. - Benutzerrollen
-- Hinzufügen der Rollen "Customer" und "Supplier"
-- Integration in `base.html` und `register.html`
+### October 24 - User Roles
+- Addition of "Customer" and "Supplier" roles
+- Integration into `base.html` and `register.html`
 
-### 25.10. - Angebots-Funktionalität
-- Button "+ Automotive Part" für Supplier
-- Neue Route in `app.py`
-- Erstellung der `catalogue_index`
-  - Login-Button rechts oben
-  - Platzhalter für Logo
-  - Zwei Teile mit verdeckten Informationen
+### October 25 - Offer Functionality
+- "+ Automotive Part" button for Suppliers
+- New route in `app.py`
+- Creation of `catalogue_index`
+ - Login button in top right
+ - Placeholder for logo
+ - Two sections with hidden information
 
-### 26.10. - Angebotserstellung
-- Seite "Offer New Automotive Part"
-- Formular mit Feldern:
-  - Supplier
-  - Preis
-  - Verfügbarkeit
-  - Menge
-  - Geschätzte Lieferzeit
-- Bild-Upload-Funktionalität
-- Erstellung `OfferPartForm` in `forms.py`
-  - Integration von FloatField, SelectField, FileField
+### October 26 - Offer Creation
+- "Offer New Automotive Part" page
+- Form with fields:
+ - Supplier
+ - Price
+ - Availability
+ - Quantity
+ - Estimated delivery time
+- Image upload functionality
+- Creation of `OfferPartForm` in `forms.py`
+ - Integration of FloatField, SelectField, FileField
 
 ## November 2024
 
-### 29.10. - Katalog-Entwicklung
-- Erstellung `catalogue.html`
-- Datenbankabfrage für Teile
-- Verlinkung zwischen Katalogseiten
+### October 29 - Catalog Development
+- Creation of `catalogue.html`
+- Database query for parts
+- Linking between catalog pages
 
-### 01.11. - Weitere Funktionen
-- Geplant:
-  - Filtermöglichkeit nach Modell/Hersteller
-  - Suchleisten-Positionierung
-  - Hintergrundfarben-Anpassung
+### November 1 - Additional Features
+- Planned:
+ - Filter option by model/manufacturer
+ - Search bar positioning
+ - Background color adjustment
 
-### 04.11. - Navigation
-- Navbar-Dropdown implementiert
-- Bootstrap-Struktur
-- Referenzen:
-  - [Bootstrap Navbar](https://getbootstrap.com/docs/4.0/components/navbar/)
-  - [Dropdown-Tutorial](https://www.youtube.com/watch?v=VQWu4e6agPc)
+### November 4 - Navigation
+- Implemented navbar dropdown
+- Bootstrap structure
+- References:
+ - [Bootstrap Navbar](https://getbootstrap.com/docs/4.0/components/navbar/)
+ - [Dropdown Tutorial](https://www.youtube.com/watch?v=VQWu4e6agPc)
 
-### 05.11. - Kaufprozess
-- Kaufformular in `forms.py`
-- Neues Datenbankmodell
-- Route für Artikeldetails
-- `view_item.html` mit:
-  - Produktdetails
-  - Kaufformular
-  - Kreditkartenoptionen
+### November 5 - Purchase Process
+- Purchase form in `forms.py`
+- New database model
+- Route for article details
+- `view_item.html` with:
+ - Product details
+ - Purchase form
+ - Credit card options
 
-### 06.11. - Benutzerführung
-- "How to use" Button
-- Sprechblase mit Tutorial
-- Kontextabhängige Anzeige
+### November 6 - User Guidance
+- "How to use" button
+- Speech bubble with tutorial
+- Context-dependent display
 
-### 09.11. - Erweiterungen
-- "How to use" nur für authentifizierte Nutzer
-- CSS-Optimierung
-- "My Orders" Seite
-  - Anzeige von Benutzer-Käufen
+### November 9 - Enhancements
+- "How to use" only for authenticated users
+- CSS optimization
+- "My Orders" page
+ - Display of user purchases
 
-### 01.12. - Weitere Verbesserungen
-- Out-of-Stock-Banner
-- "My Listings" für Supplier
-  - Eigene Listings ansehen
-  - Bearbeiten/Löschen von Artikeln
-- Architektur-Dokumentation erstellt
+### December 1 - Further Improvements
+- Out-of-stock banner
+- "My Listings" for Suppliers
+ - View own listings
+ - Edit/delete articles
+- Created architecture documentation
 
-### 14.12. - Zahlungsprozess
-- Nur Vorkasse
-- Vereinfachte Datenbankspeicherung
-- Zusammenfassen mehrerer Teile pro Bestellung
+### December 14 - Payment Process
+- Advance payment only
+- Simplified database storage
+- Combining multiple parts per order
 
 ## [Joe Doe]
 
