@@ -20,7 +20,7 @@ Matr.-Nr.
 ### Tim Hendrik Luhmann
 
 About
-: Tim likes Front-end development and visualization in general. This is his first web-based python project.
+: I like Front-end development and visualization in general. This is my first web-based python project.
 
 Matr.-Nr.
 : 77211985140
