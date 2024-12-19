@@ -21,6 +21,24 @@ nav_order: 6
 
 ### Tim Hendrik Luhmann
 
-- Managed and adjusted `base.html`, `style.css`, and `catalogue_index.css`; responsible for all navigation in `base.html`
-- Worked on templates: `login.html`, `register.html`, `catalogue_index.html`, `offer_part.html`, `catalogue.html`, `view_part.html`, and `my_orders.html`
-- Created `OfferPartForm` and `PurchaseForm` in `forms.py`; implemented routes for `catalogue_index`, `view_part`, and `my_orders.html`
+- **Frontend Development and Template Management**: Created and maintained the core template structure through base.html, implemented responsive navigation, and established consistent styling via style.css and catalogue_index.css.
+Template Implementation: Developed and styled key user interface templates including:
+
+- **User authentication interfaces**: (login.html, register.html)
+Catalogue viewing systems (catalogue_index.html, catalogue.html)
+Part management interfaces (offer_part.html, view_part.html)
+Order tracking system (my_orders.html)
+
+
+- **Form Development**: Designed and implemented critical form components:
+
+Created the OfferPartForm for supplier part submissions
+Developed the PurchaseForm for customer order processing
+
+
+- **Route Implementation**: Built and managed essential application routes:
+
+Catalogue index display and navigation
+Detailed part view functionality
+Order tracking and management system
+
