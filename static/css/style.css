@@ -62,7 +62,9 @@ a {
 /* Common button styles */
 .custom-button,
 .btn-blue,
-.btn-primary {
+.btn-primary,
+.btn-yellow,
+.btn-red {
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius);
     transition: var(--transition-default);
@@ -70,25 +72,66 @@ a {
     align-items: center;
     gap: var(--spacing-sm);
     position: relative;
+    border: none;
+    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 .custom-button,
 .btn-primary {
     background-color: var(--primary-color);
-    border-color: var(--primary-color);
     color: var(--text-light) !important;
+    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
 }
 
 .btn-blue {
     background-color: var(--blue-color);
-    border-color: var(--blue-color);
+    color: var(--text-light) !important;
 }
 
-/* Button hover & active states */
+.btn-yellow {
+    background-color: #ffc107;
+    color: #212529 !important;
+}
+
+.btn-red {
+    background-color: #dc3545;
+    color: #fff !important;
+}
+
 .custom-button:hover,
-.btn-blue:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.btn-blue:hover,
+.btn-yellow:hover,
+.btn-red:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+.custom-button:active,
+.btn-blue:active,
+.btn-yellow:active,
+.btn-red:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-yellow:hover {
+    background-color: #e0a800;
+}
+
+.btn-red:hover {
+    background-color: #c82333;
 }
 
 .custom-button:hover {
@@ -99,14 +142,8 @@ a {
     background-color: var(--blue-light);
 }
 
-.custom-button:active,
-.btn-blue:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
 /* Images */
-.card-img-top{
+.card-img-top {
     width: 100%;
     height: 200px;          
     object-fit: contain;    
@@ -162,14 +199,33 @@ a {
 }
 
 .dropdown-toggle::after {
-    content: " ▼";
-    font-size: 12px;
-    vertical-align: middle;
+    content: none;
 }
 
 .nav-item.dropdown:hover .dropdown-content,
 .dropdown-content:hover {
     display: block;
+}
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-item.dropdown .dropdown-menu {
+    background-color: var(--primary-color);
+    color: var(--text-light) !important;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item.dropdown .dropdown-item {
+    background-color: var(--primary-color);
+    color: var(--text-light) !important;
+}
+
+.nav-item.dropdown .dropdown-item:hover {
+    background-color: var(--primary-light);
 }
 
 /* Profile link styles */
@@ -253,7 +309,7 @@ a {
 .card-orders-header {
     background-color: white;
     color: black;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border-radius: var (--border-radius) var(--border-radius) 0 0;
 }
 
 .card-orders-body {
@@ -290,7 +346,21 @@ a {
 }
 
 .browse-catalogue-btn {
-    background-color: var(--blue-color);
-    border-color: var(--blue-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     border-radius: var(--border-radius);
+    color: var(--text-light) !important;
+    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.browse-catalogue-btn:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+.browse-catalogue-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
 }

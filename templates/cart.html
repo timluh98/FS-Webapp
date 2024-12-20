@@ -36,7 +36,7 @@
                         <!-- Separate remove form (NOT inside the purchase form) -->
                         <form method="POST" action="{{ url_for('remove_from_cart', part_id=item.part.id) }}">
                             {{ form.csrf_token }}
-                            <button class="btn btn-sm btn-danger" type="submit" title="Remove from Cart">
+                            <button class="custom-button btn-red" type="submit" title="Remove from Cart">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
@@ -69,7 +69,7 @@
             {% for item in parts %}
             <input type="hidden" name="quantities[{{ item.part.id }}]" value="{{ item.quantity }}">
             {% endfor %}
-            <button type="submit" class="btn btn-primary mt-3">Place Order</button>
+            <button type="submit" class="custom-button mt-3">Place Order</button>
         </form>
 
     {% else %}

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row mb-4">
         <div class="col-12 text-end">
-            <a href="{{ url_for('catalogue') }}" class="btn btn-primary">Back to Catalogue</a>
+            <a href="{{ url_for('catalogue') }}" class="custom-button">Back to Catalogue</a>
         </div>
     </div>
     <div class="row mb-4 align-items-stretch">
@@ -23,7 +23,7 @@
                     <p class="card-text"><strong>Quantity:</strong> {{ part.quantity }}</p>
                     <p class="card-text"><strong>Estimated Delivery:</strong> {{ part.delivery }}</p>
                     <form method="POST" action="{{ url_for('add_to_cart', part_id=part.id) }}">
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        <button type="submit" class="custom-button">Add to Cart</button>
                     </form>
                 </div>
             </div>

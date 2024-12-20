@@ -9,7 +9,7 @@
         <form action="{{ url_for('catalogue') }}" method="get" class="d-flex justify-content-center">
             <div class="input-group" style="max-width: 500px;">
                 <input type="text" name="search" class="form-control" placeholder="Search parts..." value="{{ request.args.get('search', '') }}">
-                <button class="btn btn-outline-primary" type="submit">Search</button>
+                <button class="custom-button" type="submit">Search</button>
             </div>
         </form>
     </div>
@@ -28,7 +28,7 @@
                     <option value="asc" {% if request.args.get('price_order') == 'asc' %}selected{% endif %}>Price: Low to High</option>
                     <option value="desc" {% if request.args.get('price_order') == 'desc' %}selected{% endif %}>Price: High to Low</option>
                 </select>
-                <button class="btn btn-outline-primary" type="submit">Filter</button>
+                <button class="custom-button" type="submit">Filter</button>
             </div>
         </form>
     </div>
@@ -59,9 +59,9 @@
                         {% if current_user.is_authenticated %}
                             <div class="card-footer text-center">
                                 <form method="POST" action="{{ url_for('add_to_cart', part_id=part.id) }}" style="display: inline;">
-                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    <button type="submit" class="custom-button">Add to Cart</button>
                                 </form>
-                                <a href="{{ url_for('view_part', part_id=part.id) }}" class="btn btn-secondary">View Part</a>
+                                <a href="{{ url_for('view_part', part_id=part.id) }}" class="custom-button">View Part</a>
                             </div>
                         {% endif %}
                     </div>

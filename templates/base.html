@@ -32,43 +32,57 @@
                         <ul class="navbar-nav w-100">
                             {% if current_user.is_authenticated %}
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link text-light dropdown-toggle">
-                                        <i class="fas fa-bars"></i> Menu
+                                    <a class="nav-link custom-button" id="hoverDropdown">
+                                        <i class="fas fa-bars"></i>
+                                        <span>Menu</span>
                                     </a>
-                                    <div class="dropdown-content">
-                                        <a href="{{ url_for('catalogue') }}">
-                                            <i class="fas fa-th-list"></i> Catalogue
-                                        </a>
-                                        <a href="{{ url_for('my_orders') }}">
-                                            <i class="fas fa-shopping-cart"></i> My Orders
-                                        </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('catalogue') }}">
+                                                <i class="fas fa-book-open"></i> Catalogue
+                                            </a>
+                                        </li>
                                         {% if current_user.role == 'supplier' %}
-                                            <a href="{{ url_for('offer_part') }}">
-                                                <i class="fas fa-plus-circle"></i> Offer Part
-                                            </a>
-                                            <a href="{{ url_for('my_listings') }}">
-                                                <i class="fas fa-list-ul"></i> My Listings
-                                            </a>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ url_for('offer_part') }}">
+                                                    <i class="fas fa-cogs"></i> Offer Part
+                                                </a>
+                                            </li>
                                         {% endif %}
-                                        <a href="{{ url_for('logout') }}">
-                                            <i class="fas fa-sign-out-alt"></i> Logout
-                                        </a>
-                                    </div>
+                                        {% if current_user.role == 'supplier' %}
+                                            <li>
+                                                <a class="dropdown-item" href="{{ url_for('my_listings') }}">
+                                                    <i class="fas fa-list-ul"></i> My Listings
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('my_orders') }}">
+                                                <i class="fas fa-shopping-basket"></i> My Orders
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('logout') }}">
+                                                <i class="fas fa-sign-out-alt"></i> Logout
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li class="nav-item ms-auto">
-                                    <a class="nav-link" href="{{ url_for('cart') }}">                                 
-                                        <i class="fas fa-shopping-cart cart-icon"></i> <span class="cart-text">Cart</span>
+                                    <a class="nav-link custom-button" href="{{ url_for('cart') }}">
+                                        <i class="fas fa-shopping-cart cart-icon"></i>
+                                        <span class="cart-text">Cart</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link profile-link" href="{{ url_for('profile') }}">
+                                    <a class="nav-link custom-button profile-link" href="{{ url_for('profile') }}">
                                         <i class="fas fa-user-circle user-icon"></i>
                                         <span>{{ current_user.username }} ({{ current_user.role | capitalize }})</span>
                                     </a>
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link fs-4 fw-bold text-light py-2 px-3" href="{{ url_for('login') }}">
+                                    <a class="nav-link custom-button fs-4 fw-bold text-light py-2 px-3" href="{{ url_for('login') }}">
                                         <i class="fas fa-sign-in-alt"></i> Login
                                     </a>
                                 </li>

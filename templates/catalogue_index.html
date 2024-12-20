@@ -9,7 +9,7 @@
 
 {% block CONTENT %}
     {% if current_user.is_authenticated %}
-        <button class="how-to-use-btn" onclick="showTutorial()">How to use</button>
+        <button class="how-to-use-btn custom-button" onclick="showTutorial()">How to use</button>
     {% endif %}
 
     <div class="container">
@@ -43,13 +43,13 @@
                                         <p>{{ part.delivery }}</p>
                                         <div style="position: relative;">
                                             {% if loop.first %}
-                                                <a href="{{ url_for('view_part', part_id=3) }}" class="btn btn-primary mt-3 custom-button" id="catalogue-link-2">Click to see in catalogue</a>
+                                                <a href="{{ url_for('view_part', part_id=3) }}" class="custom-button mt-3" id="catalogue-link-2">Click to see in catalogue</a>
                                                 <div id="tutorial-bubble" class="speech-bubble">
                                                     Here you can see all relevant information about the part and you can also view it in the catalogue!
                                                     <button class="speech-bubble-close" onclick="hideTutorial()">Okay</button>
                                                 </div>
                                             {% else %}
-                                                <a href="{{ url_for('view_part', part_id=2) }}" class="btn btn-primary mt-3 custom-button" id="catalogue-link-3">Click to see in catalogue</a>
+                                                <a href="{{ url_for('view_part', part_id=2) }}" class="custom-button mt-3" id="catalogue-link-3">Click to see in catalogue</a>
                                             {% endif %}
                                         </div>
                                     {% else %}
