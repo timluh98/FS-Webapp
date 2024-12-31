@@ -146,39 +146,30 @@ Contributions
 
 ## November 2024
 
-### November 2 - Search & Filter Features
-- Built advanced search and filter functionality on `catalogue.html` with manufacturer dropdown, text search, and ascending/descending price sort.
-- Performed query optimization, ensuring minimal overhead when fetching parts from the database.
-- Conducted user acceptance testing to refine search behaviors and address edge cases (e.g., zero search results).
-
-### November 8 - Cart & Checkout Refactoring
-- Restructured the cart system to maintain items in session, simplifying the path to purchase pages.
-- Added form fields to handle variations in quantity ordering and integrated partial updates for cart quantities.
-- Coordinated with the front-end to ensure consistent feedback, including success flash messages after adding items to the cart.
-
 ### November 12 - Order & Purchase Flow
 - Finalized multi-item order handling by mapping each cart item to a `Purchase` record linked to a single `Order`.
 - Ensured the system tracked total order cost, payment status, and locked item quantity upon checkout.
 - Employed references to community Q&A forums (Stack Overflow) and SQLAlchemy docs for solving commit/flush issues.
 
-### November 20 - Profile Management & Debugging
-- Created a dedicated `ProfileForm` with fields for email, current password, and new password, enabling secure updates.
-- Implemented thorough logging (info, warning, error) to diagnose session-based anomalies during form submissions.
-- Pinpointed and resolved concurrency issues that arose when multiple items were purchased within short time intervals.
+### November 24 - Search & Filter Features, Profile Management & Debugging
+- Built advanced search and filter functionality on `catalogue.html`, allowing manufacturer dropdown, text search, and ascending/descending price sort.
+- Ensured minimal database overhead using query optimizations.
+- Created a dedicated `ProfileForm` for secure email and password updates.
+- Added robust logging (info, warning, error) to diagnose session anomalies.
 
 ## December 2024
 
-### December 3 - Image Handling & File Management
-- Integrated file uploads for part images in `OfferPartForm`, storing sanitized filenames in `static/images`.
-- Validated image extensions (PNG, JPG, JPEG, GIF) to prevent malicious file uploads.
-- Implemented fallback images for parts without an uploaded image, ensuring uniform presentation in the catalogue.
+### December 13 - Cart & Checkout Refactoring
+- Introduced a shopping cart system maintained in session, enabling multi-item purchases and partial quantity updates.
+- Coordinated with the front-end for consistent feedback via flash messages after adding items to the cart.
 
-### December 10 - Supplier Listings & Maintenance
-- Built “My Listings” page for suppliers to manage their offered parts, including edit/delete routes.
-- Enhancements to “Edit Part” form that let suppliers override existing images or keep them as-is.
-- Added rigorous error reporting on part edit failures, rolling back database changes to maintain data integrity.
+### December 14 - Image Handling & File Management, Final Setup & Documentation
+- Integrated file uploads for part images (PNG, JPG, JPEG, GIF), adding image scaling and secure filename handling.
+- Validated extensions to prevent malicious uploads.
+- Finalized environment setup instructions and tested complete purchase flows to ensure readiness for project submission.
 
-### December 14 - Final Setup & Documentation
-- Documented final instructions for installing dependencies, environment setup, and running the app in production-like conditions.
-- Contributed to last-mile bug fixes, verifying that user flows (log in → add cart items → purchase → view orders) worked end-to-end without errors.
-- Organized a final code review session with the team to ensure consistent coding style and readiness for project submission.
+#### References & Prompts
+- Consulted [Perplexity AI](https://www.perplexity.ai/) for example form validation prompts.
+- Referenced DigitalOcean and Flask-Login official documentation for login flow.
+- Used ChatGPT for scaffolding advanced search queries and debugging SQLAlchemy relationships.
+- Asked Microsoft Copilot for suggestions on refactoring the cart system and clarifying session handling.
