@@ -24,6 +24,12 @@ In the automotive industry, individuals and small businesses often struggle to k
 
 **PartWatch** is a B2C web application designed to streamline the automotive parts purchasing process for both customers and suppliers. Through a user-friendly platform, **PartWatch** connects suppliers, who can list their automotive parts along with details such as pricing, availability and delivery times, with customers who need these parts. The application provides an easy-to-use catalogue for customers to browse and buy, with access to detailed product information upon login. For suppliers, it provides a simple interface to upload and manage their listings, making it easier to reach potential buyers without the traditional marketing overheads.
 
+- **Full Cart System**: Allows users to add, remove, and finalize purchases in a unified interface, streamlining the checkout process.
+
+- **Profile Management**: Users can customize and secure their accounts, updating personal details and changing passwords safely.
+
+- **Advanced Search & Filter**: Ensure customers can quickly find parts by manufacturer or price, improving discoverability.
+
 ## Target user
 
 The application is aimed at two primary user groups:

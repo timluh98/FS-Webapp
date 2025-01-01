@@ -18,6 +18,8 @@ nav_order: 6
 - **Filter and Search Features**: Developed functionality for customers to filter automotive parts by price (ascending/descending) and manufacturer names in the catalogue.
 - **Profile Management**: Implemented the `profile.html` feature to allow users to manage their profiles, including securely updating their passwords.
 - **Documentation and Setup Instructions**: Provided instructions for setting up and initializing the project, including steps for environment setup, database creation, and sample data insertion.
+- **Cart Implementation**: Designed and implemented the shopping cart feature, facilitating adding, removing, and finalizing purchases.
+- **Modern UI Styling**: Updated various elements (forms, buttons, layout) to ensure a more modern and responsive user interface across pages.
 
 ### Tim Hendrik Luhmann
 

@@ -19,29 +19,26 @@ nav_order: 1
 
 ## Overview
 
-PartWatch is a Flask-based web application that facilitates the buying and selling of automotive parts. It implements a B2C marketplace model where suppliers can list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
+PartWatch is a Flask-based web application that facilitates the buying and selling of automotive parts. It implements a B2C marketplace model where suppliers list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
 
 ```mermaid
 graph TD
     A[Client Browser] --> B[Flask Application]
-    B --> |Authenticate| C[User Management]
-    B --> |CRUD Operations| D[Database]
-    B --> |Serve| E[Static Files]
-    
-    C --> |Login/Register| F[Flask-Login]
-    D --> |ORM| G[SQLAlchemy]
-    
-    subgraph Database Tables
-        G --> H[Users]
-        G --> I[Parts]
-        G --> J[Purchases]
-    end
-    
-    subgraph Templates
-        E --> K[base.html]
-        E --> L[catalogue/*.html]
-        E --> M[my_listings.html]
-        E --> N[auth/*.html]
+    B --> |Manage Sessions & Auth| C[Flask-Login]
+    B --> |Handle Forms| D[WTForms]
+    B --> |ORM Queries| E[SQLAlchemy]
+    B --> |Serve| F[Static Files]
+    B --> |Render| G[Jinja Templates]
+
+    E --> U[User]
+    E --> P[Part]
+    E --> O[Order]
+    E --> R[Purchase]
+
+    subgraph Tables
+        U --> P
+        O --> R
+        P --> R
     end
 ```
 
