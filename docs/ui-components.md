@@ -24,16 +24,16 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ![register](assets/images/fswd_register.png)
 
 ```markdown
-![index](assets/images/fswd_index.png)
+![register](assets/images/fswd_profile_settings.png)
 ```
 
-![index](assets/images/fswd_index.png)
+![register](assets/images/fswd_profile_settings.png)
 
 ```markdown
-![index_logged_in](assets/images/fswd_index_logged_in.png)
+![index](assets/images/fswd_index.png)
 ```
 
-![index_logged_in](assets/images/fswd_index_logged_in.png)
+![index](assets/images/fswd_index.png)
 
 ```markdown
 ![index_how_to_use](assets/images/fswd_index_how_to_use.png)
@@ -48,10 +48,22 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ![catalogue](assets/images/fswd_catalogue.png)
 
 ```markdown
-![purchase_part](assets/images/fswd_purchase_part.png)
+![index](assets/images/fswd_menu.png)
 ```
 
-![purchase_part](assets/images/fswd_purchase_part.png)
+![index](assets/images/fswd_menu.png)
+
+```markdown
+![purchase_part](assets/images/fswd_view_part.png)
+```
+
+![purchase_part](assets/images/fswd_view_part.png)
+
+```markdown
+![purchase_part](assets/images/fswd_shopping_cart.png)
+```
+
+![purchase_part](assets/images/fswd_shopping_cart.png)
 
 ```markdown
 ![my_orders](assets/images/fswd_my_orders.png)
@@ -66,10 +78,11 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ![offer_part](assets/images/fswd_offer_part.png)
 
 ```markdown
-![update_profile](assets/images/fswd_update_profile.png)
+![offer_part](assets/images/fswd_my_listings.png)
 ```
 
-![update_profile](assets/images/fswd_update_profile.png)
+![offer_part](assets/images/fswd_my_listings.png)
+
 ## Callouts
 
 {: .info }
