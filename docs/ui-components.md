@@ -83,6 +83,18 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 
 ![offer_part](assets/images/fswd_my_listings.png)
 
+```markdown
+![offer_part](assets/images/fswd_my_listings2.png)
+```
+
+![offer_part](assets/images/fswd_my_listings2.png)
+
+```markdown
+![offer_part](assets/images/fswd_edit_part.png)
+```
+
+![offer_part](assets/images/fswd_edit_part.png)
+
 ## Callouts
 
 {: .info }
