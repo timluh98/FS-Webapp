@@ -63,14 +63,29 @@
             <p class="text-muted">Your order will be processed after we receive your payment.</p>
         </div>
 
-        <!-- Place Order form separate from the cart display -->
-        <form method="POST" action="{{ url_for('purchase_cart') }}">
-            {{ form.hidden_tag() }}
-            {% for item in parts %}
-            <input type="hidden" name="quantities[{{ item.part.id }}]" value="{{ item.quantity }}">
-            {% endfor %}
-            <button type="submit" class="custom-button mt-3">Place Order</button>
-        </form>
+        <!-- Shipping Information -->
+        <div class="mt-4">
+            <h3>Shipping Information</h3>
+            <form method="POST" action="{{ url_for('purchase_cart') }}" class="row g-3">
+                {{ form.hidden_tag() }}
+                
+                <div class="col-12">
+                    {{ form.shipping_name.label(class="form-label") }}
+                    {{ form.shipping_name(class="form-control") }}
+                </div>
+                
+                <div class="col-12">
+                    {{ form.shipping_address.label(class="form-label") }}
+                    {{ form.shipping_address(class="form-control", rows="3") }}
+                </div>
+
+                {% for item in parts %}
+                <input type="hidden" name="quantities[{{ item.part.id }}]" value="{{ item.quantity }}">
+                {% endfor %}
+                
+                {{ form.submit(class="btn custom-button mt-3") }}
+            </form>
+        </div>
 
     {% else %}
         <p>Your cart is empty.</p>

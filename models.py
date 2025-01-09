@@ -36,6 +36,8 @@ class Order(db.Model):
     payment_status = db.Column(db.String(20), nullable=False, default='pending')
     payment_reference = db.Column(db.String(100), nullable=True)
     payment_date = db.Column(db.DateTime, nullable=True)
+    shipping_name = db.Column(db.String(150), nullable=True)
+    shipping_address = db.Column(db.Text, nullable=True)
     purchases = db.relationship('Purchase', back_populates='order', lazy=True)
 
     def update_payment_status(self, status):

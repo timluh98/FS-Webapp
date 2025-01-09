@@ -423,6 +423,11 @@ def cart():
 @app.route('/purchase_cart', methods=['POST'])
 @login_required
 def purchase_cart():
+    form = CartForm()
+    if not form.validate_on_submit():
+        flash('Please fill in all shipping information.', 'danger')
+        return redirect(url_for('cart'))
+    
     cart = session.get('cart', {})
     
     if not cart:
@@ -470,7 +475,9 @@ def purchase_cart():
             user_id=current_user.id,
             total_amount=total_amount,
             payment_status='pending',
-            payment_reference=f'Order-{next_order_id}'
+            payment_reference=f'Order-{next_order_id}',
+            shipping_name=form.shipping_name.data,
+            shipping_address=form.shipping_address.data
         )
         db.session.add(new_order)
         db.session.flush()  # This gets us the order.id

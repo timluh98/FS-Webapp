@@ -57,4 +57,6 @@ class ProfileForm(FlaskForm):
     submit = SubmitField('Update Profile')
 
 class CartForm(FlaskForm):
+    shipping_name = StringField('Full Name', validators=[DataRequired()])
+    shipping_address = TextAreaField('Shipping Address', validators=[DataRequired()])
     submit = SubmitField('Place Order')
