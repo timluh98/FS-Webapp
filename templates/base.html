@@ -103,6 +103,16 @@
         </div>
     </div>
 
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">
+                <a href="{{ url_for('imprint') }}">Imprint</a> |
+                <a href="{{ url_for('terms') }}">Terms and Conditions</a> | 
+                <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+            </span>
+        </div>
+    </footer>
+
     {{ bootstrap.load_js() }}
 </body>
 

@@ -94,3 +94,21 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ```
 
 ![offer_part](assets/images/fswd_edit_part.png)
+
+```markdown
+![offer_part](assets/images/fswd_imprint.png)
+```
+
+![offer_part](assets/images/fswd_imprint.png)
+
+```markdown
+![offer_part](assets/images/fswd_terms.png)
+```
+
+![offer_part](assets/images/fswd_terms.png)
+
+```markdown
+![offer_part](assets/images/fswd_privacy.png)
+```
+
+![offer_part](assets/images/fswd_privacy.png)

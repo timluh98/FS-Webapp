@@ -515,14 +515,24 @@ def purchase_cart():
 @app.route('/my_orders')
 @login_required
 def my_orders():
-    """Display the user's order history."""
     orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.order_date.desc()).all()
     return render_template('my_orders.html', orders=orders)
 
 @app.route('/faq')
 def faq():
-    """Display the FAQ page."""
     return render_template('faq.html')
+
+@app.route('/imprint')
+def imprint():
+    return render_template('imprint.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
 
 
 # Main Execution
