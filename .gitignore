@@ -4,3 +4,6 @@ __pycache__/
 # Ignore venv folder (Python Virtual Environment)
 venv/
 
+# Ignore migrations folder
+migrations/
+
