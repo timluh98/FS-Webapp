@@ -112,6 +112,10 @@ Contributions
 - Simplified database storage
 - Combining multiple parts per order
 
+### January 10 - Imprint, Terms and Privacy
+- Added `imprint.html`, `terms.html` and `privacy.html` pages and linked them in the footer of the `base.html`
+- A note has been added to inform the supplier that a 10% free will be taken upon successful purchases
+
 ## [Johann Estrada Pox]
 
 Contributions
