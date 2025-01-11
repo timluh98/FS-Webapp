@@ -19,7 +19,7 @@ nav_order: 1
 
 ## Overview
 
-PartWatch is a Flask-based web application that facilitates the buying and selling of automotive parts. It implements a B2C marketplace model where suppliers list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
+PartWatch is a Flask-based web application that facilitates the buying and selling of motorcycle parts. It implements a B2C marketplace model where suppliers list parts and customers can browse and purchase them. The application uses SQLAlchemy for database operations, WTForms for form handling, and Bootstrap for the frontend UI.
 
 ```mermaid
 graph TD
@@ -47,24 +47,38 @@ graph TD
 The application follows a typical Flask project structure:
 
 ```
-PartWatch/
-├── app.py                  # Application entry point
-├── templates/             
-│   ├── base.html          # Base template
-│   ├── catalogue/         
-│   │   ├── index.html     # Main catalogue view
-│   │   └── view_part.html # Individual part view
-│   ├── my_listings.html   # Supplier's parts management
-│   └── auth/             
-│       ├── login.html     
-│       └── register.html  
-├── static/               
-│   ├── css/              
-│   └── images/           
-├── models/              
-│   └── __init__.py       # Database models
-└── forms/               
-    └── __init__.py       # Form definitions
+FS-Webapp/
+├── app.py
+├── db.py
+├── forms.py
+├── migrations/
+├── models.py
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── data/
+│   └── images/
+├── templates/
+│   ├── base.html
+│   ├── catalogue.html
+│   ├── catalogue_index.html
+│   ├── my_orders.html
+│   ├── login.html
+│   ├── register.html
+│   ├── my_listings.html
+│   ├── edit_part.html
+│   ├── cart.html
+│   ├── view_part.html
+│   ├── offer_part.html
+│   ├── faq.html
+│   ├── imprint.html
+│   ├── terms.html
+│   └── privacy.html
+└── docs/
+    ├── assets/
+    ├── team-eval/
+    ├── tecincal-focs/
+    └── technical-docs/
 ```
 
 Key components:

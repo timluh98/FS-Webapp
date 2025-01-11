@@ -5,7 +5,7 @@ nav_order: 0
 
 # PartWatch
 
-The Automotive Parts Availability Tracker is a straightforward web application that assists manufacturers and customers in monitoring the availability and pricing of automotive parts across a range of suppliers. 
+PartWatch is a straightforward B2C web application that assists suppliers and customers in monitoring the availability and pricing of motorcycle parts across a range of suppliers. 
 
 ## Team members
 

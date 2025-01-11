@@ -1,32 +1,31 @@
 ---
-title: Peer Review
-parent: Team Evaluation
-nav_order: 3
+title: Team Peer Review
+parent: Team Eval
+nav_order: 1
 ---
 
-{: .label }
-[Jane Dane]
+# Team Peer Review
 
-{: .no_toc }
-# Peer review
+## Criteria
 
-<details open markdown="block">
-{: .text-delta }
-<summary>Table of contents</summary>
-+ ToC
-{: toc }
-</details>
+1. Code Quality  
+2. Communication & Collaboration  
+3. Timeliness & Reliability
 
-## [team member] - review 1
+## Review
 
-### My observation (Wahrnehmung)
+| Team Member         | Code Quality                                     | Communication & Collaboration                                  | Timeliness & Reliability                                     |
+|---------------------|-------------------------------------------------|----------------------------------------------------------------|-------------------------------------------------------------|
+| Johann Estrada Pox  | Clear and readable. Handles Python features well. | Actively shared updates on Slack. Gave constructive feedback.   | Always met deadlines for merges and review cycles.           |
+| Tim Hendrik Luhmann | Good front-end ideas and styling consistency.    | Participated in standups. Quick to clarify tasks and issues.    | Completed tasks on time despite limited Flask experience.     |
 
-[A specific observation, regarding know-how, effectiveness, team work or from another relevant area]
+## Observations
 
-### Effect on me (Wirkung)
+- Both members contributed significantly to coding, testing, and style adjustments.
+- Documentation was enriched by Johann’s Python expertise and Tim’s front-end perspective.
 
-[What positive or negative effect did this observation have on the reviewer?]
+## Suggestions
 
-### Tip for the future (Wunsch)
-
-[What should be changed or strengthened for the point of view of the reviewer?]
+1. Continue frequent code reviews.  
+2. Maintain consistent naming conventions.  
+3. Encourage open communication about any blockers.

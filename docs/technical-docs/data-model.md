@@ -69,6 +69,10 @@ The `Order` table tracks user orders, including total costs and payment status:
 | `payment_status` | String (20)   | Payment status for the order (e.g., "pending").       |
 | `payment_reference`| String (100)| Internal reference number for payment.                |
 | `payment_date`   | DateTime      | Date and time the payment was completed.              |
+| `shipping_name`  | String (150)  | Name of recipient.                                    |
+| `shipping_address`| Text         | Shipping address.                                     |
+| `shipping_status`| String (20)   | Shipping status (e.g., "pending", "shipped").         |
+| `completion_status`| String (20) | Completion status (e.g., "pending", "completed").     |
 
 ## Purchase Table
 
