@@ -5,8 +5,8 @@
 {% endblock %}
 {% block CONTENT %}
     {% if current_user.is_authenticated and current_user.role == 'supplier' and supplier_orders_count > 0 %}
-        <div class="alert alert-info text-center" role="alert">
-            <a href="{{ url_for('my_orders') }}" class="btn btn-primary">
+        <div class="alert custom-alert text-center" role="alert">
+            <a href="{{ url_for('my_orders') }}" class="custom-button supplier-alert-btn">
                 <i class="fas fa-bell"></i> You have {{ supplier_orders_count }} order(s) to process!
             </a>
         </div>

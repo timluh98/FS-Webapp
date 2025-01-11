@@ -543,11 +543,7 @@ def purchase_cart():
 @app.route('/my_orders')
 @login_required
 def my_orders():
-    print(f"\n=== My Orders Debug ===")
-    print(f"User: {current_user.username} (ID: {current_user.id}, Role: {current_user.role})")
-    
     orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.order_date.desc()).all()
-    print(f"User Orders: {len(orders)}")
     
     supplier_orders = []
     if current_user.role == 'supplier':
@@ -557,21 +553,7 @@ def my_orders():
             .filter(Part.supplier_id == current_user.id)
             .order_by(Order.order_date.desc())
             .distinct()
-            .all())
-        
-        print("\n=== Supplier Orders Debug ===")
-        for order in supplier_orders:
-            print(f"\nOrder #{order.id}:")
-            print(f"Payment Status: {order.payment_status}")
-            print(f"Shipping Status: {order.shipping_status}")
-            print("Should show shipping button:", 
-                  order.payment_status == 'paid' and 
-                  order.shipping_status == 'pending' and 
-                  any(p.part.supplier_id == current_user.id for p in order.purchases))
-            for purchase in order.purchases:
-                print(f"Part: {purchase.part.name}")
-                print(f"Part Supplier ID: {purchase.part.supplier_id}")
-    
+            .all())    
     return render_template('my_orders.html', 
                          orders=orders,
                          supplier_orders=supplier_orders)
