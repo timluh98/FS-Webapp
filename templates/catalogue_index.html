@@ -8,6 +8,13 @@
 {% endblock %}
 
 {% block CONTENT %}
+    {% if current_user.is_authenticated and current_user.role == 'supplier' and supplier_orders_count > 0 %}
+        <div class="alert alert-info text-center" role="alert">
+            <a href="{{ url_for('my_orders') }}" class="btn btn-primary">
+                <i class="fas fa-bell"></i> You have {{ supplier_orders_count }} order(s) to process!
+            </a>
+        </div>
+    {% endif %}
     {% if current_user.is_authenticated %}
         <button class="how-to-use-btn custom-button" onclick="showTutorial()">How to use</button>
     {% endif %}

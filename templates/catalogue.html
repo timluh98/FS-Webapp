@@ -4,6 +4,13 @@
     <h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
 {% endblock %}
 {% block CONTENT %}
+    {% if current_user.is_authenticated and current_user.role == 'supplier' and supplier_orders_count > 0 %}
+        <div class="alert alert-info text-center" role="alert">
+            <a href="{{ url_for('my_orders') }}" class="btn btn-primary">
+                <i class="fas fa-bell"></i> You have {{ supplier_orders_count }} order(s) to process!
+            </a>
+        </div>
+    {% endif %}
     <!-- Search form -->
     <div class="container mb-4">
         <form action="{{ url_for('catalogue') }}" method="get" class="d-flex justify-content-center">
@@ -38,11 +45,15 @@
             {% for part in parts %}
                 <div class="col">
                     <div class="card h-100">
-                        <img src="{{ url_for('static', filename='images/' + part.image) }}" class="card-img-top" alt="{{ part.name }}">
+                        {% if part.image %}
+                            <img src="{{ url_for('static', filename='images/' + part.image) }}" class="card-img-top" alt="{{ part.name }}">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default.png') }}" class="card-img-top" alt="{{ part.name }}">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ part.name }}</h5>
                             {% if current_user.is_authenticated %}
-                                <p class="card-text"><strong>Supplier:</strong> {{ part.supplier }}</p>
+                                <p class="card-text"><strong>Supplier:</strong> {{ part.supplier.username }}</p>
                                 <p class="card-text"><strong>Manufacturer:</strong> {{ part.manufacturer }}</p>
                                 <p class="card-text"><strong>Model:</strong> {{ part.model }}</p>
                                 <p class="card-text"><strong>Price:</strong> ${{ part.price }}</p>

@@ -101,7 +101,22 @@ def load_json_data(filename='parts.json'):
 def index():
     """Render the homepage with parts from the JSON file."""
     parts = load_json_data('static/data/parts.json')
-    return render_template('catalogue_index.html', parts=parts)
+    supplier_orders_count = 0
+    
+    if current_user.is_authenticated and current_user.role == 'supplier':
+        supplier_orders = (Order.query
+            .join(Purchase)
+            .join(Part)
+            .filter(Part.supplier_id == current_user.id)
+            .filter(Order.payment_status == 'paid')
+            .filter(Order.shipping_status == 'pending')
+            .distinct()
+            .count())
+        supplier_orders_count = supplier_orders
+        
+    return render_template('catalogue_index.html', 
+                         parts=parts,
+                         supplier_orders_count=supplier_orders_count)
 
 
 @app.route('/catalogue')
@@ -118,9 +133,22 @@ def catalogue():
     if price_order:
         query = query.order_by(Part.price.asc() if price_order == 'asc' else Part.price.desc())
 
+    supplier_orders_count = 0
+    if current_user.is_authenticated and current_user.role == 'supplier':
+        supplier_orders = (Order.query
+            .join(Purchase)
+            .join(Part)
+            .filter(Part.supplier_id == current_user.id)
+            .filter(Order.payment_status == 'paid')
+            .filter(Order.shipping_status == 'pending')
+            .distinct()
+            .count())
+        supplier_orders_count = supplier_orders
+
     return render_template('catalogue.html', 
                          parts=query.all(),
-                         manufacturers=Part.query.with_entities(Part.manufacturer).distinct().all())
+                         manufacturers=Part.query.with_entities(Part.manufacturer).distinct().all(),
+                         supplier_orders_count=supplier_orders_count)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -515,8 +543,85 @@ def purchase_cart():
 @app.route('/my_orders')
 @login_required
 def my_orders():
+    print(f"\n=== My Orders Debug ===")
+    print(f"User: {current_user.username} (ID: {current_user.id}, Role: {current_user.role})")
+    
     orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.order_date.desc()).all()
-    return render_template('my_orders.html', orders=orders)
+    print(f"User Orders: {len(orders)}")
+    
+    supplier_orders = []
+    if current_user.role == 'supplier':
+        supplier_orders = (Order.query
+            .join(Purchase)
+            .join(Part)
+            .filter(Part.supplier_id == current_user.id)
+            .order_by(Order.order_date.desc())
+            .distinct()
+            .all())
+        
+        print("\n=== Supplier Orders Debug ===")
+        for order in supplier_orders:
+            print(f"\nOrder #{order.id}:")
+            print(f"Payment Status: {order.payment_status}")
+            print(f"Shipping Status: {order.shipping_status}")
+            print("Should show shipping button:", 
+                  order.payment_status == 'paid' and 
+                  order.shipping_status == 'pending' and 
+                  any(p.part.supplier_id == current_user.id for p in order.purchases))
+            for purchase in order.purchases:
+                print(f"Part: {purchase.part.name}")
+                print(f"Part Supplier ID: {purchase.part.supplier_id}")
+    
+    return render_template('my_orders.html', 
+                         orders=orders,
+                         supplier_orders=supplier_orders)
+
+@app.route('/confirm_payment/<int:order_id>', methods=['POST'])
+@login_required
+def confirm_payment(order_id):
+    order = Order.query.get_or_404(order_id)
+    if order.user_id != current_user.id:
+        flash('You can only confirm payment for your own orders.', 'danger')
+        return redirect(url_for('my_orders'))
+    
+    if order.payment_status == 'pending':
+        order.payment_status = 'paid'
+        db.session.commit()
+        flash('Payment confirmed. Supplier has been notified to ship your order.', 'success')
+    return redirect(url_for('my_orders'))
+
+@app.route('/confirm_shipping/<int:order_id>', methods=['POST'])
+@login_required
+def confirm_shipping(order_id):
+    order = Order.query.get_or_404(order_id)
+    is_supplier = any(
+        purchase.part.supplier_id == current_user.id 
+        for purchase in order.purchases
+    )
+    
+    if not is_supplier:
+        flash('You can only confirm shipping for orders containing your parts.', 'danger')
+        return redirect(url_for('my_orders'))
+    
+    if order.shipping_status == 'pending' and order.payment_status == 'paid':
+        order.update_shipping_status('shipped')
+        db.session.commit()
+        flash('Shipping confirmed. Customer has been notified.', 'success')
+    return redirect(url_for('my_orders'))
+
+@app.route('/confirm_completion/<int:order_id>', methods=['POST'])
+@login_required
+def confirm_completion(order_id):
+    order = Order.query.get_or_404(order_id)
+    if order.user_id != current_user.id:
+        flash('You can only confirm completion for your own orders.', 'danger')
+        return redirect(url_for('my_orders'))
+    
+    if order.completion_status == 'pending' and order.shipping_status == 'shipped':
+        order.completion_status = 'completed'
+        db.session.commit()
+        flash('Order completion confirmed. Thank you for your purchase!', 'success')
+    return redirect(url_for('my_orders'))
 
 @app.route('/faq')
 def faq():

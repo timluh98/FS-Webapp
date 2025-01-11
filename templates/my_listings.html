@@ -10,7 +10,11 @@
             {% for part in parts %}
                 <div class="col">
                     <div class="card h-100">
-                        <img src="{{ url_for('static', filename='images/' + part.image) }}" class="card-img-top" alt="{{ part.name }}">
+                        {% if part.image %}
+                            <img src="{{ url_for('static', filename='images/' + part.image) }}" class="card-img-top" alt="{{ part.name }}">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default.png') }}" class="card-img-top" alt="{{ part.name }}">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ part.name }}</h5>
                             <p class="card-text"><strong>Manufacturer:</strong> {{ part.manufacturer }}</p>

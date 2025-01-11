@@ -1,5 +1,6 @@
 from db import db
 from flask_login import UserMixin
+from flask import url_for
 from datetime import datetime
 
 class User(db.Model, UserMixin):
@@ -24,6 +25,12 @@ class Part(db.Model):
     model = db.Column(db.String(100), nullable=False)
     purchases = db.relationship('Purchase', back_populates='part', lazy=True)
 
+    @property
+    def image_url(self):
+        if self.image:
+            return url_for('static', filename=f'images/{self.image}')
+        return url_for('static', filename='images/default.png')
+
     def update_availability(self):
         self.availability = 'Out of Stock' if self.quantity <= 0 else 'In Stock'
 
@@ -38,12 +45,22 @@ class Order(db.Model):
     payment_date = db.Column(db.DateTime, nullable=True)
     shipping_name = db.Column(db.String(150), nullable=True)
     shipping_address = db.Column(db.Text, nullable=True)
+    shipping_status = db.Column(db.String(20), nullable=False, default='pending')  # Add this line
+    completion_status = db.Column(db.String(20), nullable=False, default='pending')  # Add this line
     purchases = db.relationship('Purchase', back_populates='order', lazy=True)
 
     def update_payment_status(self, status):
         self.payment_status = status
         if status == 'paid':
             self.payment_date = datetime.utcnow()
+    
+    def update_shipping_status(self, status):
+        self.shipping_status = status
+        db.session.commit()
+
+    def update_completion_status(self, status):
+        self.completion_status = status
+        db.session.commit()
 
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)

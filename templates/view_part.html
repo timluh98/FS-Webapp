@@ -9,7 +9,7 @@
     </div>
     <div class="row mb-4 align-items-stretch">
         <div class="col-md-4">
-            <img src="{{ url_for('static', filename='images/' + part.image) }}" class="view-part-img" alt="{{ part.name }}">
+            <img src="{{ part.image_url }}" class="view-part-img" alt="{{ part.name }}">
         </div>
         <div class="col-md-8">
             <div class="card h-100">
