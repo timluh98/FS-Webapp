@@ -60,8 +60,6 @@ Contributions
 - Creation of `OfferPartForm` in `forms.py`
  - Integration of FloatField, SelectField, FileField
 
-## November 2024
-
 ### October 29 - Catalog Development
 - Creation of `catalogue.html`
 - Database query for parts
@@ -111,10 +109,13 @@ Contributions
 - Advance payment only
 - Simplified database storage
 - Combining multiple parts per order
+- Reference: [CoPilot](Prompt: How do add new attributes to my databese in sqlite without removing existing data?)
 
 ### January 10 - Imprint, Terms and Privacy
 - Added `imprint.html`, `terms.html` and `privacy.html` pages and linked them in the footer of the `base.html`
-- A note has been added to inform the supplier that a 10% free will be taken upon successful purchases
+- A note has been added to inform the supplier that a 5% free will be taken upon successful purchases
+- Added logic for confirming payments, shipping and completion. Implemented this through the use of buttons in the orders section and new attributes in the databse (shipping_status and so on)
+- Reference: [CoPilot](Prompt 1: How could I implement a payment system that confirms the payment and the shipping. How do I achieve that the Buttons for confirming that only shows for the right user?)
 
 ## [Johann Estrada Pox]
 
