@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
 class Part(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
-    supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  
+    supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     supplier = db.relationship('User', backref=db.backref('parts', lazy=True, cascade="all, delete-orphan"))
     price = db.Column(db.Float, nullable=False)
     availability = db.Column(db.String(100), nullable=False)
@@ -21,15 +21,10 @@ class Part(db.Model):
     delivery = db.Column(db.String(100), nullable=False)
     image = db.Column(db.String(200), nullable=True)
     description = db.Column(db.Text, nullable=False)
-    manufacturer = db.Column(db.String(100), nullable=False)  
+    manufacturer = db.Column(db.String(100), nullable=False)
     model = db.Column(db.String(100), nullable=False)
-    purchases = db.relationship(
-        'Purchase',
-        back_populates='part',
-        lazy=True,
-        primaryjoin="and_(Part.id==Purchase.part_id, Purchase.order_id==None)",
-        cascade="all, delete-orphan"
-    )
+    deleted = db.Column(db.Boolean, default=False)  # Soft delete flag
+    purchases = db.relationship('Purchase', back_populates='part', lazy=True, cascade="all, delete-orphan")
 
     @property
     def image_url(self):
@@ -51,8 +46,8 @@ class Order(db.Model):
     payment_date = db.Column(db.DateTime, nullable=True)
     shipping_name = db.Column(db.String(150), nullable=True)
     shipping_address = db.Column(db.Text, nullable=True)
-    shipping_status = db.Column(db.String(20), nullable=False, default='pending')  # Add this line
-    completion_status = db.Column(db.String(20), nullable=False, default='pending')  # Add this line
+    shipping_status = db.Column(db.String(20), nullable=False, default='pending')
+    completion_status = db.Column(db.String(20), nullable=False, default='pending')
     purchases = db.relationship('Purchase', back_populates='order', lazy=True)
 
     def update_payment_status(self, status):
@@ -70,7 +65,7 @@ class Order(db.Model):
 
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=True)  # Changed to nullable
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=True)
     order = db.relationship('Order', back_populates='purchases', lazy=True)
     part_id = db.Column(db.Integer, db.ForeignKey('part.id'), nullable=False)
     part = db.relationship('Part', back_populates='purchases', lazy=True)

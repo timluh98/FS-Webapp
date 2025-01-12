@@ -61,7 +61,6 @@ login_manager.login_view = 'login'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-
 # Database Initialization
 def init_db():
     """Initialize the database."""
@@ -121,7 +120,7 @@ def index():
 
 @app.route('/catalogue')
 def catalogue():
-    query = Part.query
+    query = Part.query.filter_by(deleted=False)
     search = request.args.get('search', '')
     manufacturer = request.args.get('manufacturer', '')
     price_order = request.args.get('price_order', '')
@@ -325,8 +324,28 @@ def my_listings():
         flash('Only suppliers can view their listings.', 'danger')
         return redirect(url_for('index'))
 
+    # Show all parts including deleted ones with status indicator
     parts = Part.query.filter_by(supplier_id=current_user.id).all()
     return render_template('my_listings.html', parts=parts)
+
+@app.route('/restore-part/<int:part_id>', methods=['POST'])
+@login_required
+def restore_part(part_id):
+    """Restore a deleted part."""
+    part = Part.query.get_or_404(part_id)
+    if part.supplier_id != current_user.id:
+        flash('You do not have permission to restore this part.', 'danger')
+        abort(403)
+
+    try:
+        part.deleted = False
+        db.session.commit()
+        flash('Part restored successfully!', 'success')
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash('An error occurred while restoring the part.', 'danger')
+
+    return redirect(url_for('my_listings'))
 
 @app.route('/edit-part/<int:part_id>', methods=['GET', 'POST'])
 @login_required
@@ -390,7 +409,7 @@ def delete_part(part_id):
         abort(403)
 
     try:
-        db.session.delete(part)
+        part.deleted = True  # Soft delete
         db.session.commit()
         flash('Part deleted successfully!', 'success')
         logger.info(f"User {current_user.username} deleted part ID: {part_id}")
