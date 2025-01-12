@@ -331,7 +331,7 @@ def my_listings():
 @app.route('/restore-part/<int:part_id>', methods=['POST'])
 @login_required
 def restore_part(part_id):
-    """Restore a deleted part."""
+    """Restore an archived part."""
     part = Part.query.get_or_404(part_id)
     if part.supplier_id != current_user.id:
         flash('You do not have permission to restore this part.', 'danger')
@@ -339,11 +339,13 @@ def restore_part(part_id):
 
     try:
         part.deleted = False
+        part.update_availability()  # Update availability based on quantity
         db.session.commit()
         flash('Part restored successfully!', 'success')
     except SQLAlchemyError as e:
         db.session.rollback()
         flash('An error occurred while restoring the part.', 'danger')
+        logger.error(f"Error restoring part ID: {part_id}: {e}")
 
     return redirect(url_for('my_listings'))
 
@@ -359,7 +361,7 @@ def edit_part(part_id):
     
     form = OfferPartForm(obj=part)
     
-    if form.validate_on_submit():
+    if form.validate_on_submit() and not part.deleted:  # Only allow edits if part is not deleted
         try:
             # Explicitly handle quantity assignment
             quantity = form.quantity.data
@@ -401,24 +403,25 @@ def edit_part(part_id):
 @app.route('/delete-part/<int:part_id>', methods=['POST'])
 @login_required
 def delete_part(part_id):
-    """Delete a part offered by the supplier."""
+    """Archive a part."""
     part = Part.query.get_or_404(part_id)
     if part.supplier_id != current_user.id:
-        flash('You do not have permission to delete this part.', 'danger')
+        flash('You do not have permission to archive this part.', 'danger')
         logger.warning(f"User {current_user.username} attempted to delete part ID: {part_id} they do not own.")
         abort(403)
 
     try:
-        part.deleted = True  # Soft delete
+        part.deleted = True
+        part.availability = 'Out of Stock'  # Update availability when archived
         db.session.commit()
-        flash('Part deleted successfully!', 'success')
+        flash('Part archived successfully!', 'success')
         logger.info(f"User {current_user.username} deleted part ID: {part_id}")
     except SQLAlchemyError as e:
         db.session.rollback()
-        flash('An error occurred while deleting the part. Please try again.', 'danger')
-        logger.error(f"Error deleting part ID: {part_id} by user {current_user.username}: {e}")
+        flash('An error occurred while archiving the part. Please try again.', 'danger')
+        logger.error(f"Error archiving part ID: {part_id} by user {current_user.username}: {e}")
 
-    return redirect(url_for('catalogue'))
+    return redirect(url_for('my_listings'))
 
 @app.route('/add_to_cart/<int:part_id>', methods=['POST'])
 @login_required

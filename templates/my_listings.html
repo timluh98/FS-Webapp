@@ -9,10 +9,12 @@
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for part in parts %}
                 <div class="col">
-                    <div class="card h-100 {% if part.deleted %}bg-light{% endif %}">
+                    <div class="card h-100 {% if part.deleted %}position-relative deleted-card{% endif %}">
                         {% if part.deleted %}
-                            <div class="card-header bg-warning text-dark">
-                                <strong>Status: Deleted</strong> (Hidden from catalogue)
+                            <div class="deleted-overlay">
+                                <span class="deleted-badge">
+                                    <i class="fas fa-archive me-2"></i>Archived
+                                </span>
                             </div>
                         {% endif %}
                         {% if part.image %}
@@ -20,7 +22,7 @@
                         {% else %}
                             <img src="{{ url_for('static', filename='images/default.png') }}" class="card-img-top" alt="{{ part.name }}">
                         {% endif %}
-                        <div class="card-body">
+                        <div class="card-body {% if part.deleted %}opacity-75{% endif %}">
                             <h5 class="card-title">{{ part.name }}</h5>
                             <p class="card-text"><strong>Manufacturer:</strong> {{ part.manufacturer }}</p>
                             <p class="card-text"><strong>Model:</strong> {{ part.model }}</p>
@@ -28,16 +30,24 @@
                             <p class="card-text"><strong>Availability:</strong> {{ part.availability }}</p>
                             <p class="card-text"><strong>Quantity:</strong> {{ part.quantity }}</p>
                             <p class="card-text"><strong>Estimated Delivery:</strong> {{ part.delivery }}</p>
-                            <a href="{{ url_for('edit_part', part_id=part.id) }}" class="custom-button btn-yellow mt-2">Edit</a>
-                            {% if not part.deleted %}
-                                <form action="{{ url_for('delete_part', part_id=part.id) }}" method="POST" class="mt-3">
-                                    <button type="submit" class="custom-button btn-red">Delete</button>
-                                </form>
-                            {% else %}
-                                <form action="{{ url_for('restore_part', part_id=part.id) }}" method="POST" class="mt-3">
-                                    <button type="submit" class="custom-button btn-green">Restore</button>
-                                </form>
-                            {% endif %}
+                            <div class="mt-3 d-flex gap-2 flex-wrap">
+                                <a href="{{ url_for('edit_part', part_id=part.id) }}" class="custom-button btn-yellow">
+                                    <i class="fas fa-edit me-2"></i>Edit
+                                </a>
+                                {% if not part.deleted %}
+                                    <form action="{{ url_for('delete_part', part_id=part.id) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="custom-button btn-red">
+                                            <i class="fas fa-archive me-2"></i>Archive
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form action="{{ url_for('restore_part', part_id=part.id) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="custom-button btn-success">
+                                            <i class="fas fa-undo me-2"></i>Restore
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

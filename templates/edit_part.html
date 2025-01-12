@@ -5,66 +5,122 @@
 {% endblock %}
 {% block CONTENT %}
 <div class="container">
-    <div class="card">
-        <div class="card-body">
-            <form method="POST" enctype="multipart/form-data" action="{{ url_for('edit_part', part_id=part.id) }}">
+    <!-- Add back button at the top -->
+    <div class="row mb-4">
+        <div class="col-12 text-end">
+            <a href="{{ url_for('my_listings') }}" class="custom-button btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Listings
+            </a>
+        </div>
+    </div>
+
+    <div class="card {% if part.deleted %}position-relative deleted-card{% endif %}">
+        {% if part.deleted %}
+            <div class="deleted-overlay">
+                <span class="deleted-badge">
+                    <i class="fas fa-archive me-2"></i>Archived
+                </span>
+            </div>
+        {% endif %}
+        <div class="card-body {% if part.deleted %}opacity-75{% endif %}">
+            <!-- Main Edit Form -->
+            <form id="edit-form" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_part', part_id=part.id) }}">
                 {{ form.csrf_token }}  
                
-                <!-- Part Name -->
-                <div class="mb-3">
-                    {{ form.name(class="form-control", placeholder="Part Name") }}
-                </div>
+                <!-- Part Details -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Part Name</label>
+                            {{ form.name(class="form-control", placeholder="Part Name") }}
+                        </div>
 
-                <!-- Manufacturer -->
-                <div class="mb-3">
-                    {{ form.manufacturer(class="form-control", placeholder="Manufacturer") }}
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label">Manufacturer</label>
+                            {{ form.manufacturer(class="form-control", placeholder="Manufacturer") }}
+                        </div>
 
-                <!-- Model -->
-                <div class="mb-3">
-                    {{ form.model(class="form-control", placeholder="Model") }}
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label">Model</label>
+                            {{ form.model(class="form-control", placeholder="Model") }}
+                        </div>
 
-                <!-- Price -->
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">$</span>
-                        {{ form.price(class="form-control", placeholder="Price (USD)") }}
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                {{ form.price(class="form-control", placeholder="Price (USD)") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Availability</label>
+                            {{ form.availability(class="form-select") }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Quantity</label>
+                            {{ form.quantity(class="form-control", min="0", placeholder="Quantity Available") }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Estimated Delivery</label>
+                            {{ form.delivery(class="form-select") }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Image</label>
+                            {{ form.image(class="form-control", accept="image/*") }}
+                            <div class="form-text">Upload a clear image of the part (max 5MB)</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            {{ form.description(class="form-control", rows="3", placeholder="Part Description") }}
+                        </div>
                     </div>
                 </div>
-
-                <!-- Availability -->
-                <div class="mb-3">
-                    {{ form.availability(class="form-select") }}
-                </div>
-
-                <!-- Quantity -->
-                <div class="mb-3">
-                    {{ form.quantity(class="form-control", min="0", placeholder="Quantity Available") }}
-                </div>
-
-                <!-- Estimated Delivery -->
-                <div class="mb-3">
-                    {{ form.delivery(class="form-select") }}
-                </div>
-
-                <!-- Image Upload -->
-                <div class="mb-3">
-                    {{ form.image(class="form-control", accept="image/*") }}
-                    <div class="form-text">Please upload a clear image of the part (max 5MB). Leave empty to keep the current image.</div>
-                </div>
-
-                <!-- Part Description -->
-                <div class="mb-3">
-                    {{ form.description(class="form-control", rows="3", placeholder="Part Description") }}
-                </div>
-
-                <!-- Submit Button -->
-                <div class="text-center">
-                    <button type="submit" class="custom-button btn-yellow">Update Part</button>
-                    <button type="button" class="custom-button btn-red">Delete Part</button>
-                </div>
             </form>
+
+            <!-- Separate Action Buttons Section -->
+            <div class="action-buttons mt-4">
+                {% if not part.deleted %}
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <button type="submit" form="edit-form" class="custom-button btn-yellow">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                        <!-- Separate Archive Form -->
+                        <form action="{{ url_for('delete_part', part_id=part.id) }}" method="POST" class="d-inline">
+                            <button type="submit" class="custom-button btn-red">
+                                <i class="fas fa-archive me-2"></i>Archive
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <div class="archive-alert">
+                            <div class="archive-alert-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="archive-alert-content">
+                                <h4>Part is archived</h4>
+                                <p>Restore this part to make changes</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <form action="{{ url_for('restore_part', part_id=part.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="custom-button btn-success">
+                                    <i class="fas fa-undo me-2"></i>Restore
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

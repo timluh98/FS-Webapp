@@ -40,8 +40,8 @@
                                 {% for purchase in order.purchases %}
                                     {% if purchase.part.supplier_id == current_user.id %}
                                         <form method="POST" action="{{ url_for('confirm_shipping', order_id=order.id) }}">
-                                            <button type="submit" class="btn btn-success mt-3">
-                                                Confirm Shipping
+                                            <button type="submit" class="custom-button btn-success">
+                                                <i class="fas fa-truck me-2"></i>Confirm Shipping
                                             </button>
                                         </form>
                                     {% endif %}
@@ -97,13 +97,17 @@
 
                             {% if order.payment_status == 'pending' and order.user_id == current_user.id %}
                                 <form method="POST" action="{{ url_for('confirm_payment', order_id=order.id) }}">
-                                    <button type="submit" class="btn btn-success mt-3">Confirm Payment</button>
+                                    <button type="submit" class="custom-button btn-success">
+                                        <i class="fas fa-money-bill-wave me-2"></i>Confirm Payment
+                                    </button>
                                 </form>
                             {% endif %}
 
                             {% if order.completion_status == 'pending' and order.shipping_status == 'shipped' and order.user_id == current_user.id %}
                                 <form method="POST" action="{{ url_for('confirm_completion', order_id=order.id) }}">
-                                    <button type="submit" class="btn btn-success mt-3">Confirm Order Received</button>
+                                    <button type="submit" class="custom-button btn-success">
+                                        <i class="fas fa-box me-2"></i>Confirm Order Received
+                                    </button>
                                 </form>
                             {% endif %}
                         </div>
