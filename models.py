@@ -23,7 +23,13 @@ class Part(db.Model):
     description = db.Column(db.Text, nullable=False)
     manufacturer = db.Column(db.String(100), nullable=False)  
     model = db.Column(db.String(100), nullable=False)
-    purchases = db.relationship('Purchase', back_populates='part', lazy=True)
+    purchases = db.relationship(
+        'Purchase',
+        back_populates='part',
+        lazy=True,
+        primaryjoin="and_(Part.id==Purchase.part_id, Purchase.order_id==None)",
+        cascade="all, delete-orphan"
+    )
 
     @property
     def image_url(self):
@@ -64,7 +70,7 @@ class Order(db.Model):
 
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=True)  # Changed to nullable
     order = db.relationship('Order', back_populates='purchases', lazy=True)
     part_id = db.Column(db.Integer, db.ForeignKey('part.id'), nullable=False)
     part = db.relationship('Part', back_populates='purchases', lazy=True)
