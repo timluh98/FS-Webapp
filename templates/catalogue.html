@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block TITLE %}Catalogue{% endblock %}
 {% block HEADER %}
-    <h1 class="text-center mb-4">Automotive Parts Catalogue</h1>
+    <h1 class="text-center mb-4">Motorcycle Parts Catalogue</h1>
 {% endblock %}
 {% block CONTENT %}
     {% if current_user.is_authenticated and current_user.role == 'supplier' and supplier_orders_count > 0 %}

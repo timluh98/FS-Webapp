@@ -1,6 +1,6 @@
 # PartWatch Repository
 
-**PartWatch** is an automotive parts tracking web application built with Flask, SQLAlchemy, WTForms, and Bootstrap. Developed as part of the Full-Stack Web Development course at HWR Berlin, this repository contains the full codebase and documentation with GitHub Pages.
+**PartWatch** is a motorcycle parts tracking web application built with Flask, SQLAlchemy, WTForms, and Bootstrap. Developed as part of the Full-Stack Web Development course at HWR Berlin, this repository contains the full codebase and documentation with GitHub Pages.
 
 ## Repository Contents
 
@@ -49,6 +49,6 @@ Go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/) to view the main page and
 ## Features
 
 - **User Authentication**: Secure login and registration, with separate roles for "customer" and "supplier".
-- **Part Offering**: Suppliers can add new automotive parts with details like price, quantity, and estimated delivery.
+- **Part Offering**: Suppliers can add new motorcycle parts with details like price, quantity, and estimated delivery.
 - **Catalogue**: Customers can browse available parts and view detailed information if logged in.
 - **Buying and Selling**: Facilitates transactions through PartWatch’s marketplace.
