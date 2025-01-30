@@ -18,11 +18,11 @@ nav_order: 1
 
 ## The problem
 
-In the automotive industry, individuals and small businesses often struggle to keep track of the availability, prices and sources of different car parts. Finding reliable suppliers and comparing parts from different suppliers is time-consuming and often leads to delays in vehicle repairs or modifications. This is particularly relevant in a market where customers need quick and reliable access to parts, while suppliers need an efficient way to offer their inventory to a wider audience.
+In the motorcycle industry, individuals and small businesses often struggle to keep track of the availability, prices and sources of different car parts. Finding reliable suppliers and comparing parts from different suppliers is time-consuming and often leads to delays in vehicle repairs or modifications. This is particularly relevant in a market where customers need quick and reliable access to parts, while suppliers need an efficient way to offer their inventory to a wider audience.
 
 ## Our solution
 
-**PartWatch** is a B2C web application designed to streamline the automotive parts purchasing process for both customers and suppliers. Through a user-friendly platform, **PartWatch** connects suppliers, who can list their automotive parts along with details such as pricing, availability and delivery times, with customers who need these parts. The application provides an easy-to-use catalogue for customers to browse and buy, with access to detailed product information upon login. For suppliers, it provides a simple interface to upload and manage their listings, making it easier to reach potential buyers without the traditional marketing overheads.
+**PartWatch** is a B2C web application designed to streamline the motorcycle parts purchasing process for both customers and suppliers. Through a user-friendly platform, **PartWatch** connects suppliers, who can list their motorcycle parts along with details such as pricing, availability and delivery times, with customers who need these parts. The application provides an easy-to-use catalogue for customers to browse and buy, with access to detailed product information upon login. For suppliers, it provides a simple interface to upload and manage their listings, making it easier to reach potential buyers without the traditional marketing overheads.
 
 - **Full Cart System**: Allows users to add, remove, and finalize purchases in a unified interface, streamlining the checkout process.
 
@@ -34,11 +34,11 @@ In the automotive industry, individuals and small businesses often struggle to k
 
 The application is aimed at two primary user groups:
 
-1. **Suppliers**: Small businesses and individual sellers who supply automotive parts and need a centralized platform to list and manage their inventory. They benefit from a streamlined, low-cost way to reach a larger customer base.
+1. **Suppliers**: Small businesses and individual sellers who supply motorcycle parts and need a centralized platform to list and manage their inventory. They benefit from a streamlined, low-cost way to reach a larger customer base.
 
-2. **Customers**: Car owners, mechanics, and automotive enthusiasts who frequently require reliable and affordable automotive parts. They are looking for a quick way to find, compare, and purchase parts without the hassle of visiting multiple suppliers or marketplaces.
+2. **Customers**: Car owners, mechanics, and motorcycle enthusiasts who frequently require reliable and affordable motorcycle parts. They are looking for a quick way to find, compare, and purchase parts without the hassle of visiting multiple suppliers or marketplaces.
 
-These personas address the needs of both ends of the automotive parts market, providing value to each through targeted features and functionalities.
+These personas address the needs of both ends of the motorcycle parts market, providing value to each through targeted features and functionalities.
 
 ## Customer journey
 

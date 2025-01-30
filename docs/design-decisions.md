@@ -28,7 +28,7 @@ Updated
 
 ### Problem statement
 
-We need a way to handle database operations for our automotive parts application, **PartWatch**. The application includes user registration, roles, parts listings and purchases. We need to decide on an efficient way to interact with our SQLite database that will also support future scalability when we move to a more robust database.
+We need a way to handle database operations for our motorcycle parts application, **PartWatch**. The application includes user registration, roles, parts listings and purchases. We need to decide on an efficient way to interact with our SQLite database that will also support future scalability when we move to a more robust database.
 
 ### Decision
 
@@ -93,7 +93,7 @@ Updated
 
 ### Problem statement
 
-Suppliers need to upload images of automotive parts for their listings. We need a reliable way to handle image uploads and storage within the app.
+Suppliers need to upload images of motorcycle parts for their listings. We need a reliable way to handle image uploads and storage within the app.
 
 ### Decision
 

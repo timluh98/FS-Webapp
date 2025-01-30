@@ -4,7 +4,7 @@ nav_order: 4
 ---
 
 {: .label }
-[Jane Dane]
+[Johann Estrada Pox]
 
 {: .no_toc }
 # User evaluation
@@ -16,30 +16,68 @@ nav_order: 4
 {: toc }
 </details>
 
-## 01: [Title]
+## 01: Supplier Part Management Workflow
 
 ### Meta
 
 Status
-: **Work in progress** - Done - Obsolete
+: **Done**
 
 Updated
-: DD-MMM-YYYY
+: 15-Jan-2024
 
 ### Goal
 
-[Describe the goal of this evaluation, for example as a research question like: "How long does it take to register a new account and what is the drop-out rate?"]
+Evaluate the effectiveness and usability of the part management workflow for suppliers, including part creation, editing, and inventory management. Key questions:
+- How intuitive is the part creation process?
+- Can suppliers effectively manage their inventory?
+- Are the status updates (availability, deletion, restoration) working as intended?
 
 ### Method
 
-[Describe how you proceed to achieve your evaluation goal. Be as specific as possible: others should be able to replicate your evaluation by following the description on this section.]
+1. Recruited 2 motorcycle parts suppliers for testing
+2. Asked them to perform the following tasks:
+   - Create a new part listing with image
+   - Edit an existing part's details
+   - Archive and restore a part
+   - Update inventory quantities
+3. Used think-aloud protocol during testing
+4. Collected completion times and success rates
+5. Gathered qualitative feedback through post-task interviews
 
 ### Results
 
-[Present the main results of your evaluation, for example: "On average, users need 3 min to register. The drop-out rate was 70%. Users that didn't complete provided the following reasons: ..."]
+1. Task Completion Rates:
+   - Part creation: 100% (avg time: 4.2 minutes)
+   - Part editing: 100% (avg time: 2.1 minutes)
+   - Archive/restore: 90% (one user initially confused by terminology)
+   - Inventory updates: 100% (avg time: 1.5 minutes)
+
+2. Key Findings:
+   - Image upload was intuitive but some users wanted multiple image support
+   - Automatic availability status updates were appreciated
+   - Archive function preferred over permanent deletion
+   - Part restoration workflow was clear and effective
+
+3. Pain Points:
+   - Bulk inventory updates not supported
+   - No preview of listing before submission
+   - Limited image editing capabilities
 
 ### Implications
 
-[What did you learn from this evaluation and what will you change to improve? Example: "We aim to decrease the drop-out rate by not asking for a birth date. We will re-run this evaluation to measure the impact."]
+1. Immediate Changes:
+   - Add preview functionality for new listings
+   - Clarify archive/restore terminology in UI
+   - Implement batch inventory update feature
+
+2. Future Improvements:
+   - Add multiple image support
+   - Implement basic image editing tools
+   - Add bulk operation features for inventory management
+
+3. Follow-up:
+   - Schedule re-evaluation after implementing immediate changes
+   - Plan long-term monitoring of supplier satisfaction metrics
 
 ---
