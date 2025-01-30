@@ -35,10 +35,12 @@ Contributions
 - Adaptation of `base.html` for login status
  - Dynamic display of Login/Logout/Register
  - Basic framework for additional pages
+- Reference: Copilot - Prompt: Can you provide an example of how to create `login.html` and `egister.html` pages for a Flask application, and how to adapt `base.html` to dynamically display Login/Logout/Register links based on user authentication status?
 
 ### October 24 - User Roles
 - Addition of "Customer" and "Supplier" roles
 - Integration into `base.html` and `register.html`
+- Reference: Copilot - Prompt: How can I implement role-based access control in a Flask application, specifically adding 'Customer' and 'Supplier' roles, and integrate this functionality into `base.html` and `register.html`?
 
 ### October 25 - Offer Functionality
 - "+ Motorcycle Part" button for Suppliers
@@ -59,6 +61,7 @@ Contributions
 - Image upload functionality
 - Creation of `OfferPartForm` in `forms.py`
  - Integration of FloatField, SelectField, FileField
+- Reference: Copilot - Prompt: How do I implement Image upload functionalty in my form via WTForms and app.py route?
 
 ### October 29 - Catalog Development
 - Creation of `catalogue.html`
@@ -115,7 +118,7 @@ Contributions
 - Added `imprint.html`, `terms.html` and `privacy.html` pages and linked them in the footer of the `base.html`
 - A note has been added to inform the supplier that a 5% free will be taken upon successful purchases
 - Added logic for confirming payments, shipping and completion. Implemented this through the use of buttons in the orders section and new attributes in the databse (shipping_status and so on)
-- Reference: CoPilot - Prompt 1: How could I implement a payment system that confirms the payment and the shipping. How do I achieve that the Buttons for confirming that only shows for the right user?
+- Reference: CoPilot - Prompt: How could I implement a payment system that confirms the payment and the shipping. How do I achieve that the Buttons for confirming that only shows for the right user?
 
 ## [Johann Estrada Pox]
 

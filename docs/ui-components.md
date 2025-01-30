@@ -72,6 +72,12 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ![my_orders](assets/images/fswd_my_orders.png)
 
 ```markdown
+![my_orders](assets/images/fswd_my_orders2.png)
+```
+
+![my_orders](assets/images/fswd_my_orders2.png)
+
+```markdown
 ![offer_part](assets/images/fswd_offer_part.png)
 ```
 
