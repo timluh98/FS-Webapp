@@ -5,6 +5,6 @@ nav_order: 2
 ---
 
 {: .label }
-[Jane Dane]
+[Tim Luhmann & Johann Estrada Pox]
 
 # Technical documentation
