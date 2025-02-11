@@ -5,10 +5,6 @@ nav_exlude: true
 
 # UI components
 
-The [Just the Docs documentation](https://just-the-docs.github.io/just-the-docs/docs/ui-components) details more UI components.
-
-For a quick reference of the markdown syntax, visit [this page](https://github.com/just-the-docs/just-the-docs/blob/main/docs/index-test.md?plain=1).
-
 ## Images
 
 ```markdown
